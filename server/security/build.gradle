@@ -74,7 +74,7 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
     testCompile("org.junit.jupiter:junit-jupiter-api:${junit_jupiter_version}")
-    testCompile("org.mockito:mockito-core':${mockito_core_version}")
+    testCompile("org.mockito:mockito-core:${mockito_core_version}")
 
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junit_jupiter_version}")
     testRuntime("org.junit.platform:junit-platform-launcher:${junit_platform_version}")
