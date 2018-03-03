@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Bogdan from './bogdan.png';
-import './App.css';
+import LandingPage from './landing/landing';
+import './app.css';
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
         <p className="App-intro">
           I'm pro developer
         </p>
+        <LandingPage />
       </div>
     );
   }
