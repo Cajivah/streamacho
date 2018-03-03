@@ -9,7 +9,7 @@ export default class LandingPage extends Component {
         <Navigation />
         <div className='landing-page'>
           Landing Page here
-      </div>
+        </div>
       </div>
     );
   }
