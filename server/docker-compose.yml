@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  streamacho-security-database:
+    image: postgres
+    environment: 
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: streamacho-security
+    ports: 
+     - 55432:5432

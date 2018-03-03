@@ -1,0 +1,81 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.junit.platform:junit-platform-gradle-plugin:${junit_platform_plugin_version}")
+        classpath("net.ltgt.gradle:gradle-apt-plugin:${gradle_apt_plugin_version}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'net.ltgt.apt'
+
+group = 'com.streamacho.api'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 9
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+    repositories {
+        mavenCentral()
+    }
+
+    compileJava {
+        options.compilerArgs = [
+                '-Amapstruct.suppressGeneratorTimestamp=true',
+                '-Amapstruct.suppressGeneratorVersionInfoComment=true',
+                '-Amapstruct.defaultComponentModel=spring',
+                '-Amapstruct.unmappedTargetPolicy=ERROR'
+        ]
+    }
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('org.springframework.boot:spring-boot-starter-validation')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("io.vavr:vavr:$vavr_version")
+    compile("io.springfox:springfox-swagger2:${swagger_version}")
+    compile("io.springfox:springfox-swagger-ui:${swagger_version}")
+    compile("org.mapstruct:mapstruct-jdk8:${mapstruct_version}")
+    compile("javax.xml.bind:jaxb-api:${jaxb_api_version}")
+
+    compileOnly("org.projectlombok:lombok:${lombok_version}")
+
+    apt("org.mapstruct:mapstruct-processor:${mapstruct_version}", "org.projectlombok:lombok:${lombok_version}")
+
+    runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('org.postgresql:postgresql')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
+    testCompile("org.junit.jupiter:junit-jupiter-api:${junit_jupiter_version}")
+    testCompile("org.mockito:mockito-core':${mockito_core_version}")
+
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:${junit_jupiter_version}")
+    testRuntime("org.junit.platform:junit-platform-launcher:${junit_platform_version}")
+}
