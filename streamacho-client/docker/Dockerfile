@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM aparedes/alpine-node-yarn:latest
 
 RUN mkdir /usr/src/streamacho
 WORKDIR /usr/src/streamacho
@@ -6,7 +6,7 @@ WORKDIR /usr/src/streamacho
 ENV PATH /usr/src/streamacho/node_modules/.bin:$PATH
 
 COPY package.json /usr/src/streamacho/package.json
-RUN npm install --silent
-RUN npm install react-scripts -g --silent
+RUN yarn install
+RUN yarn global add react-scripts
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
