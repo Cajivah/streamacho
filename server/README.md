@@ -14,6 +14,10 @@ Checkstyle checks were provided in `server/checkstyle.xml` file. Please configur
 
 ### Security module
 
+#### API
+
+Login is handled with appropriate filters, but unfortunately Swagger is not aware of it. One can handle login with POST <application base>/api/login {username: string.required, password: string.required}
+
 #### Swagger
 
-...is available at `<application base url>/swagger-ui.html`
+...is available at `<application base url>/api/swagger-ui.html`
