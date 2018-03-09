@@ -3,10 +3,15 @@ spring:
     url: jdbc:postgresql://localhost:55432/streamacho-security
     username: root
     password: root
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
+        show_sql: true
         temp:
           use_jdbc_metadata_defaults: false
+server:
+  servlet:
+    context-path: /api
