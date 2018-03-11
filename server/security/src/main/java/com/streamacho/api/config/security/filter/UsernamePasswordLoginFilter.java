@@ -49,27 +49,27 @@ public class UsernamePasswordLoginFilter extends UsernamePasswordAuthenticationF
      }
 
      @Override
-     protected void successfulAuthentication(HttpServletRequest req,
-                                             HttpServletResponse res,
+     protected void successfulAuthentication(HttpServletRequest request,
+                                             HttpServletResponse response,
                                              FilterChain chain,
                                              Authentication auth) {
           final User user = (User) auth.getPrincipal();
-          createAndAddToken(res, user);
-          updateLastLogin(req, user);
+          createAndAddToken(response, user);
+          updateLastLogin(request, user);
      }
 
-     private void updateLastLogin(HttpServletRequest req, User user) {
+     private void updateLastLogin(HttpServletRequest request, User user) {
           final LastLoginDTO lastLoginDTO = LastLoginDTO.builder()
                .username(user.getUsername())
-               .request(req)
+               .request(request)
                .build();
           userLoginService.updateLastLoginDate(lastLoginDTO);
      }
 
-     private void createAndAddToken(HttpServletResponse res, User user) {
+     private void createAndAddToken(HttpServletResponse response, User user) {
           Try.of(() -> TokenUtils.createSignedJWT(user))
                .mapTry(JWSObject::serialize)
-               .andThen(token -> addAuthorizationHeader(res, token))
+               .andThen(token -> addAuthorizationHeader(response, token))
                .getOrElseThrow(JWTCreationException::ofThrowable);
      }
 
