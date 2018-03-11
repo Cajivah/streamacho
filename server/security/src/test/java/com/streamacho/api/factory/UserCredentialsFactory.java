@@ -28,10 +28,10 @@ public class UserCredentialsFactory {
           return HashedPassword.ofHashed(hashed);
      }
 
-     public static UserCredentials createUserCredentials(String username) {
+     public static UserCredentials createUserCredentials(String username, HashedPassword password) {
           return UserCredentials.builder()
                .username(username)
-               .password(createHashedPassword("DOES NOT MATTER"))
+               .password(password)
                .build();
      }
 }

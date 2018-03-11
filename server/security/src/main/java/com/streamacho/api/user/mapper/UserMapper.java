@@ -36,6 +36,7 @@ public abstract class UserMapper {
      @Mapping(target = "email", ignore = true)
      @Mapping(target = "created", ignore = true)
      @Mapping(target = "modified", ignore = true)
+     @Mapping(target = "logins", ignore = true)
      public abstract UserCredentials changePassword(PasswordPairDTO passwordPairDTO,
                                                     @MappingTarget UserCredentials user);
 
