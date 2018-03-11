@@ -1,12 +1,12 @@
 package com.streamacho.api.user.service;
 
-import com.streamacho.api.config.security.service.UserAuthDetailsService;
 import com.streamacho.api.extension.MockitoExtension;
 import com.streamacho.api.factory.AuthenticationFactory;
 import com.streamacho.api.factory.UserCredentialsFactory;
 import com.streamacho.api.user.exception.PasswordUpdateException;
 import com.streamacho.api.user.mapper.UserMapper;
 import com.streamacho.api.user.model.dto.ChangePasswordDTO;
+import com.streamacho.api.user.model.entity.HashedPassword;
 import com.streamacho.api.user.model.entity.UserCredentials;
 import com.streamacho.api.user.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,31 +17,35 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class UserCredentialsServiceTest {
 
      @Mock
      private UserMapper userMapper;
      @Mock
      private UserRepository userRepository;
-     @Mock
-     private UserAuthDetailsService userAuthDetailsService;
+     @Spy
+     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
      @InjectMocks
-     private UserService sut;
+     private UserCredentialsService sut;
 
      @Nested
      class ChangePassword {
 
-          private String currentPassword = "KubaKuba10-";
+          private String currentPassword = "KubaKuba0-";
+          private HashedPassword currentPasswordHashed =
+               HashedPassword.ofHashed("$2a$10$5SEEZxF3UwGYqgiTEkIXNOx7O16mvXu/zP4haioE9QwC026k8RuR.");
           private String wrongPassword = "WrongPass13*()";
           private String username = "TestUsername";
           
@@ -52,7 +56,7 @@ class UserServiceTest {
                UserCredentialsFactory.createChangePasswordDTO(wrongPassword);
 
           private UserCredentials userCredentials =
-               UserCredentialsFactory.createUserCredentials(username);
+               UserCredentialsFactory.createUserCredentials(username, currentPasswordHashed);
 
           private Authentication authentication =
                AuthenticationFactory.createAuthentication(username);
@@ -60,8 +64,6 @@ class UserServiceTest {
           @BeforeEach
           public void setUp() {
                Mockito.when(userRepository.findByUsername(username)).thenReturn(Optional.of(userCredentials));
-               Mockito.when(userAuthDetailsService.validatePassword(eq(currentPassword), any())).thenReturn(true);
-               Mockito.when(userAuthDetailsService.validatePassword(eq(wrongPassword), any())).thenReturn(false);
                Mockito.when(userMapper.changePassword(any(ChangePasswordDTO.class), any())).thenReturn(userCredentials);
           }
 

@@ -17,7 +17,10 @@ import java.util.Date;
 import java.util.function.Predicate;
 
 import static com.streamacho.api.config.security.mapper.SecurityMapper.toUserPrincipal;
-import static com.streamacho.api.config.security.util.SecurityConstants.*;
+import static com.streamacho.api.config.security.util.SecurityConstants.ALGORITHM;
+import static com.streamacho.api.config.security.util.SecurityConstants.EXPIRATION_TIME;
+import static com.streamacho.api.config.security.util.SecurityConstants.SECRET_BYTES;
+import static com.streamacho.api.config.security.util.SecurityConstants.TOKEN_PREFIX;
 
 public class TokenUtils {
 
