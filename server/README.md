@@ -16,7 +16,11 @@ Checkstyle checks were provided in `server/checkstyle.xml` file. Please configur
 
 #### API
 
-Login is handled with appropriate filters, but unfortunately Swagger is not aware of it. One can handle login with POST <application base>/api/login {username: string.required, password: string.required}
+Currently running at port 8090, no profiles provided.
+
+Login is handled with appropriate filters, but unfortunately Swagger is not aware of it. One can handle login with POST <application base>/api/login Content-Type: application/x-www-form-urlencoded {username: string.required, password: string.required}
+
+The rest of provided endpoints can be found usign swagger
 
 #### Swagger
 

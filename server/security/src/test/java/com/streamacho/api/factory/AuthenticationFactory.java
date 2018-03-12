@@ -1,17 +1,18 @@
 package com.streamacho.api.factory;
 
-import com.streamacho.api.config.security.model.UserPrincipal;
-import org.springframework.security.authentication.TestingAuthenticationToken;
+import com.streamacho.api.user.model.entity.HashedPassword;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collections;
 
 public class AuthenticationFactory {
 
-     public static TestingAuthenticationToken createAuthentication(String username) {
-          return new TestingAuthenticationToken(createUserPrincipal(username), null);
-     }
-
-     public static UserPrincipal createUserPrincipal(String username) {
-          return UserPrincipal.builder()
+     public static UserDetails createIssuer(String username, HashedPassword password) {
+          return User.builder()
                .username(username)
+               .password(password.getValue())
+               .authorities(Collections.emptyList())
                .build();
      }
 }

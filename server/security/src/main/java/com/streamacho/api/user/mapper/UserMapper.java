@@ -27,6 +27,8 @@ public abstract class UserMapper {
      @Mapping(target = "id", ignore = true)
      @Mapping(target = "created", ignore = true)
      @Mapping(target = "modified", ignore = true)
+     @Mapping(target = "verified", ignore = true)
+     @Mapping(target = "logins", ignore = true)
      public abstract UserCredentials toUser(UserRegistrationDTO userRegistrationDTO);
 
      public abstract UserDetailsDTO toUserDetailsDTO(UserCredentials userCredentials);
@@ -36,13 +38,14 @@ public abstract class UserMapper {
      @Mapping(target = "email", ignore = true)
      @Mapping(target = "created", ignore = true)
      @Mapping(target = "modified", ignore = true)
+     @Mapping(target = "verified", ignore = true)
      @Mapping(target = "logins", ignore = true)
-     public abstract UserCredentials changePassword(PasswordPairDTO passwordPairDTO,
+     public abstract UserCredentials updatePassword(PasswordPairDTO passwordPairDTO,
                                                     @MappingTarget UserCredentials user);
 
-     public UserCredentials changePassword(ChangePasswordDTO changePasswordDTO,
+     public UserCredentials updatePassword(ChangePasswordDTO changePasswordDTO,
                                            @MappingTarget UserCredentials user) {
-          return changePassword(changePasswordDTO.getPasswordPairDTO(), user);
+          return updatePassword(changePasswordDTO.getPasswordPairDTO(), user);
      }
 
      public HashedPassword toHashedPassword(PasswordPairDTO passwordPairDTO) {

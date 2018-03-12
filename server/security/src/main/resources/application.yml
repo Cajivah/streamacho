@@ -12,6 +12,31 @@ spring:
         show_sql: true
         temp:
           use_jdbc_metadata_defaults: false
+        hbm2ddl:
+          import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: streamacho@gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            require: true
+    password: 42asd87!f0A
+    default-encoding: UTF-8
+  thymeleaf:
+    encoding: UTF-8
+
+mail:
+  extended:
+    no_reply_address: 'no-reply@streamacho.com'
+
+routes:
+  verification_template: 'www.google.com/%s'
 server:
+  port: 8090
   servlet:
     context-path: /api
