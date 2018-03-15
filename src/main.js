@@ -1,10 +1,15 @@
 import Vue from 'vue'
+import VeeValidate from 'vee-validate';
+import store from './store';
+
 import App from './App.vue'
-import router from './router'
 
-Vue.config.productionTip = false
+Vue.use(VeeValidate);
 
+Vue.config.productionTip = false;
+
+//4/ Store needs to be added to the initial app
 new Vue({
-  router,
+  store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app');

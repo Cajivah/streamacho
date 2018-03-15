@@ -1,31 +1,53 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="container">
+      <h2>Productos</h2>
+      <sort-products :products="products"></sort-products>
+      <product-list :products="products" @onRemoveProduct="handleRemoveProduct"></product-list>
+      <add-product @onAddProduct="handleAddProduct"></add-product>
     </div>
-    <router-view/>
   </div>
 </template>
+
+<script>
+import ProductList from './components/ProductList';
+import AddProduct from './components/AddProduct';
+import SortProducts from './components/SortProducts';
+
+export default {
+  name: 'app',
+  components: {
+    ProductList,
+    AddProduct,
+    SortProducts
+  },
+  computed: {
+    products() {
+      return this.$store.state.products;
+    }
+  },
+  methods: {
+    handleAddProduct(product) {
+      this.$store.dispatch('addProduct', product);
+    },
+
+    handleRemoveProduct(product) {
+      this.$store.dispatch('removeProduct', product);
+    },
+    async initData() {
+      let products = await fetch('products.json').then(data => data.json());
+      this.$store.dispatch('initData', products);
+    }    
+  }
+}
+</script>
 
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+  margin-top: 60px;
 }
 </style>
