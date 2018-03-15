@@ -2,21 +2,21 @@
   <form @submit.prevent="onSubmit()">
     <input
       class="form-control"
-      name="product"
-      placeholder="product"
-      v-model="newProduct.name"
+      name="meeting"
+      placeholder="meeting"
+      v-model="newMeeting.name"
       v-validate="'required|min:3'"
     >
     <input
       class="form-control"
       name="date"
       placeholder="date"
-      v-model="newProduct.date"
+      v-model="newMeeting.date"
       v-validate="'required|date_format:dd-MM-yyyy'"
     >
     <button class="btn btn-primary">Add</button>
-    <div class="alert alert-danger" v-show="errors.has('product') | errors.has('date')">
-      {{ errors.first('product') }}
+    <div class="alert alert-danger" v-show="errors.has('meeting') | errors.has('date')">
+      {{ errors.first('meeting') }}
       {{ errors.first('date') }}
     </div>
   </form>
@@ -26,10 +26,10 @@
   import uuid from 'uuid/v4';
 
   export default {
-    name: "AddProduct",
+    name: "AddMeeting",
     data() {
       return {
-        newProduct: {
+        newMeeting: {
           name: '',
           date: new Date()
         }
@@ -41,12 +41,12 @@
           if (!result) {
             return;
           }
-          this.$emit('onAddProduct', {
+          this.$emit('onAddMeeting', {
             id: uuid(),
-            ...this.newProduct
+            ...this.newMeeting
           });
-          this.newProduct.name = '';
-          this.newProduct.date = new Date();
+          this.newMeeting.name = '';
+          this.newMeeting.date = new Date();
           this.$validator.reset();
         });
       },
