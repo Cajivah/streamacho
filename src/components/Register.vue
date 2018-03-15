@@ -1,3 +1,12 @@
 <template>
-    <div>Hello</div>
+    <div>Register page</div>
 </template>
+
+<script>
+export default {
+  name: 'register'
+}
+</script>
+
+<style scope>
+</style>

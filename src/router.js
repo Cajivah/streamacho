@@ -1,9 +1,10 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import App from './App.vue'
-import Register from './components/Register.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import App from '@/App.vue';
+import Register from '@/components/Register.vue';
+import Login from '@/components/Login.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -18,4 +19,4 @@ export default new Router({
       component: Register
     }
   ]
-})
+});

@@ -2,42 +2,21 @@
   <div id="app">
     <navigation></navigation>
     <div class="container">
-      <h2>meetings</h2>
-      <meeting-list :meetings="meetings" @onRemoveMeeting="handleRemoveMeeting"></meeting-list>
-      <add-meeting @onAddmeeting="handleAddmeeting"></add-meeting>
+      <meetings-hub></meetings-hub>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import meetingList from '@/components/meetings/MeetingList';
-import AddMeeting from '@/components/meetings/AddMeeting';
+import MeetingsHub from '@/components/meetings/MeetingsHub';
 import Navigation from '@/components/Navigation';
 
 export default {
   name: 'app',
   components: {
-    meetingList,
-    AddMeeting,
+    MeetingsHub,
     Navigation
-  },
-  computed: {
-    meetings() {
-      return this.$store.state.meetings;
-    }
-  },
-  methods: {
-    handleAddmeeting(meeting) {
-      this.$store.dispatch('addMeeting', meeting);
-    },
-
-    handleRemovemeeting(meeting) {
-      this.$store.dispatch('removeMeeting', meeting);
-    },
-    async initData() {
-      let meetings = await fetch('meetings.json').then(data => data.json());
-      this.$store.dispatch('initData', meetings);
-    }    
   }
 }
 </script>

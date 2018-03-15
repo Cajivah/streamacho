@@ -1,19 +1,19 @@
 <template>
   <div>
     <ul>
-      <meeting v-for="meeting in meetings" :meeting="meeting" @onRemoveMeeting="removeMeeting"></meeting>
+      <meeting v-bind:key="meetings.indexOf(meeting)" v-for="meeting in meetings" :meeting="meeting" @onRemoveMeeting="removeMeeting"></meeting>
     </ul>
     <p v-if="!meetings.length">No meetings!</p>
   </div>
 </template>
 
 <script>
-import meeting from '@/components/meetings/Meeting.vue';
+import Meeting from '@/components/meetings/Meeting.vue';
 
   export default {
     name: "meetingList",
     components: {
-      meeting
+      Meeting
     },
     props: {
       meetings: {

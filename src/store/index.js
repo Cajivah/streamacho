@@ -14,13 +14,13 @@ export default new Vuex.Store({
   },
   mutations: {
     createMeeting(state, payload) {
-      state.meetings.push(payload.product);
+      state.meetings.push(payload.meeting);
     },
     removeMeeting(state, payload) {
-      state.meetings.splice(state.meetings.indexOf(payload), 1);
+      state.meetings.splice(state.meetings.indexOf(payload.meeting), 1);
     },
     initMeetings(state, payload) {
-      state.meetings.concat(payload.meetings);
+      state.meetings = payload.meetings;
     },
     registerUser(state, payload) {},
     loginSuccess(state, payload) {

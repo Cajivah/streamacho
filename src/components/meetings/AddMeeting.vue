@@ -1,24 +1,32 @@
 <template>
   <form @submit.prevent="onSubmit()">
-    <input
-      class="form-control"
-      name="meeting"
-      placeholder="meeting"
-      v-model="newMeeting.name"
-      v-validate="'required|min:3'"
-    >
-    <input
-      class="form-control"
-      name="date"
-      placeholder="date"
-      v-model="newMeeting.date"
-      v-validate="'required|date_format:dd-MM-yyyy'"
-    >
-    <button class="btn btn-primary">Add</button>
-    <div class="alert alert-danger" v-show="errors.has('meeting') | errors.has('date')">
-      {{ errors.first('meeting') }}
-      {{ errors.first('date') }}
+    <div class="field">
+      <label class="label">Name</label>
+      <div class="control">
+        <input
+          class="input"
+          name="meeting"
+          placeholder="meeting"
+          v-model="newMeeting.name"
+          v-validate="'required|min:3'"
+        >
+      </div>
+      <p class="help is-danger">{{ errors.first('meeting') }}</p>
     </div>
+    <div class="field">
+      <label class="label">Date</label>
+      <div class="control">
+        <input
+          class="input"
+          name="date"
+          placeholder="date"
+          v-model="newMeeting.date"
+          v-validate="'required|date_format:dd-MM-yyyy'"
+        >
+      </div>
+      <p class="help is-danger">{{ errors.first('date') }}</p>
+    </div>
+    <button class="button is-primary">Add</button>
   </form>
 </template>
 
