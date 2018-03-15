@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import meeting from '@/components/meeting.vue';
+import meeting from '@/components/meetings/Meeting.vue';
 
   export default {
     name: "meetingList",

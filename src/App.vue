@@ -1,7 +1,8 @@
 <template>
   <div id="app">
+    <navigation></navigation>
     <div class="container">
-      <h2>meetingos</h2>
+      <h2>meetings</h2>
       <meeting-list :meetings="meetings" @onRemoveMeeting="handleRemoveMeeting"></meeting-list>
       <add-meeting @onAddmeeting="handleAddmeeting"></add-meeting>
     </div>
@@ -9,14 +10,16 @@
 </template>
 
 <script>
-import meetingList from './components/meetings/meetingList';
-import AddMeeting from './components/meetings/AddMeeting';
+import meetingList from '@/components/meetings/MeetingList';
+import AddMeeting from '@/components/meetings/AddMeeting';
+import Navigation from '@/components/Navigation';
 
 export default {
   name: 'app',
   components: {
     meetingList,
     AddMeeting,
+    Navigation
   },
   computed: {
     meetings() {

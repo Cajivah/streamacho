@@ -1,8 +1,9 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 import store from './store';
+import 'bulma/css/bulma.css';
 
-import App from './App.vue'
+import App from './App.vue';
 
 Vue.use(VeeValidate);
 
