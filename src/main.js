@@ -2,12 +2,26 @@ import Vue from 'vue';
 import VeeValidate from 'vee-validate';
 import store from './store';
 import router from './router';
+import VueAuthenticate from 'vue-authenticate';
 import 'bulma/css/bulma.css';
 import 'font-awesome/css/font-awesome.min.css';
 
 import App from '@/App.vue';
 
 Vue.use(VeeValidate);
+Vue.use(VueAuthenticate, {
+  baseUrl: 'http://localhost:3000',
+  providers: {
+    google: {
+      clientId: '',
+      redirectUri: 'http://localhost:8080/auth/google_callback'
+    },
+    facebook: {
+      clientId: '',
+      redirectUri: 'http://localhost:8080/auth/facebook_callback'
+    }
+  }
+});
 
 Vue.config.productionTip = false;
 
