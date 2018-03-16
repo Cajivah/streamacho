@@ -2,6 +2,22 @@
   <form class="content login" @submit.prevent="onSubmit()">
     <div class="login-container">
         <h2 class="is-large">Please, login</h2>
+        <div class="field auth-control">
+            <label class="button is-primary auth-button has-icons-left">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-facebook"></i>
+                </span>
+                Login with facebook
+            </label>
+        </div>
+        <div class="field auth-control">
+            <label class="button is-primary auth-button has-icons-left">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-google"></i>
+                </span>
+                Login with google
+            </label>
+        </div>
         <div class="field">
         <label class="label">Email</label>
         <div class="control has-icons-left">
@@ -35,8 +51,8 @@
         </div>
         <p class="help is-danger">{{ errors.first('password') }}</p>
         </div>
-        <div class="field">
-            <button class="button is-primary">Login</button>
+        <div class="field auth-control">
+            <button class="button is-primary login-button">Login</button>
         </div>
         <router-link to='register'>Need to register? Click me</router-link>
     </div>
@@ -77,7 +93,7 @@ export default {
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
   background-image: url("../assets/login.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -90,5 +106,20 @@ export default {
   align-items: center;
   padding: 40px;
   background-color: rgba(240, 240, 240, 0.6);
+}
+
+.auth-control {
+  display: flex;
+  width: 100%;
+}
+
+.auth-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-button {
+    width: 100%;
 }
 </style>
