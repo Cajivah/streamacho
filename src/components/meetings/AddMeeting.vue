@@ -15,7 +15,7 @@
     </div>
     <div class="field">
       <label class="label">Date</label>
-      <div class="control">
+      <div class="control has-icons-left has-icons-left">
         <input
           class="input"
           name="date"
@@ -23,6 +23,9 @@
           v-model="newMeeting.date"
           v-validate="'required|date_format:dd-MM-yyyy'"
         >
+        <span class="icon is-small is-left">
+          <i class="fa fa-user"></i>
+        </span>
       </div>
       <p class="help is-danger">{{ errors.first('date') }}</p>
     </div>
