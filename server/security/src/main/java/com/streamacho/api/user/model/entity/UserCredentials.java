@@ -48,12 +48,14 @@ public class UserCredentials {
      @Embedded
      private HashedPassword password;
 
-     @CreatedDate
-     private LocalDateTime created;
-
      @Builder.Default
      @Transient
      private Set<UserLogin> logins = new HashSet<>();
+
+     private boolean verified;
+
+     @CreatedDate
+     private LocalDateTime created;
 
      @LastModifiedDate
      private LocalDateTime modified;

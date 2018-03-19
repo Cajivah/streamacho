@@ -1,12 +1,12 @@
 package com.streamacho.api.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.streamacho.api.config.security.filter.JWTAuthorizationFilter;
 import com.streamacho.api.config.security.filter.UsernamePasswordLoginFilter;
+import com.streamacho.api.config.security.util.TokenProvider;
 import com.streamacho.api.user.service.UserCredentialsService;
-import com.streamacho.api.user.service.UserLoginService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.streamacho.api.config.security.util.SecurityConstants.AUTH_WHITELIST;
 import static com.streamacho.api.config.security.util.SecurityConstants.REGISTRATION_URL;
+import static com.streamacho.api.config.security.util.SecurityConstants.VERIFICATION_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -25,19 +26,19 @@ import static com.streamacho.api.config.security.util.SecurityConstants.REGISTRA
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
      private final UserCredentialsService userDetailsService;
-     private final UserLoginService userLoginService;
      private final PasswordEncoder passwordEncoder;
-     private final ObjectMapper objectMapper;
+     private final TokenProvider tokenProvider;
+     private final ApplicationEventPublisher eventPublisher;
 
-     private UsernamePasswordLoginFilter usernamePasswordAuthenticationFilter() throws Exception {
+     private UsernamePasswordLoginFilter usernamePasswordLoginFilter() throws Exception {
           return new UsernamePasswordLoginFilter(
                authenticationManager(),
-               userLoginService,
-               objectMapper);
+               eventPublisher,
+               tokenProvider);
      }
 
      private JWTAuthorizationFilter jwtAuthorizationFilter() throws Exception {
-          return new JWTAuthorizationFilter(authenticationManager());
+          return new JWTAuthorizationFilter(authenticationManager(), tokenProvider);
      }
 
      @Override
@@ -49,9 +50,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                .authorizeRequests()
                .antMatchers(AUTH_WHITELIST).permitAll()
                .antMatchers(HttpMethod.POST, REGISTRATION_URL).permitAll()
+               .antMatchers(HttpMethod.PATCH, VERIFICATION_URL).permitAll()
                .anyRequest().authenticated()
                .and()
-               .addFilter(usernamePasswordAuthenticationFilter())
+               .addFilter(usernamePasswordLoginFilter())
                .addFilter(jwtAuthorizationFilter())
                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
           ;

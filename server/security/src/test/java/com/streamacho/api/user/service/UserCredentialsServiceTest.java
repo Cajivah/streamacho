@@ -3,7 +3,7 @@ package com.streamacho.api.user.service;
 import com.streamacho.api.extension.MockitoExtension;
 import com.streamacho.api.factory.AuthenticationFactory;
 import com.streamacho.api.factory.UserCredentialsFactory;
-import com.streamacho.api.user.exception.PasswordUpdateException;
+import com.streamacho.api.user.exception.PasswordsMatchException;
 import com.streamacho.api.user.mapper.UserMapper;
 import com.streamacho.api.user.model.dto.ChangePasswordDTO;
 import com.streamacho.api.user.model.entity.HashedPassword;
@@ -19,6 +19,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -58,27 +60,27 @@ class UserCredentialsServiceTest {
           private UserCredentials userCredentials =
                UserCredentialsFactory.createUserCredentials(username, currentPasswordHashed);
 
-          private Authentication authentication =
-               AuthenticationFactory.createAuthentication(username);
+          private UserDetails issuer=
+               AuthenticationFactory.createIssuer(username, currentPasswordHashed);
 
           @BeforeEach
           public void setUp() {
                Mockito.when(userRepository.findByUsername(username)).thenReturn(Optional.of(userCredentials));
-               Mockito.when(userMapper.changePassword(any(ChangePasswordDTO.class), any())).thenReturn(userCredentials);
+               Mockito.when(userMapper.updatePassword(any(ChangePasswordDTO.class), any())).thenReturn(userCredentials);
           }
 
           @Test
           @DisplayName("Should call save when current passwords are matching")
           void callIfMatch() {
-               sut.changePassword(correctChangePasswordDTO, authentication);
+               sut.changePassword(correctChangePasswordDTO, issuer);
                Mockito.verify(userRepository, Mockito.times(1)).save(any());
           }
 
           @Test
           @DisplayName("Should throw exception if passwords does not match")
           void throwIfNotMatching() {
-               assertThrows(PasswordUpdateException.class,
-                    () -> sut.changePassword(wrongChangePasswordDTO, authentication));
+               assertThrows(PasswordsMatchException.class,
+                    () -> sut.changePassword(wrongChangePasswordDTO, issuer));
           }
      }
 }

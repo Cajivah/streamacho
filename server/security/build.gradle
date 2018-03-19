@@ -1,7 +1,4 @@
 buildscript {
-    ext {
-        springBootVersion = '2.0.0.RELEASE'
-    }
     repositories {
         mavenCentral()
         maven {
@@ -9,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
         classpath("org.junit.platform:junit-platform-gradle-plugin:${junit_platform_plugin_version}")
     }
 }
@@ -52,11 +49,13 @@ task wrapper(type: Wrapper) {
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.boot:spring-boot-starter-validation')
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile("org.springframework.boot:spring-boot-starter-actuator:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-security:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-validation:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-web:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-mail:${spring_boot_version}")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf:${spring_boot_version}")
     compile("io.vavr:vavr:$vavr_version")
     compile("io.springfox:springfox-swagger2:${swagger_version}")
     compile("io.springfox:springfox-swagger-ui:${swagger_version}")
