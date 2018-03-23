@@ -25,14 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
      private final UserCredentialsService userCredentialsService;
      private final ApplicationEventPublisher eventPublisher;
 
-     @PostMapping()
+     @PostMapping("/registration")
      @ResponseStatus(HttpStatus.CREATED)
      public void registerNewUser(
           @RequestBody @Validated UserRegistrationDTO userRegistrationDTO,

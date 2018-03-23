@@ -28,7 +28,7 @@ public class UserCredentialsService implements UserDetailsService {
      private final PasswordEncoder encoder;
 
      @Override
-     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+     public UserDetails loadUserByUsername(String username) {
           return userRepository.findByUsernameIgnoreCaseAndVerifiedTrue(username)
                .map(webSecurityMapper::toUserDetails)
                .orElseThrow(() -> new UsernameNotFoundException(username));

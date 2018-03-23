@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class VerificationException extends RuntimeException {
 
-     private static String MESSAGE = "Could not process verification, invalid token";
+     private static final String MESSAGE = "Could not process verification, invalid token";
 
      private VerificationException() {
           super(MESSAGE);

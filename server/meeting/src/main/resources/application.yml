@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: streamacho-meetings
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: streamacho
+
+server:
+  port: 0
+  servlet:
+    context-path: /api/meetings
+
