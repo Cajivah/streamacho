@@ -111,7 +111,3 @@ dependencies {
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
     testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}")
 }
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
-}
