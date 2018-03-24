@@ -5,6 +5,7 @@ import router from './router';
 import VueAuthenticate from 'vue-authenticate';
 import 'bulma/css/bulma.css';
 import 'font-awesome/css/font-awesome.min.css';
+import './common.scss';
 
 import App from '@/App.vue';
 

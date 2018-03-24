@@ -1,58 +1,58 @@
 <template>
-  <form class="content login" @submit.prevent="onSubmit()">
-    <div class="login-container">
-        <h2 class="is-large">Please, login</h2>
-        <div class="field auth-control">
-            <label class="button is-primary auth-button has-icons-left">
-                <span class="icon is-small is-left">
-                    <i class="fa fa-facebook"></i>
+  <form class='content form-view' @submit.prevent='onSubmit()'>
+    <div class='form-container'>
+        <h2 class='is-large'>Please, login</h2>
+        <div class='field auth-control'>
+            <label class='button is-primary auth-button has-icons-left'>
+                <span class='icon is-small is-left'>
+                    <i class='fa fa-facebook'></i>
                 </span>
                 Login with facebook
             </label>
         </div>
-        <div class="field auth-control">
-            <label class="button is-primary auth-button has-icons-left">
-                <span class="icon is-small is-left">
-                    <i class="fa fa-google"></i>
+        <div class='field auth-control'>
+            <label class='button is-primary auth-button has-icons-left'>
+                <span class='icon is-small is-left'>
+                    <i class='fa fa-google'></i>
                 </span>
                 Login with google
             </label>
         </div>
-        <div class="field">
-        <label class="label">Email</label>
-        <div class="control has-icons-left">
+        <div class='field'>
+        <label class='label'>Email</label>
+        <div class='control has-icons-left'>
             <input
-            class="input"
-            name="email"
-            placeholder="email"
-            v-model="loginForm.email"
-            v-validate="'required|email'"
+              class='input'
+              name='email'
+              placeholder='email'
+              v-model='loginForm.email'
+              v-validate="'required|email'"
             > 
-            <span class="icon is-small is-left">
-            <i class="fa fa-envelope"></i>
+            <span class='icon is-small is-left'>
+            <i class='fa fa-envelope'></i>
             </span>
         </div>
-        <p class="help is-danger">{{ errors.first('email') }}</p>
+        <p class='help is-danger'>{{ errors.first('email') }}</p>
         </div>
-        <div class="field">
-        <label class="label">Password</label>
-        <div class="control has-icons-left">
+        <div class='field'>
+        <label class='label'>Password</label>
+        <div class='control has-icons-left'>
             <input
-            class="input"
-            name="password"
-            placeholder="password"
-            type="password"
-            v-model="loginForm.password"
-            v-validate="'required|min:5'"
+              class='input'
+              name='password'
+              placeholder='password'
+              type='password'
+              v-model='loginForm.password'
+              v-validate="'required|min:5'"
             >
-            <span class="icon is-small is-left">
-            <i class="fa fa-key"></i>
+            <span class='icon is-small is-left'>
+            <i class='fa fa-key'></i>
             </span>
         </div>
-        <p class="help is-danger">{{ errors.first('password') }}</p>
+        <p class='help is-danger'>{{ errors.first('password') }}</p>
         </div>
-        <div class="field auth-control">
-            <button class="button is-primary login-button">Login</button>
+        <div class='field auth-control'>
+            <button class='button is-primary login-button'>Login</button>
         </div>
         <router-link to='register'>Need to register? Click me</router-link>
     </div>
@@ -61,12 +61,12 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       loginForm: {
-        email: "",
-        password: ""
+        email: '',
+        password: ''
       }
     };
   },
@@ -76,11 +76,11 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit("onLogin", {
+        this.$emit('onLogin', {
           ...this.loginForm
         });
-        this.loginForm.email = "";
-        this.loginForm.password = "";
+        this.loginForm.email = '';
+        this.loginForm.password = '';
         this.$validator.reset();
       });
     }
@@ -89,25 +89,6 @@ export default {
 </script>
 
 <style scoped>
-.login {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url("../assets/login.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  background-color: rgba(240, 240, 240, 0.6);
-}
-
 .auth-control {
   display: flex;
   width: 100%;
