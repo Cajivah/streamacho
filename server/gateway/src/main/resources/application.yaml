@@ -5,5 +5,31 @@ eureka:
 spring:
   application:
     name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+      - id: streamacho-security
+        uri: lb://streamacho-security
+        predicates:
+        - Path=/api/users/**
+      - id: streamacho-security
+        uri: lb://streamacho-meetings
+        predicates:
+        - Path=/api/meetings/**
+
 server:
   port: 8080
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE

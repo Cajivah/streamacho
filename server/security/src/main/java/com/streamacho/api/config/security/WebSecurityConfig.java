@@ -1,8 +1,7 @@
 package com.streamacho.api.config.security;
 
-import com.streamacho.api.config.security.filter.JWTAuthorizationFilter;
 import com.streamacho.api.config.security.filter.UsernamePasswordLoginFilter;
-import com.streamacho.api.config.security.util.TokenProvider;
+import com.streamacho.api.config.security.logout.NopLogoutSuccessHandler;
 import com.streamacho.api.user.service.UserCredentialsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,37 +26,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
      private final UserCredentialsService userDetailsService;
      private final PasswordEncoder passwordEncoder;
-     private final TokenProvider tokenProvider;
      private final ApplicationEventPublisher eventPublisher;
 
      private UsernamePasswordLoginFilter usernamePasswordLoginFilter() throws Exception {
           return new UsernamePasswordLoginFilter(
                authenticationManager(),
-               eventPublisher,
-               tokenProvider);
+               eventPublisher);
      }
 
-     private JWTAuthorizationFilter jwtAuthorizationFilter() throws Exception {
-          return new JWTAuthorizationFilter(authenticationManager(), tokenProvider);
-     }
-
+     // @formatter:off
      @Override
      protected void configure(HttpSecurity http) throws Exception {
           http
                .csrf().disable()
                .cors()
                .and()
-               .authorizeRequests()
-               .antMatchers(AUTH_WHITELIST).permitAll()
-               .antMatchers(HttpMethod.POST, REGISTRATION_URL).permitAll()
-               .antMatchers(HttpMethod.PATCH, VERIFICATION_URL).permitAll()
-               .anyRequest().authenticated()
+                    .authorizeRequests()
+                         .antMatchers(AUTH_WHITELIST).permitAll()
+                         .antMatchers(HttpMethod.POST, REGISTRATION_URL).permitAll()
+                         .antMatchers(HttpMethod.PATCH, VERIFICATION_URL).permitAll()
+                         .anyRequest().authenticated()
                .and()
-               .addFilter(usernamePasswordLoginFilter())
-               .addFilter(jwtAuthorizationFilter())
-               .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .addFilter(usernamePasswordLoginFilter())
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+          .and()
+               .logout()
+                    .logoutSuccessHandler(new NopLogoutSuccessHandler())
           ;
      }
+     // @formatter:on
 
      @Override
      public void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -1,5 +1,9 @@
 package com.streamacho.api.mail.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class VerifyRegistrationMailMessageKeys {
 
      public static final String TITLE = "mail.verify.title";

@@ -18,8 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,7 +48,7 @@ class UserCredentialsServiceTest {
                HashedPassword.ofHashed("$2a$10$5SEEZxF3UwGYqgiTEkIXNOx7O16mvXu/zP4haioE9QwC026k8RuR.");
           private String wrongPassword = "WrongPass13*()";
           private String username = "TestUsername";
-          
+
           private ChangePasswordDTO correctChangePasswordDTO =
                UserCredentialsFactory.createChangePasswordDTO(currentPassword);
 
@@ -60,7 +58,7 @@ class UserCredentialsServiceTest {
           private UserCredentials userCredentials =
                UserCredentialsFactory.createUserCredentials(username, currentPasswordHashed);
 
-          private UserDetails issuer=
+          private UserDetails issuer =
                AuthenticationFactory.createIssuer(username, currentPasswordHashed);
 
           @BeforeEach

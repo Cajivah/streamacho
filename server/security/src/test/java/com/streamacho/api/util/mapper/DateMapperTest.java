@@ -8,12 +8,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class DateMapperTest {
 
-     DateMapper sut = new DateMapper() {};
+     DateMapper sut = new DateMapper() {
+     };
 
      @Nested
      @DisplayName("Convert date ")

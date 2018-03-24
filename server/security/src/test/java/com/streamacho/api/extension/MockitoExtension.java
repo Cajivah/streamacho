@@ -44,8 +44,7 @@ public class MockitoExtension
           if (mockName != null) {
                return mocks.getOrComputeIfAbsent(
                     mockName, key -> mock(mockType, mockName));
-          }
-          else {
+          } else {
                return mocks.getOrComputeIfAbsent(
                     mockType.getCanonicalName(), key -> mock(mockType));
           }
@@ -56,8 +55,7 @@ public class MockitoExtension
                .name().trim();
           if (!explicitMockName.isEmpty()) {
                return explicitMockName;
-          }
-          else if (parameter.isNamePresent()) {
+          } else if (parameter.isNamePresent()) {
                return parameter.getName();
           }
           return null;

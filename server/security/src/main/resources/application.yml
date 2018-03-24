@@ -1,4 +1,11 @@
 spring:
+  application:
+    name: streamacho-security
+  session:
+    store-type: jdbc
+    redis:
+      flush-mode: ON_SAVE
+      namespace: streamacho
   datasource:
     url: jdbc:postgresql://localhost:55432/streamacho-security
     username: root
@@ -37,6 +44,7 @@ mail:
 routes:
   verification_template: 'www.google.com/%s'
 server:
-  port: 8090
+  port: 0
   servlet:
-    context-path: /api
+    context-path: /api/users
+
