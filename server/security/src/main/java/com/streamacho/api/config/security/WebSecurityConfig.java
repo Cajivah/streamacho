@@ -2,6 +2,7 @@ package com.streamacho.api.config.security;
 
 import com.streamacho.api.config.security.filter.UsernamePasswordLoginFilter;
 import com.streamacho.api.config.security.logout.NopLogoutSuccessHandler;
+import com.streamacho.api.config.security.mapper.WebSecurityMapper;
 import com.streamacho.api.user.service.UserCredentialsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,15 @@ import static com.streamacho.api.config.security.util.SecurityConstants.VERIFICA
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
      private final UserCredentialsService userDetailsService;
+     private final WebSecurityMapper webSecurityMapper;
      private final PasswordEncoder passwordEncoder;
      private final ApplicationEventPublisher eventPublisher;
 
      private UsernamePasswordLoginFilter usernamePasswordLoginFilter() throws Exception {
           return new UsernamePasswordLoginFilter(
                authenticationManager(),
-               eventPublisher);
+               eventPublisher,
+               webSecurityMapper);
      }
 
      // @formatter:off
