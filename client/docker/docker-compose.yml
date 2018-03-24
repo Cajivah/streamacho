@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+  streamacho_client:
+    container_name: streamacho_client
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=development
