@@ -15,18 +15,21 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
-@ToString(exclude = "logins")
-@EqualsAndHashCode(exclude = "logins")
+@ToString(exclude = {"logins", "roles"})
+@EqualsAndHashCode(exclude = {"logins", "roles"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -53,6 +56,11 @@ public class UserCredentials {
      private Set<UserLogin> logins = new HashSet<>();
 
      private boolean verified;
+
+     private boolean locked;
+
+     @ManyToMany(fetch = FetchType.EAGER)
+     private Collection<Role> roles;
 
      @CreatedDate
      private LocalDateTime created;
