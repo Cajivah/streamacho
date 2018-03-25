@@ -3,8 +3,10 @@ package com.streamacho.api.user.service;
 import com.streamacho.api.config.security.mapper.WebSecurityMapper;
 import com.streamacho.api.user.exception.Fault;
 import com.streamacho.api.user.exception.PasswordsMatchException;
+import com.streamacho.api.user.exception.UserNotFoundException;
 import com.streamacho.api.user.mapper.UserMapper;
 import com.streamacho.api.user.model.dto.ChangePasswordDTO;
+import com.streamacho.api.user.model.dto.LockUserDTO;
 import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.dto.UserRegistrationDTO;
 import com.streamacho.api.user.model.entity.HashedPassword;
@@ -26,6 +28,7 @@ public class UserCredentialsService implements UserDetailsService {
      private final UserMapper userMapper;
      private final WebSecurityMapper webSecurityMapper;
      private final PasswordEncoder encoder;
+     private final RoleService roleService;
 
      @Override
      public UserDetails loadUserByUsername(String username) {
@@ -34,9 +37,20 @@ public class UserCredentialsService implements UserDetailsService {
                .orElseThrow(() -> new UsernameNotFoundException(username));
      }
 
+     public UserCredentials findByUsername(String username) {
+          return userRepository.findByUsername(username)
+               .orElseThrow(UserNotFoundException::of);
+     }
+
+     public UserCredentials findById(Long id) {
+          return userRepository.findById(id)
+               .orElseThrow(UserNotFoundException::of);
+     }
+
      public UserDetailsDTO createUser(UserRegistrationDTO userRegistrationDTO) {
           final UserCredentials userCredentials = userMapper.toUser(userRegistrationDTO);
-          final UserCredentials user = userRepository.save(userCredentials);
+          final UserCredentials withRole = roleService.assignDefaultRole(userCredentials);
+          final UserCredentials user = userRepository.save(withRole);
           return userMapper.toUserDetailsDTO(user);
      }
 
@@ -50,11 +64,6 @@ public class UserCredentialsService implements UserDetailsService {
           final String currentPassword = changePasswordDTO.getCurrentPassword();
           checkPasswordMatch(currentPassword, user.getPassword());
           persistPasswordUpdate(changePasswordDTO, user);
-     }
-
-     public UserCredentials findByUsername(String username) {
-          return userRepository.findByUsername(username)
-               .orElseThrow(Fault::new);
      }
 
      private void checkPasswordMatch(String password, HashedPassword hashedPassword) {
@@ -72,6 +81,12 @@ public class UserCredentialsService implements UserDetailsService {
 
      public void verifyUser(UserCredentials user) {
           user.setVerified(true);
+          userRepository.save(user);
+     }
+
+     public void updateUserLock(Long userId, LockUserDTO lockUserDTO) {
+          final UserCredentials user = findById(userId);
+          user.setLocked(lockUserDTO.isLocked());
           userRepository.save(user);
      }
 }

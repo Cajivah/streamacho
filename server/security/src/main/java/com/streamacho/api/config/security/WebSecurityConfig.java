@@ -2,13 +2,16 @@ package com.streamacho.api.config.security;
 
 import com.streamacho.api.config.security.filter.UsernamePasswordLoginFilter;
 import com.streamacho.api.config.security.logout.NopLogoutSuccessHandler;
+import com.streamacho.api.config.security.mapper.WebSecurityMapper;
 import com.streamacho.api.user.service.UserCredentialsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static com.streamacho.api.config.security.util.SecurityConstants.AUTH_WHITELIST;
 import static com.streamacho.api.config.security.util.SecurityConstants.REGISTRATION_URL;
 import static com.streamacho.api.config.security.util.SecurityConstants.VERIFICATION_URL;
+import static com.streamacho.api.user.util.AvailableUserRoles.ROLE_ADMIN;
+import static com.streamacho.api.user.util.AvailableUserRoles.ROLE_ADMIN_SHORT;
 
 @Configuration
 @EnableWebSecurity
@@ -25,13 +30,15 @@ import static com.streamacho.api.config.security.util.SecurityConstants.VERIFICA
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
      private final UserCredentialsService userDetailsService;
+     private final WebSecurityMapper webSecurityMapper;
      private final PasswordEncoder passwordEncoder;
      private final ApplicationEventPublisher eventPublisher;
 
      private UsernamePasswordLoginFilter usernamePasswordLoginFilter() throws Exception {
           return new UsernamePasswordLoginFilter(
                authenticationManager(),
-               eventPublisher);
+               eventPublisher,
+               webSecurityMapper);
      }
 
      // @formatter:off
@@ -43,15 +50,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                .and()
                     .authorizeRequests()
                          .antMatchers(AUTH_WHITELIST).permitAll()
-                         .antMatchers(HttpMethod.POST, REGISTRATION_URL).permitAll()
-                         .antMatchers(HttpMethod.PATCH, VERIFICATION_URL).permitAll()
-                         .anyRequest().authenticated()
+                         .antMatchers(
+                              "/accounts/registration",
+                              "/accounts/verification")
+                              .permitAll()
+                         .antMatchers(
+                              "/",
+                              "/*/lock")
+                              .hasRole(ROLE_ADMIN_SHORT)
+                         .anyRequest().
+                              authenticated()
                .and()
                     .addFilter(usernamePasswordLoginFilter())
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-          .and()
-               .logout()
-                    .logoutSuccessHandler(new NopLogoutSuccessHandler())
+               .and()
+                    .logout()
+                         .logoutSuccessHandler(new NopLogoutSuccessHandler())
           ;
      }
      // @formatter:on

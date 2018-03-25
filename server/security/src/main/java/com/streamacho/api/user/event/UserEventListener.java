@@ -1,4 +1,4 @@
-package com.streamacho.api.user.listener;
+package com.streamacho.api.user.event;
 
 import com.streamacho.api.mail.service.MailService;
 import com.streamacho.api.user.mapper.VerificationMapper;

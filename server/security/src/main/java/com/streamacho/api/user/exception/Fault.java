@@ -10,7 +10,15 @@ public class Fault extends RuntimeException {
           super();
      }
 
+     public Fault(String message) {
+          super(message);
+     }
+
      public Fault(Throwable t) {
           super(t);
+     }
+
+     public Fault(String message, Throwable t) {
+          super(message, t);
      }
 }

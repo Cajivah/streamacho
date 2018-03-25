@@ -1,5 +1,6 @@
 package com.streamacho.api.config.security.filter;
 
+import com.streamacho.api.config.security.mapper.WebSecurityMapper;
 import com.streamacho.api.user.model.dto.LoginCompleteDTO;
 import com.streamacho.api.user.model.event.OnLoginCompleteEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -17,11 +18,14 @@ import java.io.IOException;
 
 public class UsernamePasswordLoginFilter extends UsernamePasswordAuthenticationFilter {
 
+     private final WebSecurityMapper webSecurityMapper;
 
      public UsernamePasswordLoginFilter(AuthenticationManager authenticationManager,
-                                        ApplicationEventPublisher eventPublisher) {
+                                        ApplicationEventPublisher eventPublisher,
+                                        WebSecurityMapper webSecurityMapper) {
           this.setAuthenticationManager(authenticationManager);
           this.setApplicationEventPublisher(eventPublisher);
+          this.webSecurityMapper = webSecurityMapper;
      }
 
      @Override
@@ -40,10 +44,8 @@ public class UsernamePasswordLoginFilter extends UsernamePasswordAuthenticationF
      }
 
      private void fireSuccessfulLoginEvent(HttpServletRequest request, Authentication authentication) {
-          final LoginCompleteDTO loginCompleteDTO = LoginCompleteDTO.builder()
-               .request(request)
-               .authentication(authentication)
-               .build();
+          final LoginCompleteDTO loginCompleteDTO =
+               webSecurityMapper.toLoginCompleteDTO(request, authentication);
           eventPublisher.publishEvent(new OnLoginCompleteEvent(this.getClass(), loginCompleteDTO));
      }
 }
