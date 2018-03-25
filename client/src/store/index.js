@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { vueAuth } from '../authentication';
 import createLogger from 'vuex/dist/logger';
 
 Vue.use(Vuex);
@@ -8,9 +9,15 @@ export default new Vuex.Store({
   state: {
     authentication: {
       isLogged: false,
+      isAuthenticated: false,
       loggedUser: {}
     },
     meetings: []
+  },
+  getters: {
+    isAuthenticated() {
+      return vueAuth.isAuthenticated();
+    }
   },
   mutations: {
     createMeeting(state, payload) {
@@ -22,7 +29,10 @@ export default new Vuex.Store({
     initMeetings(state, payload) {
       state.meetings = payload.meetings;
     },
-    registerUser(state, payload) {},
+    isAuthenticated(state, payload) {
+      state.isAuthenticated = payload.isAuthenticated;
+    },
+    registerUser(state, payload) { },
     loginSuccess(state, payload) {
       state.authentication.isLogged = payload.isLogged;
       state.authentication.loggedUser = payload.loggedUser;
@@ -33,29 +43,37 @@ export default new Vuex.Store({
     registerSuccess(state, payload) {
 
     },
-    registerFailed(state, payload) {}
+    registerFailed(state, payload) { }
   },
   actions: {
-    createMeeting(store, payload) {
-      store.commit({
+    createMeeting(context, payload) {
+      context.commit({
         type: 'createMeeting',
         meeting: payload
       });
     },
-    removeMeeting(store, payload) {
-      store.commit({
+    removeMeeting(context, payload) {
+      context.commit({
         type: 'removeMeeting',
         meeting: payload
       });
     },
-    initMeetings(store, payload) {
-      store.commit({
+    initMeetings(context, payload) {
+      context.commit({
         type: 'initMeetings',
         meetings: payload
       });
     },
-    loginSuccess(state, payload) {
-      store.commit({
+    loginOAuth(context, payload) {
+      vueAuth.login(payload.user, payload.requestOprions)
+        .then((response) => {
+          context.commit('isAuthenticated', {
+            isAuthenticated: vueAuth.isAuthenticated()
+          });
+        });
+    },
+    loginSuccess(context, payload) {
+      context.commit({
         type: 'loginSuccess',
         authentication: {
           isLogged: payload.isLogged,
@@ -63,21 +81,21 @@ export default new Vuex.Store({
         }
       });
     },
-    loginFailed(state, payload) {
-      store.commit({
+    loginFailed(context, payload) {
+      context.commit({
         type: 'loginFailed',
         authentication: {
           isLogged: payload.isLogged
         }
       });
     },
-    registerSuccess(state, payload) {
-      store.commit({
+    registerSuccess(context, payload) {
+      context.commit({
         type: 'registerSuccess'
       });
     },
-    registerFailed(state, payload) {
-      store.commit({
+    registerFailed(context, payload) {
+      context.commit({
         type: 'registerFailed'
       });
     }

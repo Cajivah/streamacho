@@ -2,7 +2,7 @@
   <form class='content form-view' @submit.prevent='onSubmit()'>
     <div class='form-container'>
         <h2 class='is-large'>Please, login</h2>
-        <div class='field auth-control'>
+        <div class='field auth-control' @click="authenticate('facebook')">
             <label class='button is-primary auth-button has-icons-left'>
                 <span class='icon is-small is-left'>
                     <i class='fa fa-facebook'></i>
@@ -10,7 +10,7 @@
                 Login with facebook
             </label>
         </div>
-        <div class='field auth-control'>
+        <div class='field auth-control' @click="authenticate('google')">
             <label class='button is-primary auth-button has-icons-left'>
                 <span class='icon is-small is-left'>
                     <i class='fa fa-google'></i>
@@ -83,6 +83,12 @@ export default {
         this.loginForm.password = '';
         this.$validator.reset();
       });
+    },
+    authenticate(provider) {
+      this.$auth
+        .authenticate(provider)
+        .then((data) => console.log('Authorized! ' + data))
+        .catch((error) => console.error(error));
     }
   }
 };
