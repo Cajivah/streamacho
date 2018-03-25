@@ -29,23 +29,18 @@ public abstract class UserMapper {
      @Mapping(target = "modified", ignore = true)
      @Mapping(target = "verified", ignore = true)
      @Mapping(target = "logins", ignore = true)
+     @Mapping(target = "locked", ignore = true)
+     @Mapping(target = "roles", ignore = true)
      public abstract UserCredentials toUser(UserRegistrationDTO userRegistrationDTO);
 
      public abstract UserDetailsDTO toUserDetailsDTO(UserCredentials userCredentials);
 
-     @Mapping(target = "id", ignore = true)
-     @Mapping(target = "username", ignore = true)
-     @Mapping(target = "email", ignore = true)
-     @Mapping(target = "created", ignore = true)
-     @Mapping(target = "modified", ignore = true)
-     @Mapping(target = "verified", ignore = true)
-     @Mapping(target = "logins", ignore = true)
-     public abstract UserCredentials updatePassword(PasswordPairDTO passwordPairDTO,
-                                                    @MappingTarget UserCredentials user);
-
      public UserCredentials updatePassword(ChangePasswordDTO changePasswordDTO,
-                                           @MappingTarget UserCredentials user) {
-          return updatePassword(changePasswordDTO.getPasswordPairDTO(), user);
+                                           UserCredentials user) {
+          final PasswordPairDTO passwordPairDTO = changePasswordDTO.getPasswordPairDTO();
+          final HashedPassword hashedPassword = toHashedPassword(passwordPairDTO);
+          user.setPassword(hashedPassword);
+          return user;
      }
 
      public HashedPassword toHashedPassword(PasswordPairDTO passwordPairDTO) {
