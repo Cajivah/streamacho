@@ -11,7 +11,7 @@ import MeetingList from "@/components/meetings/MeetingList";
 import AddMeeting from "@/components/meetings/AddMeeting";
 
 export default {
-  name: "meetingasdasds-hub",
+  name: "meetings-hub",
   components: {
     MeetingList,
     AddMeeting

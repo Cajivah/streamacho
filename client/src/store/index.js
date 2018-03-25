@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { vueAuth } from '../authentication';
 import createLogger from 'vuex/dist/logger';
 
 Vue.use(Vuex);
