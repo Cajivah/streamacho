@@ -1,9 +1,24 @@
 version: '3'
 
 services:
-  discovery-server:
+  streamacho-discovery-server:
     build:
       context: discovery-server/
+      dockerfile: build/docker/Dockerfile
+
+  streamacho-gateway-service:
+    build:
+      context: gateway/
+      dockerfile: build/docker/Dockerfile
+
+  streamacho-security-service:
+    build:
+      context: security/
+      dockerfile: build/docker/Dockerfile
+
+  streamacho-meetings-service:
+    build:
+      context: meeting/
       dockerfile: build/docker/Dockerfile
 
   streamacho-security-database:
