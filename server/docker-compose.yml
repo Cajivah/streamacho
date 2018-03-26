@@ -1,6 +1,11 @@
 version: '3'
 
 services:
+  discovery-server:
+    build:
+      context: discovery-server/
+      dockerfile: build/docker/Dockerfile
+
   streamacho-security-database:
     image: postgres
     environment: 
