@@ -23,32 +23,16 @@
           <div class='control has-icons-left'>
             <input
               class='input'
-              name='firstName'
-              placeholder='first name'
-              v-model='registerForm.firstName'
+              name='userName'
+              placeholder='user name'
+              v-model='registerForm.userName'
               v-validate="'required'"
             >
           <span class='icon is-small is-left'>
             <i class='fa fa-user-plus'></i>
           </span>
           </div>
-          <p class='help is-danger'>{{ errors.first('firstName') }}</p>
-        </div>
-        <div class='field'>
-          <label class='label'>Last name</label>
-          <div class='control has-icons-left'>
-              <input
-                class='input'
-                name='lastName'
-                placeholder='last name'
-                v-model='registerForm.lastName'
-                v-validate="'required'"
-              >
-              <span class='icon is-small is-left'>
-              <i class='fa fa-user-plus'></i>
-              </span>
-          </div>
-          <p class='help is-danger'>{{ errors.first('lastName') }}</p>
+          <p class='help is-danger'>{{ errors.first('userName') }}</p>
         </div>
         <div class='field'>
           <label class='label'>Password</label>
@@ -58,8 +42,8 @@
                 name='password'
                 placeholder='password'
                 type='password'
-                v-model='registerForm.password'
-                v-validate="'required|min:8'"
+                v-model='registerForm.passwordPair.password'
+                v-validate="{ required: true, regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
               >
               <span class='icon is-small is-left'>
               <i class='fa fa-key'></i>
@@ -72,16 +56,17 @@
           <div class='control has-icons-left'>
               <input
                 class='input'
-                name='repeatPassword'
+                name='matchingPassword'
                 placeholder='repeat password'
                 type='password'
+                v-model='registerForm.passwordPair.matchingPassword'
                 v-validate="'required|confirmed:password'"
               >
               <span class='icon is-small is-left'>
               <i class='fa fa-key'></i>
               </span>
           </div>
-          <p class='help is-danger'>{{ errors.first('repeatPassword') }}</p>
+          <p class='help is-danger'>{{ errors.first('matchingPassword') }}</p>
         </div>
         <div class='field'>
           <button class='button is-primary'>Register</button>
@@ -115,6 +100,7 @@ export default {
         this.$emit("onRegister", {
           ...this.registerForm
         });
+        // vuex action
         this.registerForm.email = "";
         this.registerForm.userName = "";
         this.registerForm.passwordPair.password = "";

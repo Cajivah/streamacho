@@ -1,4 +1,4 @@
-export default mutations = {
+export default {
     createMeeting(state, payload) {
         state.meetings.push(payload.meeting);
     },

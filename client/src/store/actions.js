@@ -1,4 +1,4 @@
-export default actions = {
+export default {
     createMeeting(context, payload) {
         context.commit({
             type: 'createMeeting',

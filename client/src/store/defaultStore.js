@@ -1,4 +1,4 @@
-export default defaultStore = {
+export default {
     authentication: {
         isLogged: false,
         isAuthenticated: false,
