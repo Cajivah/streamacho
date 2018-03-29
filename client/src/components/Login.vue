@@ -11,14 +11,14 @@
             </label>
         </div>
         <div class='field'>
-        <label class='label'>Email</label>
+        <label class='label'>User name</label>
         <div class='control has-icons-left'>
             <input
               class='input'
-              name='email'
-              placeholder='email'
-              v-model='loginForm.email'
-              v-validate="'required|email'"
+              name='username'
+              placeholder='User name'
+              v-model='loginForm.username'
+              v-validate="'required'"
             > 
             <span class='icon is-small is-left'>
             <i class='fa fa-envelope'></i>
@@ -35,7 +35,7 @@
               placeholder='password'
               type='password'
               v-model='loginForm.password'
-              v-validate="'required|min:5'"
+              v-validate="'required|min:8'"
             >
             <span class='icon is-small is-left'>
             <i class='fa fa-key'></i>
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       loginForm: {
-        email: '',
+        username: '',
         password: ''
       }
     };
@@ -71,7 +71,7 @@ export default {
         this.$emit('onLogin', {
           ...this.loginForm
         });
-        this.loginForm.email = '';
+        this.loginForm.username = '';
         this.loginForm.password = '';
         this.$validator.reset();
       });

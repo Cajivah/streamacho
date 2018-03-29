@@ -19,7 +19,7 @@
         <p class='help is-danger'>{{ errors.first('email') }}</p>
         </div>
         <div class='field'>
-          <label class='label'>First name</label>
+          <label class='label'>User name</label>
           <div class='control has-icons-left'>
             <input
               class='input'
@@ -59,7 +59,7 @@
                 placeholder='password'
                 type='password'
                 v-model='registerForm.password'
-                v-validate="'required|min:5'"
+                v-validate="'required|min:8'"
               >
               <span class='icon is-small is-left'>
               <i class='fa fa-key'></i>
@@ -98,9 +98,11 @@ export default {
     return {
       registerForm: {
         email: "",
-        firstName: "",
-        lastName: "",
-        password: ""
+        userName: "",
+        passwordPair: {
+          password: "",
+          matchingPassword: ""
+        }
       }
     };
   },
@@ -114,9 +116,9 @@ export default {
           ...this.registerForm
         });
         this.registerForm.email = "";
-        this.registerForm.password = "";
-        this.registerForm.firstName = "";
-        this.registerForm.lastName = "";
+        this.registerForm.userName = "";
+        this.registerForm.passwordPair.password = "";
+        this.registerForm.passwordPair.matchingPassword = "";
         this.$validator.reset();
       });
     }
