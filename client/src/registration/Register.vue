@@ -23,16 +23,16 @@
           <div class='control has-icons-left'>
             <input
               class='input'
-              name='userName'
+              name='username'
               placeholder='user name'
-              v-model='registerForm.userName'
+              v-model='registerForm.username'
               v-validate="'required'"
             >
           <span class='icon is-small is-left'>
             <i class='fa fa-user-plus'></i>
           </span>
           </div>
-          <p class='help is-danger'>{{ errors.first('userName') }}</p>
+          <p class='help is-danger'>{{ errors.first('username') }}</p>
         </div>
         <div class='field'>
           <label class='label'>Password</label>
@@ -83,7 +83,7 @@ export default {
     return {
       registerForm: {
         email: "",
-        userName: "",
+        username: "",
         passwordPair: {
           password: "",
           matchingPassword: ""
@@ -102,7 +102,7 @@ export default {
         });
         // vuex action
         this.registerForm.email = "";
-        this.registerForm.userName = "";
+        this.registerForm.username = "";
         this.registerForm.passwordPair.password = "";
         this.registerForm.passwordPair.matchingPassword = "";
         this.$validator.reset();
