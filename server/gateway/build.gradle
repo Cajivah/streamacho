@@ -65,8 +65,8 @@ dependencyManagement {
 import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 
 task createDockerfile(type: Dockerfile) {
-    destFile = project.file('build/docker/Dockerfile')
-    from("openjdk:9.0.4-jre")
-    copyFile("build/libs/${jar.archiveName}", "app.jar")
-    defaultCommand("/usr/bin/java", "-jar", "app.jar")
+  destFile = project.file('build/docker/Dockerfile')
+  from("openjdk:9.0.4-jre")
+  copyFile("build/libs/${jar.archiveName}", "app.jar")
+  defaultCommand("/usr/bin/java", "-jar", "app.jar")
 }
