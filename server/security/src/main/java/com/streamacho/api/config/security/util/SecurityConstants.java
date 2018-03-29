@@ -6,9 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SecurityConstants {
 
-     public static final String REGISTRATION_URL = "/registration";
-     public static final String VERIFICATION_URL = "/verification";
-     public static final String LOGOUT_URL = "/logout";
+     public static final String REGISTRATION_URL = "/accounts";
+     public static final String VERIFICATION_URL = "/accounts/verification";
      public static final String[] AUTH_WHITELIST = {
           // -- swagger ui
           "/v2/api-docs",

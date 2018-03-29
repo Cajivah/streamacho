@@ -8,10 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,9 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.streamacho.api.config.security.util.SecurityConstants.AUTH_WHITELIST;
-import static com.streamacho.api.config.security.util.SecurityConstants.REGISTRATION_URL;
-import static com.streamacho.api.config.security.util.SecurityConstants.VERIFICATION_URL;
-import static com.streamacho.api.user.util.AvailableUserRoles.ROLE_ADMIN;
 import static com.streamacho.api.user.util.AvailableUserRoles.ROLE_ADMIN_SHORT;
 
 @Configuration
@@ -51,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                          .antMatchers(AUTH_WHITELIST).permitAll()
                          .antMatchers(
-                              "/accounts/registration",
+                              "/accounts",
                               "/accounts/verification")
                               .permitAll()
                          .antMatchers(

@@ -9,7 +9,6 @@ import com.streamacho.api.user.model.entity.UserCredentials;
 import com.streamacho.api.util.mapper.DateMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -23,7 +22,7 @@ public abstract class UserMapper {
           this.passwordEncoder = passwordEncoder;
      }
 
-     @Mapping(target = "password", source = "passwordPairDTO")
+     @Mapping(target = "password", source = "passwordPair")
      @Mapping(target = "id", ignore = true)
      @Mapping(target = "created", ignore = true)
      @Mapping(target = "modified", ignore = true)

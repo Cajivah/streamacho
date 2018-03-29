@@ -15,5 +15,5 @@ public class UserRegistrationDTO {
      @NotBlank
      private String email;
      @MatchingPasswords
-     private PasswordPairDTO passwordPairDTO;
+     private PasswordPairDTO passwordPair;
 }

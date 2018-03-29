@@ -31,7 +31,7 @@ public class AccountController {
      private final UserCredentialsService userCredentialsService;
      private final ApplicationEventPublisher eventPublisher;
 
-     @PostMapping("/registration")
+     @PostMapping
      @ResponseStatus(HttpStatus.CREATED)
      public UserDetailsDTO registerNewUser(
           @RequestBody @Validated UserRegistrationDTO userRegistrationDTO,
