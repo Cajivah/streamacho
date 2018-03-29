@@ -1,15 +1,20 @@
 export default {
-    createMeeting(context, payload) {
-        context.commit({
-            type: 'createMeeting',
-            meeting: payload
-        });
+    createRoom(context, payload) {
+        Vue.http.post('/api/meetings/rooms', payload)
+            .then(response => {
+                context.commit({
+                    type: 'createMeeting',
+                    meeting: payload
+                });
+            }).catch(error => error);
     },
     removeMeeting(context, payload) {
-        context.commit({
-            type: 'removeMeeting',
-            meeting: payload
-        });
+        Vue.http.delete('/api/meetings/rooms').then(response => {
+            context.commit({
+                type: 'removeMeeting',
+                meeting: payload
+            });
+        }).catch(error => error);
     },
     initMeetings(context, payload) {
         context.commit({
