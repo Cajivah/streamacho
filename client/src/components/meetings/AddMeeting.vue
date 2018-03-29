@@ -34,8 +34,6 @@
 </template>
 
 <script>
-  import uuid from 'uuid/v4';
-
   export default {
     name: "AddMeeting",
     data() {
@@ -53,7 +51,6 @@
             return;
           }
           this.$emit('onAddMeeting', {
-            id: uuid(),
             ...this.newMeeting
           });
           this.newMeeting.name = '';
