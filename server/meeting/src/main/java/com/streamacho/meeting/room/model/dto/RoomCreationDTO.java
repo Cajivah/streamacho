@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 
 @Builder
@@ -22,7 +23,7 @@ public class RoomCreationDTO {
      private String description;
 
      @FutureOrPresent
-     private String startAt;
+     private ZonedDateTime startAt;
 
      private Collection<String> tags;
 }

@@ -3,6 +3,7 @@ package com.streamacho.meeting.room.mapper;
 import com.streamacho.meeting.room.model.dto.RoomCreationDTO;
 import com.streamacho.meeting.room.model.dto.RoomDTO;
 import com.streamacho.meeting.room.model.entity.Room;
+import com.streamacho.meeting.util.Date.mapper.DateMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -10,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = DateMapper.class)
 public interface RoomMapper {
 
      RoomDTO toRoomDTO(Room room);

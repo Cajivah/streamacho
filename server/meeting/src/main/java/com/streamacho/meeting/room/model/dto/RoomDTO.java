@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Builder
@@ -17,7 +17,7 @@ public class RoomDTO {
      private Long id;
      private String name;
      private String description;
-     private LocalDateTime startAt;
+     private ZonedDateTime startAt;
      private String organiser;
      private List<String> tags;
      private boolean closed;
