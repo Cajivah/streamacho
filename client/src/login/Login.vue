@@ -68,14 +68,13 @@ export default {
         if (!result) {
           return;
         }
-        this.$http({
-          method: 'post',
-          url: '/api/login',
-          data: this.loginForm,
+        this.$http.post('/api/login', this.loginForm, {
           headers: {
             'Content-Type': 'x-www-form-urlencoded'
           }
-        });
+        })
+        .then(response => response)
+        .catch(error => error);
         this.loginForm.username = '';
         this.loginForm.password = '';
         this.$validator.reset();
