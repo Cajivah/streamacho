@@ -1,4 +1,4 @@
-package com.streamacho.api.user.model.entity;
+package com.streamacho.meeting.room.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,18 +11,12 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Transient;
-import javax.validation.constraints.Email;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,32 +29,27 @@ import java.util.Set;
 @Builder
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class UserCredentials {
+public class Room {
 
      @Id
      @GeneratedValue
      private Long id;
 
-     @Column(unique = true, nullable = false)
-     private String username;
+     private String name;
 
-     @Column(unique = true, nullable = false)
-     @Email
-     private String email;
+     private String description;
 
-     @Embedded
-     private HashedPassword password;
+     private LocalDateTime startAt;
+
+     private String organiser;
 
      @Builder.Default
-     @Transient
-     private Set<UserLogin> logins = new HashSet<>();
+     @ElementCollection
+     private Set<String> tags = new HashSet<>();
 
-     private boolean verified;
+     private boolean closed;
 
-     private boolean locked;
-
-     @ManyToMany(fetch = FetchType.EAGER)
-     private Collection<Role> roles;
+     private boolean deleted;
 
      @CreatedDate
      private LocalDateTime created;

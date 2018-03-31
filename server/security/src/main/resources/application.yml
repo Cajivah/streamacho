@@ -2,7 +2,7 @@ spring:
   application:
     name: streamacho-security
   session:
-    store-type: jdbc
+    store-type: redis
     redis:
       flush-mode: ON_SAVE
       namespace: streamacho

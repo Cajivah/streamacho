@@ -29,7 +29,6 @@ repositories {
     }
 }
 
-
 ext {
     springCloudVersion = 'Finchley.M8'
     jaxbVersion = '2.3.0'
