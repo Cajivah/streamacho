@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id='app'>
     <navigation></navigation>
-    <div class="container">
+    <div class='container'>
       <meetings-hub></meetings-hub>
     </div>
     <router-view></router-view>
@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import MeetingsHub from '@/components/meetings/MeetingsHub';
-import Navigation from '@/components/Navigation';
+import MeetingsHub from '@/meetings/MeetingsHub';
+import Navigation from '@/common/Navigation';
 
 export default {
   name: 'app',
