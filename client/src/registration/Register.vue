@@ -43,7 +43,7 @@
                 placeholder='password'
                 type='password'
                 v-model='registerForm.passwordPair.password'
-                v-validate="{ required: true, regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
+                v-validate="{ required: true, regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
               >
               <span class='icon is-small is-left'>
               <i class='fa fa-key'></i>
@@ -82,11 +82,11 @@ export default {
   data() {
     return {
       registerForm: {
-        email: "",
-        username: "",
+        email: '',
+        username: '',
         passwordPair: {
-          password: "",
-          matchingPassword: ""
+          password: '',
+          matchingPassword: ''
         }
       }
     };
@@ -101,10 +101,10 @@ export default {
           ...this.registerForm
         });
         // vuex action
-        this.registerForm.email = "";
-        this.registerForm.username = "";
-        this.registerForm.passwordPair.password = "";
-        this.registerForm.passwordPair.matchingPassword = "";
+        this.registerForm.email = '';
+        this.registerForm.username = '';
+        this.registerForm.passwordPair.password = '';
+        this.registerForm.passwordPair.matchingPassword = '';
         this.$validator.reset();
       });
     }

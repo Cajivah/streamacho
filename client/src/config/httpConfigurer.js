@@ -1,4 +1,7 @@
-export default Axios.create({
+import axios from 'axios';
+
+export default axios.create({
     baseURL: 'http://localhost:8081',
+    withCredentials: true,
     timeout: 3000
 });

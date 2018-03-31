@@ -4,7 +4,6 @@
     <div class='container'>
       <meetings-hub></meetings-hub>
     </div>
-    <router-view></router-view>
   </div>
 </template>
 

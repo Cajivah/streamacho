@@ -15,9 +15,9 @@
         <div class='control has-icons-left'>
             <input
               class='input'
-              name='username'
+              name='userName'
               placeholder='User name'
-              v-model='loginForm.username'
+              v-model='loginForm.userName'
               v-validate="'required'"
             > 
             <span class='icon is-small is-left'>
@@ -35,7 +35,7 @@
               placeholder='password'
               type='password'
               v-model='loginForm.password'
-              v-validate="'required|min:8'"
+              v-validate="{ required: true, regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
             >
             <span class='icon is-small is-left'>
             <i class='fa fa-key'></i>
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       loginForm: {
-        username: '',
+        userName: '',
         password: ''
       }
     };
@@ -68,8 +68,13 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit('onLogin', {
-          ...this.loginForm
+        this.$http({
+          method: 'post',
+          url: '/api/login',
+          data: this.loginForm,
+          headers: {
+            'Content-Type': 'x-www-form-urlencoded'
+          }
         });
         this.loginForm.username = '';
         this.loginForm.password = '';
