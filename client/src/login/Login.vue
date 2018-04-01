@@ -53,14 +53,14 @@
 
 <script>
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: "",
+        password: ""
       }
-    }
+    };
   },
   methods: {
     onSubmit() {
@@ -68,17 +68,20 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit('login', { ...this.loginForm });
-        this.loginForm.username = '';
-        this.loginForm.password = '';
+        this.$store
+          .dispatch("login", { ...this.loginForm })
+          .then(response => response)
+          .catch(error => error);
+        this.loginForm.username = "";
+        this.loginForm.password = "";
         this.$validator.reset();
       });
     },
     authenticate(provider) {
       this.$auth
         .authenticate(provider)
-        .then((data) => console.log('Authorized! ' + data))
-        .catch((error) => console.error(error));
+        .then(data => console.log("Authorized! " + data))
+        .catch(error => console.error(error));
     }
   }
 };
@@ -97,6 +100,6 @@ export default {
 }
 
 .login-button {
-    width: 100%;
+  width: 100%;
 }
 </style>
