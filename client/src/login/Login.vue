@@ -15,9 +15,9 @@
         <div class='control has-icons-left'>
             <input
               class='input'
-              name='userName'
+              name='username'
               placeholder='User name'
-              v-model='loginForm.userName'
+              v-model='loginForm.username'
               v-validate="'required'"
             > 
             <span class='icon is-small is-left'>
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       loginForm: {
-        userName: '',
+        username: '',
         password: ''
       }
     };
@@ -68,7 +68,7 @@ export default {
         if (!result) {
           return;
         }
-        this.$http.post('/api/login', this.loginForm, {
+        this.$http.post('/users/login', this.loginForm, {
           headers: {
             'Content-Type': 'x-www-form-urlencoded'
           }
