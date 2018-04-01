@@ -11,16 +11,9 @@ export default {
     isAuthenticated(state, payload) {
         state.isAuthenticated = payload.isAuthenticated;
     },
-    registerUser(state, payload) { },
-    loginSuccess(state, payload) {
+    login(state, payload) {
         state.authentication.isLogged = payload.isLogged;
         state.authentication.loggedUser = payload.loggedUser;
     },
-    loginFailed(state, payload) {
-        state.authentication.isLogged = payload.isLogged;
-    },
-    registerSuccess(state, payload) {
-
-    },
-    registerFailed(state, payload) { }
+    register(state, payload) { }
 }

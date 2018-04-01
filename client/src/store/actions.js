@@ -30,31 +30,34 @@ export default {
                 });
             });
     },
-    loginSuccess(context, payload) {
-        context.commit({
-            type: 'loginSuccess',
-            authentication: {
-                isLogged: payload.isLogged,
-                loggedUser: payload.loggedUser
+    login(context, payload) {
+        this.$http.post('/users/login', payload, {
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
             }
-        });
+        })
+            .then(response => {
+                context.commit({
+                    type: 'login',
+                    authentication: {
+                        isLogged: true,
+                        loggedUser: response
+                    }
+                });
+            })
+            .catch(error => error);
     },
-    loginFailed(context, payload) {
-        context.commit({
-            type: 'loginFailed',
-            authentication: {
-                isLogged: payload.isLogged
+    register(context, payload) {
+        this.$http.post('/users/register', payload, {
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
             }
-        });
-    },
-    registerSuccess(context, payload) {
-        context.commit({
-            type: 'registerSuccess'
-        });
-    },
-    registerFailed(context, payload) {
-        context.commit({
-            type: 'registerFailed'
-        });
+        })
+            .then(response => {
+                context.commit({
+                    type: 'register'
+                });
+            })
+            .catch(error => error);
     }
 }

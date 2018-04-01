@@ -97,10 +97,14 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit("onRegister", {
-          ...this.registerForm
-        });
-        // vuex action
+        const body = {
+          ...this.registerForm,
+          passwordPair: {
+            password: this.registerForm.passwordPair.password,
+            matchingPassword: this.registerForm.passwordPair.matchingPassword
+          }
+        }
+        this.$emit('register', body);
         this.registerForm.email = '';
         this.registerForm.username = '';
         this.registerForm.passwordPair.password = '';
