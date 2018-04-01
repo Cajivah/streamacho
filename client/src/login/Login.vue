@@ -24,7 +24,7 @@
             <i class='fa fa-envelope'></i>
             </span>
         </div>
-        <p class='help is-danger'>{{ errors.first('email') }}</p>
+        <p class='help is-danger'>{{ errors.first('username') }}</p>
         </div>
         <div class='field'>
         <label class='label'>Password</label>
@@ -60,7 +60,7 @@ export default {
         username: '',
         password: ''
       }
-    };
+    }
   },
   methods: {
     onSubmit() {
@@ -68,9 +68,10 @@ export default {
         if (!result) {
           return;
         }
-        this.$http.post('/users/login', this.loginForm, {
+
+        this.$http.post('/users/login', { ...this.loginForm }, {
           headers: {
-            'Content-Type': 'x-www-form-urlencoded'
+            'Content-type': 'application/x-www-form-urlencoded',
           }
         })
         .then(response => response)
