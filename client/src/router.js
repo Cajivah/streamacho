@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Main from '@/components/Main';
+import Hub from '@/Hub';
 import Register from '@/registration/Register';
 import Login from '@/login/Login';
 
@@ -11,7 +11,7 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Main
+      component: Hub
     },
     {
       path: '/register',

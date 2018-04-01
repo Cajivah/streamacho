@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import MeetingList from "@/components/meetings/MeetingList";
-import AddMeeting from "@/components/meetings/AddMeeting";
+import MeetingList from "@/meetings/MeetingList";
+import AddMeeting from "@/meetings/AddMeeting";
 
 export default {
   name: "meetings-hub",

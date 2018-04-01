@@ -35,7 +35,7 @@
               placeholder='password'
               type='password'
               v-model='loginForm.password'
-              v-validate="'required|min:8'"
+              v-validate="{ required: true, regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
             >
             <span class='icon is-small is-left'>
             <i class='fa fa-key'></i>
@@ -68,9 +68,13 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit('onLogin', {
-          ...this.loginForm
-        });
+        this.$http.post('/users/login', this.loginForm, {
+          headers: {
+            'Content-Type': 'x-www-form-urlencoded'
+          }
+        })
+        .then(response => response)
+        .catch(error => error);
         this.loginForm.username = '';
         this.loginForm.password = '';
         this.$validator.reset();
