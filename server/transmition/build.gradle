@@ -1,0 +1,67 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.0.RELEASE'
+        gradleDependencyManagementVersion = '1.0.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:${gradleDependencyManagementVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'openvidu'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_1_9
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
+}
+
+ext {
+    springCloudVersion = 'Finchley.M8'
+    jaxbVersion = '2.3.0'
+    javaxActivationVersion = '1.1.1'
+    springCloudGatewayVersion = '2.0.0.M9'
+    eurekaClientVersion = '2.0.0.M8'
+    lombokVersion = '1.16.20'
+    openviduVersion = '1.7.0'
+    servletapiVersion = '4.0.0'
+}
+
+dependencies {
+
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+
+    // Transition to Java9 dependencies
+    compile("javax.xml.bind:jaxb-api:${jaxbVersion}")
+    compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
+    compile("org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}")
+    compile("javax.activation:activation:${javaxActivationVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
+    //provided("javax.servlet:javax.servlet-api:${servletapiVersion}")
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+
+    compile("io.openvidu:openvidu-java-client:${openviduVersion}")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-gateway:${springCloudGatewayVersion}")
+    }
+}
