@@ -1,0 +1,33 @@
+buildscript {
+  ext {
+    gradleDockerComposePluginVersion = '0.7.1'
+  }
+
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath "com.avast.gradle:gradle-docker-compose-plugin:$gradleDockerComposePluginVersion"
+  }
+}
+
+apply plugin: 'docker-compose'
+
+task buildAll() {
+  dependsOn ':discovery-server:build'
+  dependsOn ':gateway:build'
+  dependsOn ':security:build'
+  dependsOn ':meeting:build'
+}
+
+dockerCompose {
+  buildBeforeUp = true
+}
+
+composeUp {
+  ':discovery-server:createDockerfile'
+  ':gateway:createDockerfile'
+  ':security:createDockerfile'
+  ':meeting:buildWithDockerfile'
+}

@@ -1,16 +1,19 @@
 buildscript {
     ext {
+        gradleDockerPluginVersion = '3.2.5'
         springBootVersion = '2.0.0.RELEASE'
         junitPlatformPluginVersion = '1.1.0'
         sonarqubePluginVersion = '2.6.2'
     }
     repositories {
+	jcenter()
         mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
+        classpath("com.bmuschko:gradle-docker-plugin:${gradleDockerPluginVersion}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.junit.platform:junit-platform-gradle-plugin:${junitPlatformPluginVersion}")
         classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarqubePluginVersion}")
@@ -19,6 +22,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.junit.platform.gradle.plugin'
@@ -123,4 +127,13 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+task createDockerfile(type: Dockerfile) {
+  destFile = project.file('build/docker/Dockerfile')
+  from("openjdk:9.0.4-jre")
+  copyFile("build/libs/${jar.archiveName}", "app.jar")
+  defaultCommand("/usr/bin/java", "-jar", "app.jar")
 }

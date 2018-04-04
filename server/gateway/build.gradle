@@ -1,12 +1,15 @@
 buildscript {
     ext {
+        gradleDockerPluginVersion = '3.2.5'
         springBootVersion = '2.0.0.RELEASE'
         gradleDependencyManagementVersion = '1.0.3.RELEASE'
     }
     repositories {
+	jcenter()
         mavenCentral()
     }
     dependencies {
+        classpath("com.bmuschko:gradle-docker-plugin:${gradleDockerPluginVersion}")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("io.spring.gradle:dependency-management-plugin:${gradleDependencyManagementVersion}")
     }
@@ -15,6 +18,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -55,4 +59,13 @@ dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-gateway:${springCloudGatewayVersion}")
     }
+}
+
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
+task createDockerfile(type: Dockerfile) {
+  destFile = project.file('build/docker/Dockerfile')
+  from("openjdk:9.0.4-jre")
+  copyFile("build/libs/${jar.archiveName}", "app.jar")
+  defaultCommand("/usr/bin/java", "-jar", "app.jar")
 }

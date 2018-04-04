@@ -1,6 +1,47 @@
 version: '3'
 
 services:
+  streamacho-discovery-server:
+    build:
+      context: discovery-server/
+      dockerfile: build/docker/Dockerfile
+    ports:
+      - 8761:8761
+
+  streamacho-security-service:
+    build:
+      context: security/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-discovery-server
+      - streamacho-security-database
+      - streamacho-session-redis
+
+  streamacho-meetings-service:
+    build:
+      context: meeting/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-discovery-server
+      - streamacho-meetings-database
+      - streamacho-session-redis
+
+  streamacho-gateway-service:
+    build:
+      context: gateway/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-discovery-server
+      - streamacho-security-service
+      - streamacho-meetings-service
+    healthcheck:
+      test: curl -f http://localhost:8080/actuator/health
+      interval: 5s
+      retries: 100
+
   streamacho-security-database:
     image: postgres
     environment: 
@@ -9,6 +50,16 @@ services:
       POSTGRES_DB: streamacho-security
     ports: 
      - 55432:5432
+
+  streamacho-meetings-database:
+     image: postgres
+     environment:
+       POSTGRES_USER: root
+       POSTGRES_PASSWORD: root
+       POSTGRES_DB: streamacho-meetings
+     ports:
+      - 55433:5432
+
   
   streamacho-session-redis:
     image: redis
