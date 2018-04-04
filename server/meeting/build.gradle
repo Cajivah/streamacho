@@ -56,28 +56,29 @@ repositories {
 }
 
 ext {
-    vavrVersion = '0.9.2'
-    swaggerVersion = '2.8.0'
-    junitJupiterVersion = '5.1.0'
-    junitPlatformVersion = '1.1.0'
-    junit4Version = '4.12'
-    junitVintageVersion = '5.1.0'
-    junitPlatformPluginVersion = '1.1.0'
-    mapstructVersion = '1.2.0.Final'
-    jaxbApiVersion = '2.3.0'
-    mockitoCoreVersion = '2.15.0'
-    gradleAptPluginVersion = '0.15'
-    lombokVersion = '1.16.20'
-    postgresqlVersion = '42.2.1'
-    jacksonDatatypeJsr310Version = '2.4.0'
-    springVersion = '5.0.4.RELEASE'
-    springBootVersion = '2.0.0.RELEASE'
-    springSessionCoreVersion = '2.0.2.RELEASE'
-    springCloudVersion = 'Finchley.M8'
-    jaxbVersion = '2.3.0'
-    javaxActivationVersion = '1.1.1'
     eurekaClientVersion = '2.0.0.M8'
+    gradleAptPluginVersion = '0.15'
+    jacksonDatatypeJsr310Version = '2.4.0'
+    javaxActivationVersion = '1.1.1'
+    jaxbApiVersion = '2.3.0'
+    jaxbVersion = '2.3.0'
+    junitJupiterVersion = '5.1.0'
+    junitPlatformPluginVersion = '1.1.0'
+    junitPlatformVersion = '1.1.0'
+    junitVintageVersion = '5.1.0'
+    junit4Version = '4.12'
     lettuceVersion = '5.0.2.RELEASE'
+    lombokVersion = '1.16.20'
+    mapstructVersion = '1.2.0.Final'
+    mockitoCoreVersion = '2.15.0'
+    openviduVersion = '1.7.0'
+    postgresqlVersion = '42.2.1'
+    springBootVersion = '2.0.0.RELEASE'
+    springCloudVersion = 'Finchley.M8'
+    springSessionCoreVersion = '2.0.2.RELEASE'
+    springVersion = '5.0.4.RELEASE'
+    swaggerVersion = '2.8.0'
+    vavrVersion = '0.9.2'
 }
 
 dependencies {
@@ -100,6 +101,7 @@ dependencies {
     compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
     compile("org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}")
     compile("javax.activation:activation:${javaxActivationVersion}")
+    compile("io.openvidu:openvidu-java-client:${openviduVersion}")
 
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     compileOnly("org.mapstruct:mapstruct-processor:${mapstructVersion}")

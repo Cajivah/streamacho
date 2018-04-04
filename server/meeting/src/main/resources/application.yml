@@ -22,6 +22,10 @@ spring:
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
 
+openvidu:
+  secret: MY_SECRET
+  url: https://localhost:8443/
+
 server:
   port: 0
   servlet:

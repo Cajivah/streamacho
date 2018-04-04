@@ -23,4 +23,12 @@ services:
       POSTGRES_DB: streamacho-meetings
     ports:
      - 55433:5432
-  
+
+  streamacho-openvidu:
+    image: openvidu/openvidu-server-kms
+    environment:
+      openvidu.secret: MY_SECRET
+      KMS_STUN_IP: stun.l.google.com
+      KMS_STUN_PORT: 19302
+    ports:
+      - 8443:8443
