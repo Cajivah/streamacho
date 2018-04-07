@@ -15,19 +15,14 @@ buildscript {
 apply plugin: 'docker-compose'
 
 task buildAll() {
-  dependsOn ':discovery-server:build'
-  dependsOn ':gateway:build'
-  dependsOn ':security:build'
-  dependsOn ':meeting:build'
+  subprojects.each {
+    dependsOn("${it.name}:build")
+    dependsOn("${it.name}:createDockerfile")
+  }
 }
 
 dockerCompose {
   buildBeforeUp = true
 }
 
-composeUp {
-  ':discovery-server:createDockerfile'
-  ':gateway:createDockerfile'
-  ':security:createDockerfile'
-  ':meeting:buildWithDockerfile'
-}
+composeUp.dependsOn(buildAll)
