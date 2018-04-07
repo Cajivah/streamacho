@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+<nav class="navbar is-fixed-top transparent" role="navigation" aria-label="main navigation">
     <div class="navbar-shadow"></div>
     <div class="container">
         <div class="navbar-brand">
@@ -17,9 +17,12 @@
 
 <script>
 export default {
-    name: 'navigation'
-}
+  name: "navigation"
+};
 </script>
 
 <style scoped>
+.transparent {
+  background-color: rgba(255, 255, 255, 0.5);
+}
 </style>

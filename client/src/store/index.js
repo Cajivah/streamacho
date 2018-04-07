@@ -33,13 +33,9 @@ export default new Vuex.Store({
   },
   actions: {
     createRoom({ commit }, payload) {
-      return new Promise((resolve, reject) => {
+      return Promise.resolve(
         Vue.http.post('/api/meetings/rooms', payload)
-          .then(response => {
-            commit('createMeeting', response);
-            resolve();
-          });
-      }).catch(error => reject(error));
+      );
     },
     removeMeeting(context, payload) {
       this.$http.delete('/api/meetings/rooms').then(response => {
@@ -64,35 +60,22 @@ export default new Vuex.Store({
         });
     },
     login({ commit }, payload) {
-      return new Promise((resolve, reject) => {
+      return Promise.resolve(
         Vue.http.post('/users/login', payload, {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
           }
         })
-          .then(response => {
-            commit('login', {
-              isLogged: true,
-              loggedUser: response
-            });
-            resolve(response);
-          })
-          .catch(error => reject(error));
-      });
+      );
     },
     register({ commit }, payload) {
-      return new Promise((resolve, reject) => {
+      return Promise.resolve(
         Vue.http.post('/users/register', payload, {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
           }
         })
-          .then(response => {
-            commit('register');
-            resolve(response);
-          })
-          .catch(error => reject(error));
-      })
+      );
     }
   },
   plugins: [createLogger()]
