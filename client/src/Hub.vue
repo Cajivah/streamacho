@@ -1,21 +1,19 @@
 <template>
   <div id='app'>
     <navigation></navigation>
-    <div class='container'>
-      <meetings-hub></meetings-hub>
-    </div>
+    <landing-page></landing-page>
   </div>
 </template>
 
 <script>
-import MeetingsHub from '@/meetings/MeetingsHub';
 import Navigation from '@/common/Navigation';
+import LandingPage from '@/common/LandingPage';
 
 export default {
   name: 'app',
   components: {
-    MeetingsHub,
-    Navigation
+    Navigation,
+    LandingPage
   }
 }
 </script>

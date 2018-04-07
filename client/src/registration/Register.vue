@@ -82,11 +82,11 @@ export default {
   data() {
     return {
       registerForm: {
-        email: '',
-        username: '',
+        email: "",
+        username: "",
         passwordPair: {
-          password: '',
-          matchingPassword: ''
+          password: "",
+          matchingPassword: ""
         }
       }
     };
@@ -97,14 +97,21 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit("onRegister", {
-          ...this.registerForm
-        });
-        // vuex action
-        this.registerForm.email = '';
-        this.registerForm.username = '';
-        this.registerForm.passwordPair.password = '';
-        this.registerForm.passwordPair.matchingPassword = '';
+        const body = {
+          ...this.registerForm,
+          passwordPair: {
+            password: this.registerForm.passwordPair.password,
+            matchingPassword: this.registerForm.passwordPair.matchingPassword
+          }
+        };
+        this.$store
+          .dispatch("login", body)
+          .then(response => response)
+          .catch(error => error);
+        this.registerForm.email = "";
+        this.registerForm.username = "";
+        this.registerForm.passwordPair.password = "";
+        this.registerForm.passwordPair.matchingPassword = "";
         this.$validator.reset();
       });
     }
@@ -113,4 +120,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
