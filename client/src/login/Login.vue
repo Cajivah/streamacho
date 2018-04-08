@@ -1,15 +1,15 @@
 <template>
     <form class='content form-view' @submit.prevent='onSubmit()'>
-        <div class='form-container'>
+        <div class='form-container auth-form'>
             <h1 class='is-large has-text-weight-semibold has-text-grey-darker'>Login</h1>
             <div class="subsection">
                 <div class='field'>
                     <div class='control has-icons-left'>
                         <input
-                                class='input'
-                                name='username'
-                                placeholder='Username'
-                                v-model='loginForm.username'
+                            class='input'
+                            name='username'
+                            placeholder='Username'
+                            v-model='loginForm.username'
                         >
                         <span class='icon is-small is-left'>
                             <i class='fa fa-user'></i>
@@ -20,11 +20,11 @@
                 <div class='field'>
                     <div class='control has-icons-left'>
                         <input
-                                class='input'
-                                name='password'
-                                placeholder='Password'
-                                type='password'
-                                v-model='loginForm.password'
+                            class='input'
+                            name='password'
+                            placeholder='Password'
+                            type='password'
+                            v-model='loginForm.password'
                         >
                         <span class='icon is-small is-left'>
                             <i class='fa fa-key'></i>
@@ -33,7 +33,7 @@
                     <p class='help is-danger'>{{ errors.first('password') }}</p>
                 </div>
                 <div class='field auth-control'>
-                    <button class='button is-primary login-button'>Login</button>
+                    <button class='button is-primary is-fullwidth'>Login</button>
                 </div>
             </div>
             <p class="has-text-grey-darker is-marginless">or</p>
@@ -50,9 +50,9 @@
             <p class="has-text-grey-darker has-text-weight-semibold options">
                 <router-link to='recover-password' class="has-text-grey-darker">Forgot Password</router-link>&nbsp;&nbsp;&bull;&nbsp;
                 <router-link to='register' class="has-text-grey-darker">Sign up</router-link>
-        </p>
-    </div>
-  </form>
+            </p>
+        </div>
+    </form>
 </template>
 
 <script>
@@ -81,7 +81,6 @@
           .dispatch("login", { ...this.loginForm })
           .then(response => response)
           .catch(error => error);
-        this.loginForm.username = "";
         this.loginForm.password = "";
         this.$validator.reset();
       });
@@ -99,11 +98,6 @@
 <style scoped>
 .auth-control {
   display: flex;
-  width: 100%;
-}
-
-.login-button {
-  width: 100%;
 }
 
 .subsection {

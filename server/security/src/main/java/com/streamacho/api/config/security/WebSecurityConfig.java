@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static com.streamacho.api.config.security.util.SecurityConstants.ANY_PATH;
 import static com.streamacho.api.config.security.util.SecurityConstants.AUTH_WHITELIST;
 import static com.streamacho.api.user.util.AvailableUserRoles.ROLE_ADMIN_SHORT;
 
@@ -44,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                .and()
                     .authorizeRequests()
                          .antMatchers(AUTH_WHITELIST).permitAll()
+                         .antMatchers(HttpMethod.OPTIONS, ANY_PATH).permitAll()
                          .antMatchers(
                               "/accounts",
                               "/accounts/verification")
@@ -52,8 +55,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                               "/",
                               "/*/lock")
                               .hasRole(ROLE_ADMIN_SHORT)
-                         .anyRequest().
-                              authenticated()
+                         .anyRequest()
+                              .authenticated()
                .and()
                     .addFilter(usernamePasswordLoginFilter())
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)

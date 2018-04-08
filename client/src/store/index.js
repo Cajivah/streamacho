@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 import state from './defaultStore';
+import qs from 'qs';
 
 Vue.use(Vuex);
 
@@ -34,11 +35,11 @@ export default new Vuex.Store({
   actions: {
     createRoom({ commit }, payload) {
       return Promise.resolve(
-        this.$http.post('/api/meetings/rooms', payload)
+        Vue.axios.post('/api/meetings/rooms', payload)
       );
     },
     removeMeeting(context, payload) {
-      this.$http.delete('/api/meetings/rooms').then(response => {
+      Vue.axios.delete('/api/meetings/rooms').then(response => {
         context.commit({
           type: 'removeMeeting',
           meeting: payload
@@ -61,7 +62,7 @@ export default new Vuex.Store({
     },
     login({ commit }, payload) {
       return Promise.resolve(
-        this.$http.post('/users/login', payload, {
+        Vue.axios.post('/users/login', qs.stringify(payload), {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
           }
@@ -70,9 +71,9 @@ export default new Vuex.Store({
     },
     register({ commit }, payload) {
       return Promise.resolve(
-        this.$http.post('/users/register', payload, {
+        Vue.axios.post('/users/accounts', payload, {
           headers: {
-            'Content-type': 'application/x-www-form-urlencoded'
+            'Content-type': 'application/json'
           }
         })
       );
