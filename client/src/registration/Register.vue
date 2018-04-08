@@ -10,7 +10,7 @@
                             name='username'
                             placeholder='Username'
                             v-model='registerForm.username'
-                            v-validate="'required'"
+                            v-validate="'required|min:4'"
                         >
                         <span class='icon is-small is-left'>
                             <i class='fa fa-user'></i>
