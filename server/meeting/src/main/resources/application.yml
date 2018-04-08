@@ -30,6 +30,7 @@ server:
 eureka:
   client:
     registerWithEureka: true
+    fetch-registry: false
     serviceUrl:
       defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
   instance:
