@@ -2,7 +2,7 @@
     <form class='content form-view' @submit.prevent='onSubmit()'>
         <div class='form-container auth-form'>
             <h1 class='is-large has-text-weight-semibold has-text-grey-darker'>Login</h1>
-            <div class="subsection">
+            <div class="subsection is-fullwidth">
                 <div class='field'>
                     <div class='control has-icons-left'>
                         <input
@@ -32,14 +32,14 @@
                     </div>
                     <p class='help is-danger'>{{ errors.first('password') }}</p>
                 </div>
-                <div class='field auth-control'>
+                <div class='field'>
                     <button class='button is-primary is-fullwidth'>Login</button>
                 </div>
             </div>
             <p class="has-text-grey-darker is-marginless">or</p>
-            <div class="subsection">
-                <div class='field third-party-auth' @click="authenticate('google')">
-                    <label class='button is-primary has-icons-left google third-party-auth__label'>
+            <div class="subsection is-fullwidth">
+                <div class='field has-text-centered' @click="authenticate('google')">
+                    <label class='button is-primary has-icons-left google is-fullwidth has-text-centered'>
                         <span class='icon is-small is-left'>
                             <i class='fa fa-google social-icon'></i>
                         </span>
@@ -56,13 +56,8 @@
 </template>
 
 <script>
-  import VuePassword from 'vue-password'
-
   export default {
     name: "Login",
-    components: {
-      VuePassword,
-    },
     data() {
       return {
       loginForm: {
@@ -96,29 +91,13 @@
 </script>
 
 <style scoped>
-.auth-control {
-  display: flex;
-}
-
 .subsection {
     padding: 30px 0;
-    width: 100%;
 }
 
 .options {
     padding-top: 30px;
 }
-
-.third-party-auth {
-    text-align: center;
-
-}
-
-.third-party-auth__label {
-    text-align: center;
-    width: 100%;
-}
-
 .google {
     background-color: #4285F4;
 }
@@ -131,6 +110,5 @@
     position: absolute;
     left: 20px;
     font-size: 20px;
-    margin-top: 0px;
 }
 </style>

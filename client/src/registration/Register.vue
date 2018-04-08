@@ -2,7 +2,7 @@
     <form class='content form-view' @submit.prevent='onSubmit()'>
         <div class='form-container auth-form'>
             <h1 class='is-large has-text-weight-semibold'>Sign up</h1>
-            <div class="subsection">
+            <div class="subsection is-fullwidth">
                 <div class='field'>
                     <div class='control has-icons-left'>
                         <input
@@ -65,7 +65,7 @@
                     </div>
                     <span class='help is-danger'>{{ errors.first('matchingPassword') }}</span>
                 </div>
-                <div class='field auth-control'>
+                <div class='field'>
                     <button class='button is-primary is-fullwidth'>Register</button>
                 </div>
             </div>
@@ -126,12 +126,8 @@
 <style scoped>
 .subsection {
     padding: 30px 0;
-    width: 100%;
 }
 .options {
     padding-top: 30px;
-}
-.auth-control {
-    display: flex;
 }
 </style>
