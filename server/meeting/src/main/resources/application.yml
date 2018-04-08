@@ -27,4 +27,10 @@ server:
   servlet:
     context-path: /api/meetings
 
-
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
