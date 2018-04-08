@@ -34,7 +34,7 @@ export default new Vuex.Store({
   actions: {
     createRoom({ commit }, payload) {
       return Promise.resolve(
-        Vue.http.post('/api/meetings/rooms', payload)
+        this.$http.post('/api/meetings/rooms', payload)
       );
     },
     removeMeeting(context, payload) {
@@ -61,7 +61,7 @@ export default new Vuex.Store({
     },
     login({ commit }, payload) {
       return Promise.resolve(
-        Vue.http.post('/users/login', payload, {
+        this.$http.post('/users/login', payload, {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
           }
@@ -70,7 +70,7 @@ export default new Vuex.Store({
     },
     register({ commit }, payload) {
       return Promise.resolve(
-        Vue.http.post('/users/register', payload, {
+        this.$http.post('/users/register', payload, {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded'
           }

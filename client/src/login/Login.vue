@@ -1,61 +1,70 @@
 <template>
-  <form class='content form-view' @submit.prevent='onSubmit()'>
-    <div class='form-container'>
-        <h2 class='is-large'>Please, login</h2>
-        <div class='field auth-control' @click="authenticate('google')">
-            <label class='button is-primary auth-button has-icons-left'>
-                <span class='icon is-small is-left'>
-                    <i class='fa fa-google'></i>
-                </span>
-                Login with google
-            </label>
-        </div>
-        <div class='field'>
-        <label class='label'>User name</label>
-        <div class='control has-icons-left'>
-            <input
-              class='input'
-              name='username'
-              placeholder='User name'
-              v-model='loginForm.username'
-              v-validate="'required'"
-            > 
-            <span class='icon is-small is-left'>
-            <i class='fa fa-envelope'></i>
-            </span>
-        </div>
-        <p class='help is-danger'>{{ errors.first('username') }}</p>
-        </div>
-        <div class='field'>
-        <label class='label'>Password</label>
-        <div class='control has-icons-left'>
-            <input
-              class='input'
-              name='password'
-              placeholder='password'
-              type='password'
-              v-model='loginForm.password'
-              v-validate="{ required: true, regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
-            >
-            <span class='icon is-small is-left'>
-            <i class='fa fa-key'></i>
-            </span>
-        </div>
-        <p class='help is-danger'>{{ errors.first('password') }}</p>
-        </div>
-        <div class='field auth-control'>
-            <button class='button is-primary login-button'>Login</button>
-        </div>
-        <router-link to='register'>Need to register? Click me</router-link>
+    <form class='content form-view' @submit.prevent='onSubmit()'>
+        <div class='form-container'>
+            <h1 class='is-large has-text-weight-semibold has-text-grey-darker'>Login</h1>
+            <div class="subsection">
+                <div class='field'>
+                    <div class='control has-icons-left'>
+                        <input
+                                class='input'
+                                name='username'
+                                placeholder='Username'
+                                v-model='loginForm.username'
+                        >
+                        <span class='icon is-small is-left'>
+                            <i class='fa fa-user'></i>
+                        </span>
+                    </div>
+                    <p class='help is-danger'>{{ errors.first('username') }}</p>
+                </div>
+                <div class='field'>
+                    <div class='control has-icons-left'>
+                        <input
+                                class='input'
+                                name='password'
+                                placeholder='Password'
+                                type='password'
+                                v-model='loginForm.password'
+                        >
+                        <span class='icon is-small is-left'>
+                            <i class='fa fa-key'></i>
+                        </span>
+                    </div>
+                    <p class='help is-danger'>{{ errors.first('password') }}</p>
+                </div>
+                <div class='field auth-control'>
+                    <button class='button is-primary login-button'>Login</button>
+                </div>
+            </div>
+            <p class="has-text-grey-darker is-marginless">or</p>
+            <div class="subsection">
+                <div class='field third-party-auth' @click="authenticate('google')">
+                    <label class='button is-primary has-icons-left google third-party-auth__label'>
+                        <span class='icon is-small is-left'>
+                            <i class='fa fa-google social-icon'></i>
+                        </span>
+                        Login with Google
+                    </label>
+                </div>
+            </div>
+            <p class="has-text-grey-darker has-text-weight-semibold options">
+                <router-link to='recover-password' class="has-text-grey-darker">Forgot Password</router-link>&nbsp;&nbsp;&bull;&nbsp;
+                <router-link to='register' class="has-text-grey-darker">Sign up</router-link>
+        </p>
     </div>
   </form>
 </template>
 
 <script>
-export default {
-  name: "Login",
-  data() {
-    return {
+  import VuePassword from 'vue-password'
+
+  export default {
+    name: "Login",
+    components: {
+      VuePassword,
+    },
+    data() {
+      return {
       loginForm: {
         username: "",
         password: ""
@@ -93,13 +102,41 @@ export default {
   width: 100%;
 }
 
-.auth-button {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
 .login-button {
   width: 100%;
+}
+
+.subsection {
+    padding: 30px 0;
+    width: 100%;
+}
+
+.options {
+    padding-top: 30px;
+}
+
+.third-party-auth {
+    text-align: center;
+
+}
+
+.third-party-auth__label {
+    text-align: center;
+    width: 100%;
+}
+
+.google {
+    background-color: #4285F4;
+}
+
+.google:hover {
+    background-color: #3367D6;
+}
+
+.social-icon {
+    position: absolute;
+    left: 20px;
+    font-size: 20px;
+    margin-top: 0px;
 }
 </style>

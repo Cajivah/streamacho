@@ -7,17 +7,21 @@ import router from './router';
 import App from './App.vue';
 
 import httpConfigurer from './config/httpConfigurer';
-import thirtPartyConfigurer from './config/thirtPartyConfigurer';
+import thirdPartyConfigurer from './config/thirdPartyConfigurer';
 
 // -------STYLES-------
 import 'bulma/css/bulma.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './common.scss';
+import { validatorDictionary } from './validatorDictionary.js'
 
+const validatorConfig = {
+  dictionary: validatorDictionary,
+};
 
 Vue.use(VueAxios, httpConfigurer);
-Vue.use(VeeValidate);
-Vue.use(VueAuthenticate, thirtPartyConfigurer);
+Vue.use(VeeValidate, validatorConfig);
+Vue.use(VueAuthenticate, thirdPartyConfigurer);
 
 Vue.config.productionTip = false;
 
