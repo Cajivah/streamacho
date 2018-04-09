@@ -1,7 +1,7 @@
 export default {
-    authentication: {
-        isAuthenticated: false,
-        loggedUser: {}
-    },
-    meetings: []
-}
+  authentication: {
+    isAuthenticated: false,
+    loggedUser: {}
+  },
+  meetings: []
+};

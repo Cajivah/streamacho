@@ -15,5 +15,5 @@ export default {
     Navigation,
     LandingPage
   }
-}
+};
 </script>

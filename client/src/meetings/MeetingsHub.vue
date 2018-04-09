@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <h2>meetings</h2>
-        <meeting-list :meetings="meetings" @onRemoveMeeting="handleRemoveMeeting"></meeting-list>
-        <add-meeting @onAddMeeting="handleAddMeeting"></add-meeting>
-    </div>
+  <div>
+    <h2>meetings</h2>
+    <meeting-list :meetings="meetings" @onRemoveMeeting="handleRemoveMeeting"></meeting-list>
+    <add-meeting @onAddMeeting="handleAddMeeting"></add-meeting>
+  </div>
 </template>
 
 <script>
-import MeetingList from "@/meetings/MeetingList";
-import AddMeeting from "@/meetings/AddMeeting";
+import MeetingList from '@/meetings/MeetingList';
+import AddMeeting from '@/meetings/AddMeeting';
 
 export default {
-  name: "meetings-hub",
+  name: 'meetings-hub',
   components: {
     MeetingList,
     AddMeeting
@@ -23,15 +23,15 @@ export default {
   },
   methods: {
     handleAddMeeting(meeting) {
-      this.$store.dispatch("createMeeting", meeting);
+      this.$store.dispatch('createMeeting', meeting);
     },
 
     handleRemoveMeeting(meeting) {
-      this.$store.dispatch("removeMeeting", meeting);
+      this.$store.dispatch('removeMeeting', meeting);
     },
     async initMeetings() {
-      let meetings = await fetch("meetings.json").then(data => data.json());
-      this.$store.dispatch("initMeetings", meetings);
+      let meetings = await fetch('meetings.json').then(data => data.json());
+      this.$store.dispatch('initMeetings', meetings);
     }
   },
   mounted() {

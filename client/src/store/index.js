@@ -30,21 +30,22 @@ export default new Vuex.Store({
       state.authentication.isLogged = payload.isLogged;
       state.authentication.loggedUser = payload.loggedUser;
     },
-    register(state, payload) { }
+    register(state, payload) {}
   },
   actions: {
     createRoom({ commit }, payload) {
-      return Promise.resolve(
-        Vue.axios.post('/api/meetings/rooms', payload)
-      );
+      return Promise.resolve(Vue.axios.post('/api/meetings/rooms', payload));
     },
     removeMeeting(context, payload) {
-      Vue.axios.delete('/api/meetings/rooms').then(response => {
-        context.commit({
-          type: 'removeMeeting',
-          meeting: payload
-        });
-      }).catch(error => error);
+      Vue.axios
+        .delete('/api/meetings/rooms')
+        .then(response => {
+          context.commit({
+            type: 'removeMeeting',
+            meeting: payload
+          });
+        })
+        .catch(error => error);
     },
     initMeetings(context, payload) {
       context.commit({
@@ -53,12 +54,11 @@ export default new Vuex.Store({
       });
     },
     loginOAuth(context, payload) {
-      vueAuth.login(payload.user, payload.requestOprions)
-        .then((response) => {
-          context.commit('isAuthenticated', {
-            isAuthenticated: vueAuth.isAuthenticated()
-          });
+      vueAuth.login(payload.user, payload.requestOprions).then(response => {
+        context.commit('isAuthenticated', {
+          isAuthenticated: vueAuth.isAuthenticated()
         });
+      });
     },
     login({ commit }, payload) {
       return Promise.resolve(

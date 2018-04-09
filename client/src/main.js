@@ -13,10 +13,10 @@ import thirdPartyConfigurer from './config/thirdPartyConfigurer';
 import 'bulma/css/bulma.css';
 import 'font-awesome/css/font-awesome.min.css';
 import './common.scss';
-import { validatorDictionary } from './validatorDictionary.js'
+import { validatorDictionary } from './validatorDictionary.js';
 
 const validatorConfig = {
-  dictionary: validatorDictionary,
+  dictionary: validatorDictionary
 };
 
 Vue.use(VueAxios, httpConfigurer);
