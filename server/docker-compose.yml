@@ -42,7 +42,7 @@ services:
       retries: 100
 
   streamacho-security-database:
-    image: postgres
+    image: postgres:alpine
     environment: 
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -51,26 +51,17 @@ services:
      - 55432:5432
 
   streamacho-meetings-database:
-     image: postgres
-     environment:
-       POSTGRES_USER: root
-       POSTGRES_PASSWORD: root
-       POSTGRES_DB: streamacho-meetings
-     ports:
-      - 55433:5432
-
-  
-  streamacho-session-redis:
-    image: redis
-    ports:
-     - 6379:6379
-
-  streamacho-meetings-database:
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: streamacho-meetings
     ports:
      - 55433:5432
+
   
+  streamacho-session-redis:
+    image: redis:alpine
+    ports:
+     - 6379:6379
+
