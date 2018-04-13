@@ -1,5 +1,6 @@
 package com.streamacho.api.config.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.streamacho.api.config.security.filter.UsernamePasswordLoginFilter;
 import com.streamacho.api.config.security.logout.NopLogoutSuccessHandler;
 import com.streamacho.api.config.security.mapper.WebSecurityMapper;
@@ -34,7 +35,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           return new UsernamePasswordLoginFilter(
                authenticationManager(),
                eventPublisher,
-               webSecurityMapper);
+               webSecurityMapper,
+               userDetailsService);
      }
 
      // @formatter:off
