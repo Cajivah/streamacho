@@ -18,20 +18,11 @@ import { validatorDictionary } from './validatorDictionary.js';
 const validatorConfig = {
   dictionary: validatorDictionary
 };
-
 Vue.use(VueAxios, httpConfigurer);
 Vue.use(VeeValidate, validatorConfig);
 Vue.use(VueAuthenticate, thirdPartyConfigurer);
 
 Vue.config.productionTip = false;
-
-// Vue.http.interceptors.push((request, next) => {
-//   next(res => {
-//     if(res.status === 401 || res.status === 403) {
-//
-//     }
-//   });
-// });
 
 new Vue({
   router,

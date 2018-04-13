@@ -6,15 +6,8 @@
 </template>
 
 <script>
-  import {FETCH_LOGGED_USER} from "../store/actions.type";
-
 export default {
   name: 'landing-page',
-  mounted: function() {
-    this.$nextTick(function() {
-      this.$store.dispatch(FETCH_LOGGED_USER);
-    })
-  },
 };
 </script>
 
