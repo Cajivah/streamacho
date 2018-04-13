@@ -1,4 +1,4 @@
-import { FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER } from './actions.type';
+import { FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER, ACTIVATE_ACCOUNT } from './actions.type';
 import qs from 'qs';
 import Vue from 'vue';
 import { PURGE_AUTH, SET_AUTH } from './mutations.type';
@@ -65,6 +65,13 @@ const actions = {
         .catch((error) => error.response.data);
       resolve();
     })
+  },
+  [ACTIVATE_ACCOUNT](_, token) {
+    return new Promise((resolve, reject) =>
+      Vue.axios.patch(`/users/verification?token=${token}`)
+        .then(resolve)
+        .catch(reject)
+    );
   }
 };
 
