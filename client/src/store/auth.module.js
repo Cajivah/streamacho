@@ -1,11 +1,11 @@
 import {FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER} from "./actions.type";
 import qs from "qs";
 import Vue from 'vue';
-import {PURGE_AUTH, SET_AUTH, SET_ERROR} from "./mutations.type";
+import {PURGE_AUTH, SET_AUTH} from "./mutations.type";
+import {showErrorToasts} from "../ToastHandler";
 
 const state = {
     loggedUser: null,
-    errors: null,
 };
 
 const getters = {
@@ -34,7 +34,7 @@ const actions = {
           commit(SET_AUTH, data);
           resolve(data);
         })
-        .catch((error) => commit(SET_ERROR, error))
+        .catch((error) => showErrorToasts(error.response.data))
     );
   },
   [FETCH_LOGGED_USER]({commit}) {
@@ -44,15 +44,13 @@ const actions = {
           commit(SET_AUTH, data);
           resolve(data);
         })
-        .catch((error) => {
-          commit(SET_ERROR, error);
-        })
+        .catch((error) => error.response.data)
     })
   },
   [REGISTER]({ commit }, payload) {
     return new Promise((resolve) => {
       Vue.axios.post('/users/accounts', payload)
-        .catch((error) => commit(SET_ERROR, error));
+        .catch((error) => showErrorToasts(error.response.data));
       resolve();
       }
     );
@@ -60,24 +58,24 @@ const actions = {
   [LOGOUT]({commit}) {
     return new Promise((resolve) => {
       Vue.axios.post('/users/logout')
-        .then(() => commit(PURGE_AUTH))
-        .catch((error) => commit(SET_ERROR, error));
+        .then(() => {
+          commit(PURGE_AUTH);
+          resolve();
+        })
+        .catch((error) => error.response.data);
       resolve();
     })
   }
 };
 
 const mutations = {
-  [SET_ERROR] (state, error) {
-    state.errors = error;
-  },
   [SET_AUTH] (state, data) {
     state.loggedUser = data;
-    state.errors = {};
+    state.error = null;
   },
   [PURGE_AUTH] (state) {
     state.loggedUser = null;
-    state.errors = {};
+    state.error = null;
   }
 };
 
