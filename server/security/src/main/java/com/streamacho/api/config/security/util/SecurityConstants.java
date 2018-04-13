@@ -17,4 +17,5 @@ public class SecurityConstants {
           "/webjars/**",
      };
      public static final String ANY_PATH = "/**";
+     public static final String DEFAULT_AUTHENTICATION_EXCEPTION_MESSAGE = "Username or password is invalid";
 }

@@ -1,9 +1,9 @@
 package com.streamacho.api.config.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.streamacho.api.config.security.filter.UsernamePasswordLoginFilter;
 import com.streamacho.api.config.security.logout.NopLogoutSuccessHandler;
 import com.streamacho.api.config.security.mapper.WebSecurityMapper;
+import com.streamacho.api.config.security.session.FailureHandlingAuthenticationEntryPoint;
 import com.streamacho.api.user.service.UserCredentialsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import static com.streamacho.api.config.security.util.SecurityConstants.ANY_PATH;
 import static com.streamacho.api.config.security.util.SecurityConstants.AUTH_WHITELIST;
@@ -39,12 +40,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                userDetailsService);
      }
 
+     private AuthenticationEntryPoint authenticationFailureHandler() {
+          return new FailureHandlingAuthenticationEntryPoint(webSecurityMapper);
+     }
+
      // @formatter:off
      @Override
      protected void configure(HttpSecurity http) throws Exception {
           http
                .csrf().disable()
                .cors()
+               .and()
+                    .exceptionHandling()
+                         .authenticationEntryPoint(authenticationFailureHandler())
                .and()
                     .authorizeRequests()
                          .antMatchers(AUTH_WHITELIST).permitAll()

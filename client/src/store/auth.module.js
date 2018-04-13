@@ -51,8 +51,9 @@ const actions = {
   },
   [REGISTER]({ commit }, payload) {
     return new Promise((resolve) => {
-        Vue.axios.post('/users/accounts', payload)
-          .catch((error) => commit(SET_ERROR, error));
+      Vue.axios.post('/users/accounts', payload)
+        .catch((error) => commit(SET_ERROR, error));
+      resolve();
       }
     );
   },

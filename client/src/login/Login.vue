@@ -54,7 +54,7 @@
 </template>
 
 <script>
-  import {FETCH_LOGGED_USER, LOGIN} from "../store/actions.type";
+  import {LOGIN} from "../store/actions.type";
 
   export default {
     name: 'Login',
@@ -87,6 +87,11 @@
         .then(data => console.log('Authorized! ' + data))
         .catch(error => console.error(error));
     }
+  },
+  computed: {
+    ...mapState({
+      errors: state => state.auth.errors
+    })
   }
 };
 </script>

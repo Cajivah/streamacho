@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.streamacho.api.user.model.dto.LoginCompleteDTO;
 import com.streamacho.api.user.model.dto.LoginRequestDetailsDTO;
-import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.entity.Role;
 import com.streamacho.api.user.model.entity.UserCredentials;
+import com.streamacho.api.util.exception.model.dto.ErrorDTO;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -22,7 +23,7 @@ import java.util.Collection;
 @Mapper(componentModel = "spring")
 public abstract class WebSecurityMapper {
 
-     ObjectMapper objectMapper;
+     private ObjectMapper objectMapper;
 
      @Autowired
      public void setObjectMapper(ObjectMapper objectMapper) {
@@ -65,7 +66,11 @@ public abstract class WebSecurityMapper {
                .build();
      }
 
-     public String toJSON(UserDetailsDTO user) throws JsonProcessingException {
-          return objectMapper.writeValueAsString(user);
+     public String toJSON(Object obj) throws JsonProcessingException {
+          return objectMapper.writeValueAsString(obj);
+     }
+
+     public ErrorDTO toErrorDTO(AuthenticationException authenticationException) {
+          return new ErrorDTO(authenticationException.getMessage());
      }
 }

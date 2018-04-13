@@ -1,12 +1,12 @@
 package com.streamacho.api.config.security.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.streamacho.api.config.security.mapper.WebSecurityMapper;
 import com.streamacho.api.config.security.util.HttpServletResponseDecorator;
 import com.streamacho.api.user.model.dto.LoginCompleteDTO;
 import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.event.OnLoginCompleteEvent;
 import com.streamacho.api.user.service.UserCredentialsService;
+import com.streamacho.api.util.exception.model.dto.ErrorDTO;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -40,29 +40,34 @@ public class UsernamePasswordLoginFilter extends UsernamePasswordAuthenticationF
      protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                              Authentication authentication) throws IOException {
           SecurityContextHolder.getContext().setAuthentication(authentication);
-          setResponse(
+          setSuccessfulResponse(
                new HttpServletResponseDecorator(response),
                (UserDetails) authentication.getPrincipal());
           fireSuccessfulLoginEvent(request, authentication);
      }
 
-     private void setResponse(HttpServletResponseDecorator response,
-                              UserDetails principal) throws IOException {
-          setUserBody(response, principal);
+     private void setSuccessfulResponse(HttpServletResponseDecorator response,
+                                        UserDetails principal) throws IOException {
+          response.setJSONBody(getUserBody(principal));
           response.setStatusOK();
      }
 
-     private void setUserBody(HttpServletResponseDecorator response, UserDetails principal) throws IOException {
+     private String getUserBody(UserDetails principal) throws IOException {
           final UserDetailsDTO user = userCredentialsService.getAuthenticatedUserDetails(principal);
-          final String userJSON = webSecurityMapper.toJSON(user);
-          response.setJSONBody(userJSON);
+          return webSecurityMapper.toJSON(user);
      }
 
      @Override
      protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                               AuthenticationException failed) throws IOException {
-          response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-               "Authentication Failed");
+                                               AuthenticationException authException) throws IOException {
+          SecurityContextHolder.clearContext();
+          setUnsuccessfulResponse(response, authException);
+     }
+
+     private void setUnsuccessfulResponse(HttpServletResponse response, AuthenticationException authException) throws IOException {
+          final ErrorDTO errorDTO = webSecurityMapper.toErrorDTO(authException);
+          response.getWriter().print(webSecurityMapper.toJSON(errorDTO));
+          response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
      }
 
      private void fireSuccessfulLoginEvent(HttpServletRequest request, Authentication authentication) {
