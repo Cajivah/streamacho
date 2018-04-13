@@ -25,6 +25,14 @@ Vue.use(VueAuthenticate, thirdPartyConfigurer);
 
 Vue.config.productionTip = false;
 
+// Vue.http.interceptors.push((request, next) => {
+//   next(res => {
+//     if(res.status === 401 || res.status === 403) {
+//
+//     }
+//   });
+// });
+
 new Vue({
   router,
   store,

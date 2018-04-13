@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import {REGISTER} from "../store/actions.type";
+
 export default {
   name: 'Register',
   data() {
@@ -101,9 +103,8 @@ export default {
           }
         };
         this.$store
-          .dispatch('register', body)
-          .then(response => response)
-          .catch(error => error);
+          .dispatch(REGISTER, body)
+          .then(response => this.$router.push('login'));
         this.registerForm.passwordPair.password = '';
         this.registerForm.passwordPair.matchingPassword = '';
         this.$validator.reset();

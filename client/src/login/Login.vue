@@ -54,6 +54,8 @@
 </template>
 
 <script>
+  import {FETCH_LOGGED_USER, LOGIN} from "../store/actions.type";
+
   export default {
     name: 'Login',
   data() {
@@ -71,9 +73,10 @@
           return;
         }
         this.$store
-          .dispatch('login', { ...this.loginForm })
-          .then(response => response)
-          .catch(error => error);
+          .dispatch(LOGIN, { ...this.loginForm })
+          .then(() => {
+            this.$router.push({name: 'home'})
+          });
         this.loginForm.password = '';
         this.$validator.reset();
       });
