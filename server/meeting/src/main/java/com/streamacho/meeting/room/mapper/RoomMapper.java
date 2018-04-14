@@ -3,7 +3,7 @@ package com.streamacho.meeting.room.mapper;
 import com.streamacho.meeting.room.model.dto.RoomCreationDTO;
 import com.streamacho.meeting.room.model.dto.RoomDTO;
 import com.streamacho.meeting.room.model.entity.Room;
-import com.streamacho.meeting.util.Date.mapper.DateMapper;
+import com.streamacho.meeting.util.date.mapper.DateMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

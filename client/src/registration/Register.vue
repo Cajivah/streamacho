@@ -1,84 +1,82 @@
 <template>
-  <form class='content form-view' @submit.prevent='onSubmit()'>
-    <div class='form-container'>
-        <h2 class='is-large'>Please, register</h2>
-        <div class='field'>
-        <label class='label'>Email</label>
-        <div class='control has-icons-left'>
+  <form class="content form-view" @submit.prevent="onSubmit()">
+    <div class="form-container auth-form">
+      <h1 class="is-large has-text-weight-semibold">Sign up</h1>
+      <div class="subsection is-fullwidth">
+        <div class="field">
+          <div class="control has-icons-left">
             <input
-              class='input'
-              name='email'
-              placeholder='email'
-              v-model='registerForm.email'
-              v-validate="'required|email'"
-            >
-            <span class='icon is-small is-left'>
-            <i class='fa fa-envelope'></i>
+                class="input"
+                name="username"
+                placeholder="Username"
+                v-model="registerForm.username"
+                v-validate="'required|min:4'">
+            <span class="icon is-small is-left">
+              <i class="fa fa-user"></i>
             </span>
+          </div>
+          <p class="help is-danger">{{ errors.first("username") }}</p>
         </div>
-        <p class='help is-danger'>{{ errors.first('email') }}</p>
-        </div>
-        <div class='field'>
-          <label class='label'>User name</label>
-          <div class='control has-icons-left'>
+        <div class="field">
+          <div class="control has-icons-left">
             <input
-              class='input'
-              name='username'
-              placeholder='user name'
-              v-model='registerForm.username'
-              v-validate="'required'"
-            >
-          <span class='icon is-small is-left'>
-            <i class='fa fa-user-plus'></i>
-          </span>
+                class="input"
+                name="email"
+                placeholder="Email"
+                v-model="registerForm.email"
+                v-validate="'required|email'">
+            <span class="icon is-small is-left">
+              <i class="fa fa-envelope"></i>
+            </span>
           </div>
-          <p class='help is-danger'>{{ errors.first('username') }}</p>
+          <p class="help is-danger">{{ errors.first("email") }}</p>
         </div>
-        <div class='field'>
-          <label class='label'>Password</label>
-          <div class='control has-icons-left'>
-              <input
-                class='input'
-                name='password'
-                placeholder='password'
-                type='password'
-                v-model='registerForm.passwordPair.password'
-                v-validate="{ required: true, regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
-              >
-              <span class='icon is-small is-left'>
-              <i class='fa fa-key'></i>
-              </span>
+        <div class="field">
+          <div class="control has-icons-left">
+            <input
+                class="input"
+                name="password"
+                placeholder="Password"
+                type="password" v-model="registerForm.passwordPair.password"
+                v-validate="{ required: true, min:8, regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&\-])[A-Za-z\d$@$!%*?&\-]{8,}/ }">
+            <span class="icon is-small is-left">
+              <i class="fa fa-key"></i>
+            </span>
           </div>
-          <p class='help is-danger'>{{ errors.first('password') }}</p>
+          <p class="help is-danger">{{ parsePasswordError(errors) }}</p>
         </div>
-        <div class='field'>
-          <label class='label'>Repeat password</label>
-          <div class='control has-icons-left'>
-              <input
-                class='input'
-                name='matchingPassword'
-                placeholder='repeat password'
-                type='password'
-                v-model='registerForm.passwordPair.matchingPassword'
-                v-validate="'required|confirmed:password'"
-              >
-              <span class='icon is-small is-left'>
-              <i class='fa fa-key'></i>
-              </span>
+        <div class="field">
+          <div class="control has-icons-left">
+            <input
+                class="input"
+                name="matchingPassword"
+                placeholder="Repeat password"
+                type="password"
+                v-model="registerForm.passwordPair.matchingPassword"
+                v-validate="'required|confirmed:password'">
+            <span class="icon is-small is-left">
+              <i class="fa fa-key"></i>
+            </span>
           </div>
-          <p class='help is-danger'>{{ errors.first('matchingPassword') }}</p>
+          <span class="help is-danger">{{ errors.first("matchingPassword") }}</span>
         </div>
-        <div class='field'>
-          <button class='button is-primary'>Register</button>
+        <div class="field">
+          <button class="button is-primary is-fullwidth">Register</button>
         </div>
-        <router-link to='login'>Already registered? Login</router-link>
+      </div>
+      <p class="has-text-grey-darker  options">
+        Already have an account?
+        <router-link to="login" class="has-text-grey-darker has-text-weight-semibold">Login</router-link>
+      </p>
     </div>
   </form>
 </template>
 
 <script>
+import {REGISTER} from "../store/actions.type";
+
 export default {
-  name: "Register",
+  name: 'Register',
   data() {
     return {
       registerForm: {
@@ -97,20 +95,35 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit("onRegister", {
-          ...this.registerForm
-        });
-        // vuex action
-        this.registerForm.email = '';
-        this.registerForm.username = '';
+        const body = {
+          ...this.registerForm,
+          passwordPair: {
+            password: this.registerForm.passwordPair.password,
+            matchingPassword: this.registerForm.passwordPair.matchingPassword
+          }
+        };
+        this.$store
+          .dispatch(REGISTER, body)
+          .then(response => this.$router.push('login'));
         this.registerForm.passwordPair.password = '';
         this.registerForm.passwordPair.matchingPassword = '';
         this.$validator.reset();
       });
+    },
+    parsePasswordError(err) {
+      return err && err.firstByRule('password', 'regex')
+        ? 'Password is not secure enough'
+        : err.first('password');
     }
   }
 };
 </script>
 
 <style scoped>
+.subsection {
+  padding: 30px 0;
+}
+.options {
+  padding-top: 30px;
+}
 </style>

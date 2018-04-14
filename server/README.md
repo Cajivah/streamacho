@@ -47,3 +47,18 @@ Currently running at random port, no profiles provided.
 #### Swagger
 
 ...is available at `<application base url>/api/meetings/swagger-ui.html`
+
+## Running backend
+All modules are running on Docker containers and
+we use docker-compose to manage them.
+
+To run all backend just type
+`./gradlew composeUp` in `server/` directory. 
+This command builds *Dockerfiles* and Docker images, and then it raises up the whole backend.
+(This command won't build each module. It just takes already built JARs, puts it into Docker containers
+and starts them. To build all modules at once you can use `./gradlew buildAll` command in `server/` directory).
+
+To stop backend you can use `./gradlew composeDown` command. 
+
+Notice, that you can kill each module by typing `docker kill CONTAINER_NAME` 
+(you can get container name using `docker ps`) so that you will be able to run and debug corresponding module using your IDE.

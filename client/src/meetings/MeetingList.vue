@@ -10,22 +10,22 @@
 <script>
 import Meeting from '@/meetings/Meeting.vue';
 
-  export default {
-    name: "meetingList",
-    components: {
-      Meeting
-    },
-    props: {
-      meetings: {
-        type: Array,
-      }
-    },
-    methods: {
-      removeMeeting(meeting) {
-        this.$emit('onRemoveMeeting', meeting);
-      }
+export default {
+  name: 'meetingList',
+  components: {
+    Meeting
+  },
+  props: {
+    meetings: {
+      type: Array
+    }
+  },
+  methods: {
+    removeMeeting(meeting) {
+      this.$emit('onRemoveMeeting', meeting);
     }
   }
+};
 </script>
 
 <style scoped>

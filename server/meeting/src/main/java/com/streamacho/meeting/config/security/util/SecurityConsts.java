@@ -16,4 +16,5 @@ public class SecurityConsts {
           "/swagger-ui.html",
           "/webjars/**",
      };
+     public static final String ANY_PATH = "/**";
 }

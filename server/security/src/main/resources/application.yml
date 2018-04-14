@@ -43,8 +43,17 @@ mail:
 
 routes:
   verification_template: 'www.google.com/%s'
+  frontendOrigin: 'http://localhost:8080'
 server:
   port: 0
   servlet:
     context-path: /api/users
 
+eureka:
+  client:
+    registerWithEureka: true
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true

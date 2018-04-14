@@ -1,0 +1,28 @@
+buildscript {
+  ext {
+    gradleDockerComposePluginVersion = '0.7.1'
+  }
+
+  repositories {
+    jcenter()
+  }
+
+  dependencies {
+    classpath "com.avast.gradle:gradle-docker-compose-plugin:$gradleDockerComposePluginVersion"
+  }
+}
+
+apply plugin: 'docker-compose'
+
+task buildAll() {
+  subprojects.each {
+    dependsOn("${it.name}:build")
+    dependsOn("${it.name}:createDockerfile")
+  }
+}
+
+dockerCompose {
+  buildBeforeUp = true
+}
+
+composeUp.dependsOn(buildAll)

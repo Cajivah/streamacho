@@ -1,4 +1,4 @@
-package com.streamacho.meeting.util.Date.mapper;
+package com.streamacho.meeting.util.date.mapper;
 
 import org.mapstruct.Mapper;
 

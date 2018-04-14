@@ -1,22 +1,57 @@
 version: '3'
 
 services:
+  streamacho-discovery-server:
+    build:
+      context: discovery-server/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+
+  streamacho-security-service:
+    build:
+      context: security/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-discovery-server
+      - streamacho-security-database
+      - streamacho-session-redis
+
+  streamacho-meetings-service:
+    build:
+      context: meeting/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-discovery-server
+      - streamacho-meetings-database
+      - streamacho-session-redis
+
+  streamacho-gateway-service:
+    build:
+      context: gateway/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-discovery-server
+      - streamacho-security-service
+      - streamacho-meetings-service
+    healthcheck:
+      test: curl -f http://localhost:8888/actuator/health
+      interval: 5s
+      retries: 100
+
   streamacho-security-database:
-    image: postgres
+    image: postgres:alpine
     environment: 
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: streamacho-security
     ports: 
      - 55432:5432
-  
-  streamacho-session-redis:
-    image: redis
-    ports:
-     - 6379:6379
 
   streamacho-meetings-database:
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
@@ -32,3 +67,8 @@ services:
       KMS_STUN_PORT: 19302
     ports:
       - 8443:8443
+
+  streamacho-session-redis:
+    image: redis:alpine
+    ports:
+     - 6379:6379

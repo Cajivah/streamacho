@@ -1,0 +1,6 @@
+include 'discovery-server'
+include 'gateway'
+include 'security'
+include 'meeting'
+
+rootProject.name = 'server'

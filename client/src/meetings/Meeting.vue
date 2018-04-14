@@ -1,12 +1,14 @@
 <template>
   <div>
-    <li class="row">{{ meeting.name }}, date: {{ meeting.date}}<button class="button is-danger" v-on:click="removeMeeting(meeting)">Remove</button></li>
+    <li class="row">{{ meeting.name }}, date: {{ meeting.date}}
+      <button class="button is-danger" v-on:click="removeMeeting(meeting)">Remove</button>
+    </li>
   </div>
 </template>
 
 <script>
 export default {
-  name: "meeting",
+  name: 'meeting',
   props: {
     meeting: {
       type: Object
@@ -14,7 +16,7 @@ export default {
   },
   methods: {
     removeMeeting(meeting) {
-      this.$emit("onRemoveMeeting", meeting);
+      this.$emit('onRemoveMeeting', meeting);
     }
   }
 };

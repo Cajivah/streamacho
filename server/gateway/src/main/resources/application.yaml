@@ -1,7 +1,13 @@
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
+    server:
+      waitTimeInMsWhenSyncEmpty: 0
     serviceUrl:
       defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
 spring:
   application:
     name: gateway
@@ -21,14 +27,7 @@ spring:
         - Path=/api/meetings/**
 
 server:
-  port: 8080
-
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    server:
-      waitTimeInMsWhenSyncEmpty: 0
+  port: 8888
 
 logging:
   level:
