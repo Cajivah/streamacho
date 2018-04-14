@@ -4,6 +4,7 @@ import com.streamacho.meeting.room.model.entity.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
 import static com.streamacho.meeting.user.validator.UserValidationUtils.isAdmin;
@@ -20,6 +21,13 @@ public class RoomValidator {
 
      public RoomValidator isModifiableBy(UserDetails user) {
           if (valid && !isOrganiserOrAdmin(user)) {
+               valid = false;
+          }
+          return this;
+     }
+
+     public RoomValidator isStartAtDateBeforeNow() {
+          if (valid && !room.getStartAt().isBefore(LocalDateTime.now())) {
                valid = false;
           }
           return this;
