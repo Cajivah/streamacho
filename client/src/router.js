@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hub from '@/Hub';
+import LandingPage from '@/common/LandingPage';
 import Register from '@/registration/Register';
 import Login from '@/login/Login';
-import Navigation from '@/common/Navigation';
+import Hub from '@/Hub';
 import CreateRoom from '@/rooms/CreateRoom';
 import store from '@/store';
 
@@ -30,11 +30,16 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      components: {
-        header: Navigation,
-        content: Hub
-      },
-      props: { header: true, content: false }
+      component: Hub,
+      children: [{
+        path: '/',
+        name: 'landingPage',
+        component: LandingPage,
+      }, {
+        path: '/createRoom',
+        name: 'createRoom',
+        component: CreateRoom
+      }]
     },
     {
       path: '/register',
@@ -47,15 +52,6 @@ export default new Router({
       name: 'login',
       component: Login,
       beforeEnter: ifNotAuthenticated
-    },
-    {
-      path: '/createRoom',
-      name: 'createRoom',
-      components: {
-        header: Navigation,
-        content: CreateRoom
-      },
-      props: { header: true, content: false }
     }
   ]
 });
