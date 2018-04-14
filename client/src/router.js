@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Hub from '@/Hub';
 import Register from '@/registration/Register';
 import Login from '@/login/Login';
+import CreateRoom from '@/rooms/CreateRoom';
 import store from '@/store';
 
 Vue.use(Router);
@@ -40,6 +41,12 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login,
+      beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: '/createRoom',
+      name: 'create-room',
+      component: CreateRoom,
       beforeEnter: ifNotAuthenticated
     }
   ]
