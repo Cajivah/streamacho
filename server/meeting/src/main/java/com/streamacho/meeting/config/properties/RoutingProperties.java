@@ -1,4 +1,4 @@
-package com.streamacho.api.config.properties;
+package com.streamacho.meeting.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +12,6 @@ import javax.validation.constraints.NotBlank;
 @Validated
 @ConfigurationProperties("routes")
 public class RoutingProperties {
-
-     @NotBlank
-     private String verificationTemplate;
 
      @NotBlank
      private String frontendOrigin;

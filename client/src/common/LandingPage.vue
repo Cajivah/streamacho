@@ -1,13 +1,20 @@
 <template>
-    <div class='landing-page-wrap'>
-        <div class='landing-page'>Content</div>
-        <div class='l'>Content 2</div>
-    </div>
+  <div class="landing-page-wrap">
+    <div class="landing-page">Content</div>
+    <div class="l">Content 2</div>
+  </div>
 </template>
 
 <script>
+import {FETCH_LOGGED_USER} from "../store/actions.type";
+
 export default {
-  name: "landing-page"
+  name: 'landing-page',
+  mounted: function() {
+    this.$nextTick(function() {
+      this.$store.dispatch(FETCH_LOGGED_USER);
+    })
+  }
 };
 </script>
 
@@ -17,8 +24,8 @@ export default {
 }
 
 .landing-page-wrap::after {
-  content: "";
-  background-image: url("../assets/landingPage.jpg");
+  content: '';
+  background-image: url('../assets/landingPage.jpg');
   opacity: 0.5;
   top: 0;
   left: 0;

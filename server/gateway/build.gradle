@@ -39,13 +39,14 @@ ext {
     javaxActivationVersion = '1.1.1'
     springCloudGatewayVersion = '2.0.0.M9'
     eurekaClientVersion = '2.0.0.M8'
+    reactorCoreVersion = '3.1.6.RELEASE'
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     compile("org.springframework.cloud:spring-cloud-starter-gateway:${springCloudGatewayVersion}")
     compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}")
-
+    compile("io.projectreactor:reactor-core:${reactorCoreVersion}")
     // Transition to Java9 dependencies
     compile("javax.xml.bind:jaxb-api:${jaxbVersion}")
     compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")

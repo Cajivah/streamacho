@@ -35,3 +35,6 @@ eureka:
       defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
+
+routes:
+  frontendOrigin: 'http://localhost:8080'

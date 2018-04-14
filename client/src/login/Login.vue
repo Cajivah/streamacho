@@ -1,105 +1,111 @@
 <template>
-  <form class='content form-view' @submit.prevent='onSubmit()'>
-    <div class='form-container'>
-        <h2 class='is-large'>Please, login</h2>
-        <div class='field auth-control' @click="authenticate('google')">
-            <label class='button is-primary auth-button has-icons-left'>
-                <span class='icon is-small is-left'>
-                    <i class='fa fa-google'></i>
-                </span>
-                Login with google
-            </label>
-        </div>
-        <div class='field'>
-        <label class='label'>User name</label>
-        <div class='control has-icons-left'>
+  <form class="content form-view" @submit.prevent="onSubmit()">
+    <div class="form-container auth-form">
+      <h1 class="is-large has-text-weight-semibold has-text-grey-darker">Login</h1>
+      <div class="subsection is-fullwidth">
+        <div class="field">
+          <div class="control has-icons-left">
             <input
-              class='input'
-              name='username'
-              placeholder='User name'
-              v-model='loginForm.username'
-              v-validate="'required'"
-            > 
-            <span class='icon is-small is-left'>
-            <i class='fa fa-envelope'></i>
+                class="input"
+                name="username"
+                placeholder="Username"
+                v-model="loginForm.username">
+            <span class="icon is-small is-left">
+              <i class="fa fa-user"></i>
             </span>
+          </div>
+          <p class="help is-danger">{{ errors.first('username') }}</p>
         </div>
-        <p class='help is-danger'>{{ errors.first('username') }}</p>
-        </div>
-        <div class='field'>
-        <label class='label'>Password</label>
-        <div class='control has-icons-left'>
+        <div class="field">
+          <div class="control has-icons-left">
             <input
-              class='input'
-              name='password'
-              placeholder='password'
-              type='password'
-              v-model='loginForm.password'
-              v-validate="{ required: true, regex: /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/ }"
-            >
-            <span class='icon is-small is-left'>
-            <i class='fa fa-key'></i>
+                class="input"
+                name="password"
+                placeholder="Password"
+                type="password"
+                v-model="loginForm.password">
+            <span class="icon is-small is-left">
+              <i class="fa fa-key"></i>
             </span>
+          </div>
+          <p class="help is-danger">{{ errors.first("password") }}</p>
         </div>
-        <p class='help is-danger'>{{ errors.first('password') }}</p>
+        <div class="field">
+          <button class="button is-primary is-fullwidth">Login</button>
         </div>
-        <div class='field auth-control'>
-            <button class='button is-primary login-button'>Login</button>
+      </div>
+      <p class="has-text-grey-darker is-marginless">or</p>
+      <div class="subsection is-fullwidth">
+        <div class="field has-text-centered" @click="authenticate('google')">
+          <label class="button is-primary has-icons-left google is-fullwidth has-text-centered">
+            <span class="icon is-small is-left">
+              <i class="fa fa-google social-icon"></i>
+            </span>
+            Login with Google
+          </label>
         </div>
-        <router-link to='register'>Need to register? Click me</router-link>
+      </div>
+      <p class="has-text-grey-darker has-text-weight-semibold options">
+        <router-link to="recover-password" class="has-text-grey-darker">Forgot Password</router-link>&nbsp;&nbsp;&bull;&nbsp;
+        <router-link to="register" class="has-text-grey-darker">Sign up</router-link>
+      </p>
     </div>
   </form>
 </template>
 
 <script>
-export default {
-  name: "Login",
-  data() {
-    return {
-      loginForm: {
-        username: "",
-        password: ""
-      }
-    };
-  },
-  methods: {
-    onSubmit() {
-      this.$validator.validateAll().then(result => {
-        if (!result) {
-          return;
+  import {LOGIN} from "../store/actions.type";
+  import {showErrorToasts} from "../ToastHandler";
+
+  export default {
+    name: 'Login',
+    data() {
+      return {
+        loginForm: {
+          username: '',
+          password: ''
         }
-        this.$store
-          .dispatch("login", { ...this.loginForm })
-          .then(response => response)
-          .catch(error => error);
-        this.loginForm.username = "";
-        this.loginForm.password = "";
-        this.$validator.reset();
-      });
+      };
     },
-    authenticate(provider) {
-      this.$auth
-        .authenticate(provider)
-        .then(data => console.log("Authorized! " + data))
-        .catch(error => console.error(error));
-    }
-  }
-};
+    methods: {
+      onSubmit() {
+        this.$validator.validateAll().then(result => {
+          if (!result) {
+            return;
+          }
+          this.$store
+            .dispatch(LOGIN, { ...this.loginForm })
+            .then(() =>this.$router.push({name: 'home'}));
+          this.loginForm.password = '';
+          this.$validator.reset();
+        });
+      },
+      authenticate(provider) {
+        this.$auth
+          .authenticate(provider)
+          .then(data => console.log('Authorized! ' + data))
+          .catch(error => console.error(error));
+      }
+    },
+  };
 </script>
 
 <style scoped>
-.auth-control {
-  display: flex;
-  width: 100%;
-}
-
-.auth-button {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.login-button {
-  width: 100%;
-}
+  .subsection {
+    padding: 30px 0;
+  }
+  .options {
+    padding-top: 30px;
+  }
+  .google {
+    background-color: #4285f4;
+  }
+  .google:hover {
+    background-color: #3367d6;
+  }
+  .social-icon {
+    position: absolute;
+    left: 20px;
+    font-size: 20px;
+  }
 </style>
