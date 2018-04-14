@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Hub from '@/Hub';
 import Register from '@/registration/Register';
 import Login from '@/login/Login';
+import Navigation from '@/common/Navigation';
 import CreateRoom from '@/rooms/CreateRoom';
 import store from '@/store';
 
@@ -29,7 +30,11 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Hub
+      components: {
+        header: Navigation,
+        content: Hub
+      },
+      props: { header: true, content: false }
     },
     {
       path: '/register',
@@ -45,9 +50,12 @@ export default new Router({
     },
     {
       path: '/createRoom',
-      name: 'create-room',
-      component: CreateRoom,
-      beforeEnter: ifNotAuthenticated
+      name: 'createRoom',
+      components: {
+        header: Navigation,
+        content: CreateRoom
+      },
+      props: { header: true, content: false }
     }
   ]
 });
