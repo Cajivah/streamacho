@@ -62,11 +62,13 @@
         </span>
       </div>
     </div>
-    <button class="button is-primary create-room-submit">Add</button>
+    <button class="button is-primary create-room-submit">Create room</button>
   </form>
 </template>
 
 <script>
+  import {CREATE_ROOM} from "../store/actions.type";
+  import {showErrorToasts} from "../ToastHandler";
 export default {
   name: "AddMeeting",
   data() {
@@ -87,9 +89,9 @@ export default {
         if (!result) {
           return;
         }
-        this.$emit("onAddRoom", {
-          ...this.room
-        });
+        this.$store
+          .dispatch(CREATE_ROOM, { ...this.room })
+          .then(() =>this.$router.push({name: 'landingPage'}));
         this.resetForm();
       });
     },
@@ -110,7 +112,7 @@ export default {
 </script>
 <style scoped>
 .create-room-form-container {
-  margin-top: 52px;
+  margin-top: 60px;
   display: grid;
   grid-column-gap: 20px;
   grid-row-gap: 10px;
