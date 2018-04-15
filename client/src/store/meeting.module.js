@@ -30,8 +30,8 @@ const actions = {
   [FETCH_ROOMS] ({commit}, payload) {
     return new Promise(resolve =>
       this.$http.get('meetings/rooms')
-        .then(({data}) => commit(SET_MEETINGS, data))
-        .catch(({error}) => commit(SET_ERROR, error))
+        .then(data => commit(SET_MEETINGS, data))
+        .catch(error => commit(SET_ERROR, error))
     )
   }
 };

@@ -20,7 +20,7 @@
     <div class="field create-room-date">
       <label class="label">Date</label>
       <div class="control has-icons-left has-icons-left">
-        <input type="date" class="input" name="date" placeholder="date" v-model="room.date" v-validate="'required|date_format:dd-MM-yyyy'">
+        <input type="date" class="input" name="date" placeholder="date" v-model="room.date" v-validate="'required'">
         <span class="icon is-small is-left">
           <i class="fa fa-user"></i>
         </span>
@@ -30,23 +30,33 @@
         <div class="field create-room-time">
       <label class="label">Time</label>
       <div class="control has-icons-left has-icons-left">
-        <input type="date" class="input" name="time" placeholder="time" v-model="room.time" v-validate="'required|date_format:dd-MM-yyyy'">
+        <input type="date" class="input" name="time" placeholder="time" v-model="room.time" v-validate="'required'">
         <span class="icon is-small is-left">
           <i class="fa fa-user"></i>
         </span>
       </div>
       <p class="help is-danger">{{ errors.first('time') }}</p>
     </div>
-        <div class="field create-room-logo">
-      <label class="label">Logo</label>
-      <div class="control has-icons-left has-icons-left">
-        <input class="file-input" type="file" name="logo" placeholder="logo">
+       <div class="field create-room-logo">
+        <label class="file-label">
+          <div class="control">
+            <input class="file-input" type="file" name="logo" accept="image/*" @change="processFile($event)">
+            <span class="file-cta">
+              <span class="file-icon">
+                <i class="fa fa-upload"></i>
+              </span>
+              <span class="file-label">
+                Choose a logo
+              </span>
+            </span>
+            <img class="create-room-image" :src="image" />
+          </div>
+        </label>
       </div>
-    </div>
         <div class="field create-room-tags">
       <label class="label">Tags</label>
       <div class="control has-icons-left has-icons-left">
-        <input class="input" name="tags" placeholder="tags" v-model="room.date">
+        <input class="input" name="tags" placeholder="tags" v-model="room.tags">
         <span class="icon is-small is-left">
           <i class="fa fa-user"></i>
         </span>
@@ -67,7 +77,8 @@ export default {
         date: new Date(),
         time: new Date(),
         tags: []
-      }
+      },
+      image: null
     };
   },
   methods: {
@@ -90,6 +101,9 @@ export default {
       this.room.time = new Date();
       this.room.tags = [];
       this.$validator.reset();
+    },
+    processFile(event) {
+      this.image = URL.createObjectURL(event.target.files[0]);
     }
   }
 };
@@ -138,6 +152,7 @@ export default {
 
 .create-room-logo {
   grid-area: logo;
+  justify-self: center;
 }
 
 .create-room-tags {
@@ -146,5 +161,11 @@ export default {
 
 .create-room-submit {
   grid-area: submit;
+}
+
+.create-room-image {
+  display: block;
+  max-height: 250px;
+  max-width: 250px;
 }
 </style>
