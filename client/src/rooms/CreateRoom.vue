@@ -13,7 +13,7 @@
       <label class="label">Description</label>
       <div class="control">
         <textarea 
-        class="textarea create-room-textarea" name="title" placeholder="description" v-model="room.description" v-validate="'required'"></textarea>
+        class="textarea create-room-textarea" name="description" placeholder="description" v-model="room.description" v-validate="'required'"></textarea>
       </div>
       <p class="help is-danger">{{ errors.first('description') }}</p>
     </div>

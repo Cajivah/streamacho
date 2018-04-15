@@ -11,12 +11,12 @@
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
-          <router-link class="navbar-item" to="/">My rooms</router-link>
-          <router-link class="navbar-item" to="createRoom">Create room</router-link>
+          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="/">My rooms</router-link>
+          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="createRoom">Create room</router-link>
         </div>
         <div class="navbar-end">
-          <router-link class="navbar-item" to="register">Register</router-link>
-          <router-link class="navbar-item" to="login">Login</router-link>
+          <router-link v-if="!this.$store.isAuthenticated" class="navbar-item" to="register">Register</router-link>
+          <router-link v-if="!this.$store.isAuthenticated" class="navbar-item" to="login">Login</router-link>
         </div>
       </div>
     </div>
