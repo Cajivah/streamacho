@@ -66,7 +66,7 @@ export default {
       room: {
         name: "",
         description: "",
-        startAt: "",
+        startAt: null,
         tags: []
       },
       image: null
@@ -78,8 +78,9 @@ export default {
         if (!result) {
           return;
         }
+        this.room.startAt = this.parseDate(this.room.startAt);
         this.$store
-          .dispatch(CREATE_ROOM, { ...this.room, startAt: this.formatDate(this.room.startAt) })
+          .dispatch(CREATE_ROOM, { ...this.room })
           .then(() => this.$router.push({ name: "landingPage" }));
         this.resetForm();
       });
@@ -91,8 +92,10 @@ export default {
       this.room.tags = [];
       this.$validator.reset();
     },
-    formatDate(date) {
-      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    parseDate(dateString) {
+      const chunk = dateString.split(/\D/);
+      console.log(chunk);
+      return new Date(chunk[0], --chunk[1], chunk[2]);
     },
     processFile(event) {
       this.image = URL.createObjectURL(event.target.files[0]);
