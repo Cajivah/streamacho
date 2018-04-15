@@ -1,8 +1,8 @@
-import { FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER } from "./actions.type";
-import qs from "qs";
+import { FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER } from './actions.type';
+import qs from 'qs';
 import Vue from 'vue';
-import { PURGE_AUTH, SET_AUTH } from "./mutations.type";
-import { showErrorToasts } from "../ToastHandler";
+import { PURGE_AUTH, SET_AUTH } from './mutations.type';
+import { showErrorToasts } from '../ToastHandler';
 
 const state = {
   loggedUser: null,

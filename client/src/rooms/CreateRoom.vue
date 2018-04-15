@@ -1,13 +1,13 @@
 <template>
   <form class='container create-room-form-container' @submit.prevent="onSubmit()">
     <h1 class='is-large has-text-weight-semibold has-text-grey-darker create-room-header'>New Room</h1>
-    <div class="field create-room-title">
-      <label class="label">Title</label>
+    <div class="field create-room-name">
+      <label class="label">Name</label>
       <div class="control">
         <input 
-        class="input" name="title" placeholder="room title" v-model="room.title" v-validate="'required|min:3'">
+        class="input" name="name" placeholder="room name" v-model="room.name" v-validate="'required|min:3'">
       </div>
-      <p class="help is-danger">{{ errors.first('title') }}</p>
+      <p class="help is-danger">{{ errors.first('name') }}</p>
     </div>
     <div class="field create-room-description">
       <label class="label">Description</label>
@@ -17,25 +17,15 @@
       </div>
       <p class="help is-danger">{{ errors.first('description') }}</p>
     </div>
-    <div class="field create-room-date">
-      <label class="label">Date</label>
+    <div class="field create-room-startAt">
+      <label class="label">Starts at</label>
       <div class="control has-icons-left has-icons-left">
-        <input type="date" class="input" name="date" placeholder="date" v-model="room.date" v-validate="'required'">
+        <input type="date" class="input" name="startAt" v-model="room.startAt" v-validate="'required'">
         <span class="icon is-small is-left">
           <i class="fa fa-user"></i>
         </span>
       </div>
-      <p class="help is-danger">{{ errors.first('date') }}</p>
-    </div>
-        <div class="field create-room-time">
-      <label class="label">Time</label>
-      <div class="control has-icons-left has-icons-left">
-        <input type="date" class="input" name="time" placeholder="time" v-model="room.time" v-validate="'required'">
-        <span class="icon is-small is-left">
-          <i class="fa fa-user"></i>
-        </span>
-      </div>
-      <p class="help is-danger">{{ errors.first('time') }}</p>
+      <p class="help is-danger">{{ errors.first('startAt') }}</p>
     </div>
        <div class="field create-room-logo">
         <label class="file-label">
@@ -67,17 +57,16 @@
 </template>
 
 <script>
-  import {CREATE_ROOM} from "../store/actions.type";
-  import {showErrorToasts} from "../ToastHandler";
+import { CREATE_ROOM } from "../store/actions.type";
+import { showErrorToasts } from "../ToastHandler";
 export default {
   name: "AddMeeting",
   data() {
     return {
       room: {
-        title: "",
+        name: "",
         description: "",
-        date: "",
-        time: "",
+        startAt: "",
         tags: []
       },
       image: null
@@ -90,19 +79,20 @@ export default {
           return;
         }
         this.$store
-          .dispatch(CREATE_ROOM, { ...this.room })
-          .then(() =>this.$router.push({name: 'landingPage'}));
+          .dispatch(CREATE_ROOM, { ...this.room, startAt: this.formatDate(this.room.startAt) })
+          .then(() => this.$router.push({ name: "landingPage" }));
         this.resetForm();
       });
     },
-    formatDate(date) {},
     resetForm() {
-      this.room.title = "";
+      this.room.name = "";
       this.room.description = "";
-      this.room.date = "";
-      this.room.time = "";
+      this.room.startAt = "";
       this.room.tags = [];
       this.$validator.reset();
+    },
+    formatDate(date) {
+      return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     },
     processFile(event) {
       this.image = URL.createObjectURL(event.target.files[0]);
@@ -118,12 +108,12 @@ export default {
   grid-row-gap: 10px;
   grid-template-areas:
     "header . . ."
-    "title title title title"
+    "name name name name"
     "description description description description"
     "description description description description"
     "description description description description"
-    "date date date logo"
-    "time time time logo"
+    "startAt startAt startAt logo"
+    ". . . logo"
     "tags tags tags tags"
     ". . . submit";
 }
@@ -136,16 +126,16 @@ export default {
   grid-area: header;
 }
 
-.create-room-title {
-  grid-area: title;
+.create-room-name {
+  grid-area: name;
 }
 
 .create-room-description {
   grid-area: description;
 }
 
-.create-room-date {
-  grid-area: date;
+.create-room-startAt {
+  grid-area: startAt;
 }
 
 .create-room-time {
@@ -167,7 +157,7 @@ export default {
 
 .create-room-image {
   display: block;
-  max-height: 250px;
-  max-width: 250px;
+  max-height: 200px;
+  max-width: 200px;
 }
 </style>
