@@ -76,8 +76,8 @@ export default {
       room: {
         title: "",
         description: "",
-        date: new Date(),
-        time: new Date(),
+        date: "",
+        time: "",
         tags: []
       },
       image: null
@@ -99,8 +99,8 @@ export default {
     resetForm() {
       this.room.title = "";
       this.room.description = "";
-      this.room.date = new Date();
-      this.room.time = new Date();
+      this.room.date = "";
+      this.room.time = "";
       this.room.tags = [];
       this.$validator.reset();
     },
