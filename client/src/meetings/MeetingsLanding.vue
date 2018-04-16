@@ -1,7 +1,9 @@
 <template>
   <div>
-    <h2 class='header is-large'>Meetings</h2>
-    <meeting :meeting='exampleMeeting'></meeting>
+    <h2 class='header is-large header-centered'>Meetings</h2>
+    <div class='meetings-list'>
+      <meeting v-for='meeting in exampleMeetings' :meeting='meeting'></meeting>
+    </div>
   </div>
 </template>
 
@@ -15,7 +17,7 @@ export default {
   },
   data() {
     return {
-      exampleMeeting: {
+      exampleMeetings: [{
         id: '123',
         organizer: 'Wojtek',
         description: 'Blah blah',
@@ -23,7 +25,23 @@ export default {
         title: 'Room title',
         date: '30.01.2020',
         tags: ['a', 'b', 'c']
-      }
+      }, {
+        id: '123',
+        organizer: 'Wojtek',
+        description: 'Blah blah',
+        logoURL: 'someURL',
+        title: 'Room title',
+        date: '30.01.2020',
+        tags: ['a', 'b', 'c']
+      }, {
+        id: '123',
+        organizer: 'Wojtek',
+        description: 'Blah blah',
+        logoURL: 'someURL',
+        title: 'Room title',
+        date: '30.01.2020',
+        tags: ['a', 'b', 'c']
+      }]
     }
   },
   computed: {
@@ -42,3 +60,13 @@ export default {
   }
 };
 </script>
+<style scoped>
+.meetings-list {
+  display: flex;
+}
+
+.header-centered {
+  text-align: center;
+  font-size: 1.5em;
+}
+</style>

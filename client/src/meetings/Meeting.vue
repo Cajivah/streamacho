@@ -32,7 +32,10 @@ export default {
 <style scoped>
 .meeting-container {
   border: 1px solid #ddd;
-  box-shadow: 5px 5px #333333;
+  box-shadow: 0px 0px 2px 2px #d0d0d0;
+  padding: 30px;
+  margin: 20px;
+  background-color: #efefef;
 }
 
 .meeting-header {
