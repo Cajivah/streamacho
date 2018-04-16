@@ -120,10 +120,10 @@ export default {
 </script>
 
 <style scoped>
-.subsection {
-  padding: 30px 0;
-}
-.options {
-  padding-top: 30px;
-}
+  .subsection {
+    padding: 30px 0;
+  }
+  .options {
+    padding-top: 30px;
+  }
 </style>

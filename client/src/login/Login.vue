@@ -54,62 +54,61 @@
 </template>
 
 <script>
-import { LOGIN } from "../store/actions.type";
-import { showErrorToasts } from "../ToastHandler";
+  import { LOGIN } from "../store/actions.type";
 
-export default {
-  name: "Login",
-  data() {
-    return {
-      loginForm: {
-        username: "",
-        password: ""
-      }
-    };
-  },
-  methods: {
-    onSubmit() {
-      this.$validator.validateAll().then(result => {
-        if (!result) {
-          return;
+  export default {
+    name: 'Login',
+    data() {
+      return {
+        loginForm: {
+          username: '',
+          password: ''
         }
-        this.$store
-          .dispatch(LOGIN, { ...this.loginForm })
-          .then(() => this.$router.push({ name: "landingPage" }));
-        this.resetForm();
-      });
+      };
     },
-    resetForm() {
-      this.loginForm.username = "";
-      this.loginForm.password = "";
-      this.$validator.reset();
-    },
-    authenticate(provider) {
-      this.$auth
-        .authenticate(provider)
-        .then(data => console.log("Authorized! " + data))
-        .catch(error => console.error(error));
+    methods: {
+      onSubmit() {
+        this.$validator.validateAll().then(result => {
+          if (!result) {
+            return;
+          }
+          this.$store
+            .dispatch(LOGIN, { ...this.loginForm })
+            .then(() => this.$router.push({ name: 'landingPage' }));
+          this.resetForm();
+        });
+      },
+      resetForm() {
+        this.loginForm.username = '';
+        this.loginForm.password = '';
+        this.$validator.reset();
+      },
+      authenticate(provider) {
+        this.$auth
+          .authenticate(provider)
+          .then(data => console.log(`Authorized! ${data}`))
+          .catch(error => console.error(error));
+      }
     }
-  }
-};
+  };
 </script>
 
 <style scoped>
-.subsection {
-  padding: 30px 0;
-}
-.options {
-  padding-top: 30px;
-}
-.google {
-  background-color: #4285f4;
-}
-.google:hover {
-  background-color: #3367d6;
-}
-.social-icon {
-  position: absolute;
-  left: 20px;
-  font-size: 20px;
-}
+  .subsection {
+    padding: 30px 0;
+  }
+  .options {
+    padding-top: 30px;
+  }
+  .google {
+    background-color: #4285f4;
+  }
+  .google:hover {
+    background-color: #3367d6;
+  }
+  .social-icon {
+    position: absolute;
+    left: 20px;
+    font-size: 20px;
+  }
 </style>

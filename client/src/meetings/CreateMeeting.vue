@@ -57,110 +57,109 @@
 </template>
 
 <script>
-import { CREATE_ROOM } from "../store/actions.type";
-import { showErrorToasts } from "../ToastHandler";
-export default {
-  name: "AddMeeting",
-  data() {
-    return {
-      room: {
-        name: "",
-        description: "",
-        startAt: null,
-        tags: []
+  import { CREATE_ROOM } from '../store/actions.type';
+  export default {
+    name: "AddMeeting",
+    data() {
+      return {
+        room: {
+          name: "",
+          description: "",
+          startAt: null,
+          tags: []
+        },
+        image: null
+      };
+    },
+    methods: {
+      onSubmit() {
+        this.$validator.validateAll().then(result => {
+          if (!result) {
+            return;
+          }
+          this.room.startAt = this.parseDate(this.room.startAt);
+          this.$store
+            .dispatch(CREATE_ROOM, { ...this.room })
+            .then(() => this.$router.push({ name: 'landingPage' }));
+          this.resetForm();
+        });
       },
-      image: null
-    };
-  },
-  methods: {
-    onSubmit() {
-      this.$validator.validateAll().then(result => {
-        if (!result) {
-          return;
-        }
-        this.room.startAt = this.parseDate(this.room.startAt);
-        this.$store
-          .dispatch(CREATE_ROOM, { ...this.room })
-          .then(() => this.$router.push({ name: "landingPage" }));
-        this.resetForm();
-      });
-    },
-    resetForm() {
-      this.room.name = "";
-      this.room.description = "";
-      this.room.startAt = "";
-      this.room.tags = [];
-      this.$validator.reset();
-    },
-    parseDate(dateString) {
-      const chunk = dateString.split(/\D/);
-      console.log(chunk);
-      return new Date(chunk[0], --chunk[1], chunk[2]);
-    },
-    processFile(event) {
-      this.image = URL.createObjectURL(event.target.files[0]);
+      resetForm() {
+        this.room.name = '';
+        this.room.description = '';
+        this.room.startAt = '';
+        this.room.tags = [];
+        this.$validator.reset();
+      },
+      parseDate(dateString) {
+        const chunk = dateString.split(/\D/);
+        console.log(chunk);
+        return new Date(chunk[0], --chunk[1], chunk[2]);
+      },
+      processFile(event) {
+        this.image = URL.createObjectURL(event.target.files[0]);
+      }
     }
-  }
-};
+  };
 </script>
 <style scoped>
-.create-room-form-container {
-  margin-top: 60px;
-  display: grid;
-  grid-column-gap: 20px;
-  grid-row-gap: 10px;
-  grid-template-areas:
-    "header . . ."
-    "name name name name"
-    "description description description description"
-    "description description description description"
-    "description description description description"
-    "startAt startAt startAt logo"
-    ". . . logo"
-    "tags tags tags tags"
-    ". . . submit";
-}
+  .create-room-form-container {
+    margin-top: 60px;
+    display: grid;
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+    grid-template-areas:
+        "header . . ."
+        "name name name name"
+        "description description description description"
+        "description description description description"
+        "description description description description"
+        "startAt startAt startAt logo"
+        ". . . logo"
+        "tags tags tags tags"
+        ". . . submit";
+  }
 
-.create-room-textarea {
-  resize: none;
-}
+  .create-room-textarea {
+    resize: none;
+  }
 
-.create-room-header {
-  grid-area: header;
-}
+  .create-room-header {
+    grid-area: header;
+  }
 
-.create-room-name {
-  grid-area: name;
-}
+  .create-room-name {
+    grid-area: name;
+  }
 
-.create-room-description {
-  grid-area: description;
-}
+  .create-room-description {
+    grid-area: description;
+  }
 
-.create-room-startAt {
-  grid-area: startAt;
-}
+  .create-room-startAt {
+    grid-area: startAt;
+  }
 
-.create-room-time {
-  grid-area: time;
-}
+  .create-room-time {
+    grid-area: time;
+  }
 
-.create-room-logo {
-  grid-area: logo;
-  justify-self: center;
-}
+  .create-room-logo {
+    grid-area: logo;
+    justify-self: center;
+  }
 
-.create-room-tags {
-  grid-area: tags;
-}
+  .create-room-tags {
+    grid-area: tags;
+  }
 
-.create-room-submit {
-  grid-area: submit;
-}
+  .create-room-submit {
+    grid-area: submit;
+  }
 
-.create-room-image {
-  display: block;
-  max-height: 200px;
-  max-width: 200px;
-}
+  .create-room-image {
+    display: block;
+    max-height: 200px;
+    max-width: 200px;
+  }
 </style>

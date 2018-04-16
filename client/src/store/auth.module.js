@@ -30,7 +30,7 @@ const actions = {
             'Content-type': 'application/x-www-form-urlencoded'
           }
         })
-        .then(data => {
+        .then(({ data }) => {
           commit(SET_AUTH, data);
           resolve(data);
         })
@@ -40,7 +40,7 @@ const actions = {
   [FETCH_LOGGED_USER]({ commit }) {
     return new Promise((resolve) => {
       Vue.axios.get('/users/accounts/me')
-        .then(data => {
+        .then(({ data }) => {
           commit(SET_AUTH, data);
           resolve(data);
         })

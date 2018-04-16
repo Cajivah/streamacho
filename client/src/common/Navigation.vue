@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-fixed-top transparent" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-fixed-top background-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-shadow"></div>
     <div class="container">
       <div class="navbar-brand">
@@ -10,13 +10,13 @@
         </a>
       </div>
       <div class="navbar-menu">
-        <div class="navbar-start">
-          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="/">My meetings</router-link>
-          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="createMeeting">Create meeting</router-link>
+        <div class="navbar-end" v-if="this.$store.getters.isAuthenticated" >
+          <router-link class="navbar-item" to="/">My meetings</router-link>
+          <router-link class="navbar-item" to="createMeeting">Create meeting</router-link>
         </div>
-        <div class="navbar-end">
-          <router-link v-if="!this.$store.isAuthenticated" class="navbar-item" to="register">Register</router-link>
-          <router-link v-if="!this.$store.isAuthenticated" class="navbar-item" to="login">Login</router-link>
+        <div class="navbar-end" v-else >
+          <router-link class="navbar-item" to="login">Login</router-link>
+          <router-link class="navbar-item" to="register">Register</router-link>
         </div>
       </div>
     </div>
@@ -24,22 +24,18 @@
 </template>
 
 <script>
-export default {
-  name: "navigation",
-  methods: {
-    toggleBurger() {
+  export default {
+    name: "navigation",
+    methods: {
+      toggleBurger() {
         const target = $el.dataset.target;
         const $target = document.getElementById(target);
         $el.classList.toggle('is-active');
         $target.classList.toggle('is-active');
+      }
     }
-  }
-};
-
+  };
 </script>
 
 <style scoped>
-.transparent {
-  background-color: rgba(255, 255, 255, 0.5);
-}
 </style>
