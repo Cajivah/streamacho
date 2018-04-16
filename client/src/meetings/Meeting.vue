@@ -18,18 +18,8 @@
 <script>
 export default {
   name: 'meeting',
-  data() {
-    return {
-      meeting: {
-        id: '123',
-        organizer: 'Wojtek',
-        description: 'Blah blah',
-        logoURL: 'someURL',
-        title: 'Room title',
-        date: '30.01.2020',
-        tags: ['a', 'b', 'c']
-      }
-    }
+  props: {
+    meeting: Object
   },
   methods: {
     joinRoom() {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 class='header is-large'>Meetings</h2>
-    <meeting></meeting>
+    <meeting :meeting='exampleMeeting'></meeting>
   </div>
 </template>
 
@@ -12,6 +12,19 @@ export default {
   name: 'meetings-landing',
   components: {
     Meeting
+  },
+  data() {
+    return {
+      exampleMeeting: {
+        id: '123',
+        organizer: 'Wojtek',
+        description: 'Blah blah',
+        logoURL: 'someURL',
+        title: 'Room title',
+        date: '30.01.2020',
+        tags: ['a', 'b', 'c']
+      }
+    }
   },
   computed: {
     meetings() {
