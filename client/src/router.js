@@ -4,7 +4,7 @@ import LandingPage from '@/common/LandingPage';
 import Register from '@/registration/Register';
 import Login from '@/login/Login';
 import Hub from '@/Hub';
-import CreateRoom from '@/rooms/CreateRoom';
+import CreateMeeting from '@/meetings/CreateMeeting';
 import store from '@/store';
 
 Vue.use(Router);
@@ -36,9 +36,9 @@ export default new Router({
         name: 'landingPage',
         component: LandingPage,
       }, {
-        path: '/createRoom',
-        name: 'createRoom',
-        component: CreateRoom
+        path: '/createMeeting',
+        name: 'createMeeting',
+        component: CreateMeeting
       }]
     },
     {

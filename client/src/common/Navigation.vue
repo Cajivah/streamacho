@@ -11,8 +11,8 @@
       </div>
       <div class="navbar-menu">
         <div class="navbar-start">
-          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="/">My rooms</router-link>
-          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="createRoom">Create room</router-link>
+          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="/">My meetings</router-link>
+          <router-link v-if="this.$store.isAuthenticated" class="navbar-item" to="createMeeting">Create meeting</router-link>
         </div>
         <div class="navbar-end">
           <router-link v-if="!this.$store.isAuthenticated" class="navbar-item" to="register">Register</router-link>
