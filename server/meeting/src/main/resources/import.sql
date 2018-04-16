@@ -1,9 +1,9 @@
 INSERT INTO room
-  (organiser, name, description, start_at, deleted, closed, created, modified)
+  (id, organiser, name, description, start_at, deleted, closed, created, modified)
 VALUES
-  ('malyjasiak', 'Test Room 1', 'Lorem impsum but a little bit longer', '2018-06-30 12:55:44.192501', false, false, '2018-04-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
-  ('malyjasiak', 'Test Room 2', 'Lorem impsum but a little bit longer', '2018-06-29 12:55:44.192501', false, false, '2018-03-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
-  ('admin', 'Test Room Admin', 'Lorem impsum but a little bit longer', '2018-06-20 12:55:44.192501', false, false, '2018-03-21 12:55:44.192501', '2018-03-21 12:55:44.192501')
+  (1, 'malyjasiak', 'Test Room 1', 'Lorem impsum but a little bit longer', '2018-06-30 12:55:44.192501', false, false, '2018-04-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
+  (2, 'malyjasiak', 'Test Room 2', 'Lorem impsum but a little bit longer', '2018-06-29 12:55:44.192501', false, false, '2018-03-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
+  (3, 'admin', 'Test Room Admin', 'Lorem impsum but a little bit longer', '2018-06-20 12:55:44.192501', false, false, '2018-03-21 12:55:44.192501', '2018-03-21 12:55:44.192501')
 ;
 
 INSERT INTO room_tags
@@ -16,3 +16,6 @@ VALUES
   (3, 'Cooking'),
   (3, 'Baking')
 ;
+
+-- workaround for sequence not being updated
+select setval('hibernate_sequence', 1000);
