@@ -1,19 +1,17 @@
 <template>
-  <div id='app'>
+  <div id='app' class="has-navbar-fixed-top">
     <navigation></navigation>
-    <landing-page></landing-page>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import Navigation from '@/common/Navigation';
-import LandingPage from '@/common/LandingPage';
 
 export default {
   name: 'app',
   components: {
-    Navigation,
-    LandingPage
+    Navigation
   }
 };
 </script>

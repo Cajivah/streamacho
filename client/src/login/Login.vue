@@ -54,8 +54,7 @@
 </template>
 
 <script>
-  import {LOGIN} from "../store/actions.type";
-  import {showErrorToasts} from "../ToastHandler";
+  import { LOGIN } from "../store/actions.type";
 
   export default {
     name: 'Login',
@@ -75,18 +74,22 @@
           }
           this.$store
             .dispatch(LOGIN, { ...this.loginForm })
-            .then(() =>this.$router.push({name: 'home'}));
-          this.loginForm.password = '';
-          this.$validator.reset();
+            .then(() => this.$router.push({ name: 'landingPage' }));
+          this.resetForm();
         });
+      },
+      resetForm() {
+        this.loginForm.username = '';
+        this.loginForm.password = '';
+        this.$validator.reset();
       },
       authenticate(provider) {
         this.$auth
           .authenticate(provider)
-          .then(data => console.log('Authorized! ' + data))
+          .then(data => console.log(`Authorized! ${data}`))
           .catch(error => console.error(error));
       }
-    },
+    }
   };
 </script>
 

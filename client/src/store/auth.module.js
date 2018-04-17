@@ -1,11 +1,11 @@
-import {FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER} from "./actions.type";
-import qs from "qs";
+import { FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER } from './actions.type';
+import qs from 'qs';
 import Vue from 'vue';
-import {PURGE_AUTH, SET_AUTH} from "./mutations.type";
-import {showErrorToasts} from "../ToastHandler";
+import { PURGE_AUTH, SET_AUTH } from './mutations.type';
+import { showErrorToasts } from '../ToastHandler';
 
 const state = {
-    loggedUser: null,
+  loggedUser: null,
 };
 
 const getters = {
@@ -30,17 +30,17 @@ const actions = {
             'Content-type': 'application/x-www-form-urlencoded'
           }
         })
-        .then(({data}) => {
+        .then(({ data }) => {
           commit(SET_AUTH, data);
           resolve(data);
         })
         .catch((error) => showErrorToasts(error.response.data))
     );
   },
-  [FETCH_LOGGED_USER]({commit}) {
+  [FETCH_LOGGED_USER]({ commit }) {
     return new Promise((resolve) => {
       Vue.axios.get('/users/accounts/me')
-        .then(({data}) => {
+        .then(({ data }) => {
           commit(SET_AUTH, data);
           resolve(data);
         })
@@ -52,10 +52,10 @@ const actions = {
       Vue.axios.post('/users/accounts', payload)
         .catch((error) => showErrorToasts(error.response.data));
       resolve();
-      }
+    }
     );
   },
-  [LOGOUT]({commit}) {
+  [LOGOUT]({ commit }) {
     return new Promise((resolve) => {
       Vue.axios.post('/users/logout')
         .then(() => {
@@ -69,11 +69,11 @@ const actions = {
 };
 
 const mutations = {
-  [SET_AUTH] (state, data) {
+  [SET_AUTH](state, data) {
     state.loggedUser = data;
     state.error = null;
   },
-  [PURGE_AUTH] (state) {
+  [PURGE_AUTH](state) {
     state.loggedUser = null;
     state.error = null;
   }

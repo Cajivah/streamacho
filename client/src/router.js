@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hub from '@/Hub';
+import LandingPage from '@/common/LandingPage';
 import Register from '@/registration/Register';
 import Login from '@/login/Login';
+import Hub from '@/Hub';
+import CreateMeeting from '@/meetings/CreateMeeting';
 import store from '@/store';
 
 Vue.use(Router);
@@ -28,7 +30,16 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Hub
+      component: Hub,
+      children: [{
+        path: '/',
+        name: 'landingPage',
+        component: LandingPage,
+      }, {
+        path: '/createMeeting',
+        name: 'createMeeting',
+        component: CreateMeeting
+      }]
     },
     {
       path: '/register',
