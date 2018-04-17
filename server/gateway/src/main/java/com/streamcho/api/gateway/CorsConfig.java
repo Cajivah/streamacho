@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 public class CorsConfig {
 
      private static final String ALLOWED_HEADERS = "X-XSRF-TOKEN, x-wa-p, Content-Type";
-     private static final String ALLOWED_METHODS = "*";
+     private static final String ALLOWED_METHODS = "PATCH, POST, PUT, GET, DELETE, OPTIONS";
      private static final String MAX_AGE = "3600";
 
      @Bean

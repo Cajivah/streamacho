@@ -28,6 +28,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
           registry
                .addMapping("/**")
                .allowedOrigins(routingProperties.getFrontendOrigin())
+               .allowedMethods("POST", "GET", "PATCH", "DELETE", "OPTIONS")
+               .allowCredentials(true)
           ;
      }
 
