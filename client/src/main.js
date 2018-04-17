@@ -27,9 +27,9 @@ Vue.use(Toasted);
 Vue.toasted.register('error_toast',
   (payload) => {
     if(! payload.message) {
-      return "Oops.. Something Went Wrong.."
+      return 'Oops.. Something Went Wrong..'
     }
-    return "Oops.. " + payload.message;
+    return 'Oops...' + payload.message;
   },
   {
     type : 'error',

@@ -30,3 +30,9 @@
 .background-primary {
   background-color: #00c4a7;
 }
+
+.mr {
+  &-1{
+    margin-right: 1rem;
+  }
+}

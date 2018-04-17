@@ -63,7 +63,6 @@ const actions = {
           resolve();
         })
         .catch((error) => error.response.data);
-      resolve();
     })
   }
 };

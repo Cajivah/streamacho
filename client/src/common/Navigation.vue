@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-fixed-top background-primary" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
     <div class="navbar-shadow"></div>
     <div class="container">
       <div class="navbar-brand">
@@ -10,9 +10,27 @@
         </a>
       </div>
       <div class="navbar-menu">
+        <div class="navbar-brand">
+          <p class="has-text-weight-semibold has-text-white is-size-4">Streamacho</p>
+        </div>
         <div class="navbar-end" v-if="this.$store.getters.isAuthenticated" >
-          <router-link class="navbar-item" to="/">My meetings</router-link>
-          <router-link class="navbar-item" to="createMeeting">Create meeting</router-link>
+          <router-link to="create-room" class="button is-primary is-inverted is-outlined has-text-weight-semibold mr-1">
+            <i class="fa fa-plus mr-1"></i>Create room
+          </router-link>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link is-active has-text-weight-semibold has-text-white">
+              {{ userGreeter }}
+            </a>
+            <div class="navbar-dropdown">
+              <router-link class="navbar-item" to="/?organised-only=true">
+                <i class="fa fa-tv mr-1 fa-lg"></i>My rooms
+              </router-link>
+              <hr class="navbar-divider">
+              <a class="navbar-item has-text-weight-semibold" v-on:click="handleLogout">
+                <i class="fa fa-sign-out mr-1 fa-lg"></i>Logout
+              </a>
+            </div>
+          </div>
         </div>
         <div class="navbar-end" v-else >
           <router-link class="navbar-item" to="login">Login</router-link>
@@ -24,6 +42,8 @@
 </template>
 
 <script>
+  import { LOGOUT } from "../store/actions.type";
+
   export default {
     name: "navigation",
     methods: {
@@ -32,10 +52,28 @@
         const $target = document.getElementById(target);
         $el.classList.toggle('is-active');
         $target.classList.toggle('is-active');
+      },
+      handleLogout: function() {
+        this.$store.dispatch(LOGOUT)
+          .then(() => this.$router.push({ name: 'login' }));
+      }
+    },
+    computed: {
+      userGreeter: function() {
+        return `Hi, ${this.$store.getters.loggedUser.username}!`;
       }
     }
   };
 </script>
 
 <style scoped>
+  .navbar-brand {
+    align-items: center;
+  }
+  .navbar-end {
+    align-items: center;
+  }
+  .navbar-link {
+    background-color: transparent !important;
+  }
 </style>
