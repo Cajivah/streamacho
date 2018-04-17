@@ -78,6 +78,7 @@
             return;
           }
           this.room.startAt = this.parseDate(this.room.startAt);
+          this.room.tags = this.room.tags.split(','); // todo temporary workaround
           this.$store
             .dispatch(CREATE_ROOM, { ...this.room })
             .then(() => this.$router.push({ name: 'landingPage' }));

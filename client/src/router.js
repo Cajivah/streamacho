@@ -38,7 +38,8 @@ export default new Router({
       }, {
         path: '/createMeeting',
         name: 'createMeeting',
-        component: CreateMeeting
+        component: CreateMeeting,
+        beforeEnter: ifAuthenticated
       }]
     },
     {
