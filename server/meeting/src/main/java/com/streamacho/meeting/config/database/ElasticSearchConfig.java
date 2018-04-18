@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.elasticsearch.client.Client;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -14,7 +13,7 @@ import org.springframework.data.elasticsearch.core.geo.CustomGeoModule;
 import java.io.IOException;
 
 @Configuration
-public class ElasticSearchConfig {
+public class ElasticsearchConfig {
 
      @Bean
      public ElasticsearchTemplate elasticsearchTemplate(Client client) {
