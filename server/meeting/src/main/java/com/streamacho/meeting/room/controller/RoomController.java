@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,6 +59,12 @@ public class RoomController {
      @GetMapping
      public Page<RoomDTO> getRooms(Pageable pageable) {
           return roomService.getRoomsDTO(pageable);
+     }
+
+     @GetMapping(params = "query")
+     public Page<RoomDTO> fullTextSearch(@RequestParam String query,
+                                         Pageable pageable) {
+          return roomService.fullTextSearch(query, pageable);
      }
 
      @GetMapping("/{id}")
