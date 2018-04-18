@@ -10,7 +10,7 @@
       <div>{{ meeting.title }}</div>
       <div>{{ meeting.description }}</div>
       <div>{{ meeting.date }}</div>
-      <button class='button is-primary' @click="'joinRoom()'">Join</button>
+      <button class='button is-primary' @click="'joinRoom'">Join</button>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@
     },
     methods: {
       joinRoom() {
-        this.$router.push(`meeting/${meeting.id}`);
+        this.$router.push(`/room/${this.meeting.id}`);
       }
     }
   };

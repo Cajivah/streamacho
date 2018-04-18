@@ -46,8 +46,8 @@
         </div>
       </div>
       <p class="has-text-grey-darker has-text-weight-semibold options">
-        <router-link to="recover-password" class="has-text-grey-darker">Forgot Password</router-link>&nbsp;&nbsp;&bull;&nbsp;
-        <router-link to="register" class="has-text-grey-darker">Sign up</router-link>
+        <router-link to="/recover-password" class="has-text-grey-darker">Forgot Password</router-link>&nbsp;&nbsp;&bull;&nbsp;
+        <router-link to="/register" class="has-text-grey-darker">Sign up</router-link>
       </p>
     </div>
   </form>

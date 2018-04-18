@@ -1,20 +1,18 @@
-import { CREATE_ROOM, FETCH_ROOMS, REMOVE_ROOM } from './actions.type';
-import { SET_ERROR, SET_MEETINGS } from './mutations.type';
+import {CREATE_ROOM, FETCH_ROOMS, FETCH_SELECTED_ROOM, REMOVE_ROOM} from './actions.type';
+import { SET_ERROR, SET_MEETINGS, SET_SELECTED_ROOM } from './mutations.type';
 import Vue from 'vue';
 import { showErrorToasts } from '../ToastHandler';
 
 const state = {
   meetings: [],
+  selectedRoom: null,
   errors: null,
 };
 
 const getters = {
-  meetings(state) {
-    return state.meetings;
-  },
-  errors(state) {
-    return state.errors;
-  }
+  meetings: state => state.meetings,
+  errors: state => state.errors,
+  selectedRoom: state => state.selectedRoom,
 };
 
 const actions = {
@@ -44,7 +42,20 @@ const actions = {
         .then(({ data }) => commit(SET_MEETINGS, data))
         .catch(({ error }) => commit(SET_ERROR, error))
     )
-  }
+  },
+  [FETCH_SELECTED_ROOM]({ commit }, id) {
+    return new Promise(( resolve, reject ) =>
+      Vue.axios.get(`meetings/rooms/${id}`)
+        .then(({ data }) => {
+          commit(SET_SELECTED_ROOM, data);
+          resolve(data);
+        })
+        .catch(({ error }) => {
+          showErrorToasts(error);
+          reject(error);
+        })
+    );
+  },
 };
 
 const mutations = {
@@ -54,7 +65,10 @@ const mutations = {
   [SET_MEETINGS](state, data) {
     state.meetings = data.meetings;
     state.errors = {};
-  }
+  },
+  [SET_SELECTED_ROOM](state, data) {
+    state.selectedRoom = data;
+  },
 };
 
 export default {
