@@ -1,6 +1,5 @@
 <template>
   <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
-    <div class="navbar-shadow"></div>
     <div class="container">
       <div class="navbar-brand">
         <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
@@ -11,18 +10,18 @@
       </div>
       <div class="navbar-menu">
         <div class="navbar-brand">
-          <p class="has-text-weight-semibold has-text-white is-size-4">Streamacho</p>
+          <router-link to="/" class="has-text-weight-semibold is-size-4 stays-white">Streamacho</router-link>
         </div>
         <div class="navbar-end" v-if="this.$store.getters.isAuthenticated" >
           <router-link to="create-room" class="button is-primary is-inverted is-outlined has-text-weight-semibold mr-1">
             <i class="fa fa-plus mr-1"></i>Create room
           </router-link>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link is-active has-text-weight-semibold has-text-white">
+            <a class="navbar-link is-active has-text-weight-semibold has-text-white stays-white">
               {{ userGreeter }}
             </a>
             <div class="navbar-dropdown">
-              <router-link class="navbar-item" to="/?organised-only=true">
+              <router-link class="navbar-item" to="my">
                 <i class="fa fa-tv mr-1 fa-lg"></i>My rooms
               </router-link>
               <hr class="navbar-divider">
@@ -75,5 +74,11 @@
   }
   .navbar-link {
     background-color: transparent !important;
+  }
+
+  .stays-white:hover,
+  .stays-white:checked,
+  .stays-white {
+    color: white!important;
   }
 </style>

@@ -11,9 +11,8 @@ import httpConfigurer from './config/httpConfigurer';
 import thirdPartyConfigurer from './config/thirdPartyConfigurer';
 
 // -------STYLES-------
-import 'bulma/css/bulma.css';
+import './style.scss';
 import 'font-awesome/css/font-awesome.min.css';
-import './common.scss';
 import { validatorDictionary } from './validatorDictionary.js';
 
 const validatorConfig = {

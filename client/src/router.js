@@ -5,6 +5,7 @@ import Register from '@/registration/Register';
 import Login from '@/login/Login';
 import Hub from '@/Hub';
 import CreateRoom from '@/meetings/CreateRoom'
+import MyMeetings from '@/meetings/MyMeetings'
 import store from '@/store';
 
 Vue.use(Router);
@@ -29,7 +30,6 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
       component: Hub,
       children: [{
         path: '/',
@@ -39,6 +39,11 @@ export default new Router({
         path: '/create-room',
         name: 'createRoom',
         component: CreateRoom,
+        beforeEnter: ifAuthenticated
+      }, {
+        path: '/my',
+        name: 'myMeetings',
+        component: MyMeetings,
         beforeEnter: ifAuthenticated
       }]
     },
