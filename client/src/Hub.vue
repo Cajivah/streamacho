@@ -7,11 +7,15 @@
 
 <script>
 import Navigation from '@/common/Navigation';
+import {FETCH_LOGGED_USER} from "./store/actions.type";
 
 export default {
   name: 'app',
   components: {
     Navigation
+  },
+  mounted() {
+    this.$store.dispatch(FETCH_LOGGED_USER);
   }
 };
 </script>

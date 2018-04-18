@@ -1,8 +1,8 @@
 INSERT INTO room
   (id, organiser, name, description, start_at_date, deleted, closed, created_date, modified_date)
 VALUES
-  (1, 'malyjasiak', 'Test Room 1', 'Lorem impsum but a little bit longer', '2018-06-30 12:55:44.192501', false, false, '2018-04-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
-  (2, 'malyjasiak', 'Test Room 2', 'Lorem impsum but a little bit longer', '2018-06-29 12:55:44.192501', false, false, '2018-03-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
+  (1, 'malyjasiak', 'Test Room 1', 'Lorem impsum but a little bit longer', '2017-06-30 12:55:44.192501', false, false, '2018-04-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
+  (2, 'malyjasiak', 'Test Room 2', 'Lorem impsum but a little bit longer', '2017-06-29 12:55:44.192501', false, false, '2018-03-30 12:55:44.192501', '2018-04-30 12:55:44.192501'),
   (3, 'admin', 'Test Room Admin', 'Lorem impsum but a little bit longer', '2018-06-20 12:55:44.192501', false, false, '2018-03-21 12:55:44.192501', '2018-03-21 12:55:44.192501')
 ;
 

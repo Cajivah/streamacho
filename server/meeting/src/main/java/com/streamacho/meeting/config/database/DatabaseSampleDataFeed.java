@@ -32,7 +32,7 @@ public class DatabaseSampleDataFeed implements ApplicationRunner {
                                  .startAtDate(LocalDateTime.now().plusDays(2))
                                  .closed(false)
                                  .deleted(false)
-                                 .createdDate(LocalDateTime.now())
+                                 .createdDate(LocalDateTime.now().minusYears(1))
                                  .modifiedDate(LocalDateTime.now())
                                  .build(),
                              Room.builder()
@@ -41,7 +41,7 @@ public class DatabaseSampleDataFeed implements ApplicationRunner {
                                  .name("Test Room 2")
                                  .description("Lorem impsum but a little bit longer")
                                  .tags(Sets.newHashSet("Life Style", "Dance", "Spain"))
-                                 .startAtDate(LocalDateTime.now().plusDays(2))
+                                 .startAtDate(LocalDateTime.now().minusDays(2))
                                  .closed(false)
                                  .deleted(false)
                                  .createdDate(LocalDateTime.now())

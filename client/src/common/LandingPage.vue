@@ -7,18 +7,12 @@
 </template>
 
 <script>
-import {FETCH_LOGGED_USER} from "../store/actions.type";
 import MeetingsLanding from '@/meetings/MeetingsLanding';
 
 export default {
   name: 'landing-page',
   components: {
     MeetingsLanding
-  },
-  mounted: function() {
-    this.$nextTick(function() {
-      this.$store.dispatch(FETCH_LOGGED_USER);
-    })
   }
 };
 </script>
