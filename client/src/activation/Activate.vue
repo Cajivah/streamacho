@@ -50,7 +50,7 @@ export default {
       case PENDING:
         return 'Please wait...';
       case DONE:
-        return 'Your account is already active.';
+        return 'Your account has been activated.';
       default:
         return 'Oops! Something went wrong.';
       }

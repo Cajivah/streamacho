@@ -1,6 +1,7 @@
 <template>
   <div id='app' class="has-navbar-fixed-top">
     <navigation></navigation>
+    <div id="top"/>
     <router-view></router-view>
   </div>
 </template>

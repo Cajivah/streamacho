@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createLogger from 'vuex/dist/logger';
 import auth from './auth.module';
-import meeting from './meeting.module';
+import room from './room.module'
 import transmission from './transmission.module';
 
 Vue.use(Vuex);
@@ -10,7 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   modules: {
     auth,
-    meeting,
+    room,
     transmission,
   },
   plugins: [createLogger()]

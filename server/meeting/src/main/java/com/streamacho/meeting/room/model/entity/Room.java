@@ -12,13 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -48,7 +42,7 @@ public class Room {
      private String organiser;
 
      @Builder.Default
-     @ElementCollection
+     @ElementCollection(fetch = FetchType.EAGER)
      @Field
      private Set<String> tags = new HashSet<>();
 

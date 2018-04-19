@@ -59,7 +59,7 @@
 <script>
   import { CREATE_ROOM } from '../store/actions.type';
   export default {
-    name: "AddMeeting",
+    name: "AddRoom",
     data() {
       return {
         room: {
