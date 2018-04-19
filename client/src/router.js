@@ -7,6 +7,7 @@ import Hub from '@/Hub';
 import CreateRoom from '@/meetings/CreateRoom'
 import MyMeetings from '@/meetings/MyMeetings'
 import store from '@/store';
+import Activate from '@/activation/Activate';
 
 Vue.use(Router);
 
@@ -58,6 +59,12 @@ export default new Router({
       name: 'login',
       component: Login,
       beforeEnter: ifNotAuthenticated
+    },
+    {
+      path: '/activate',
+      name: 'activate',
+      component: Activate,
+      props: (route) => ({ token: route.query.token })
     }
   ]
 });
