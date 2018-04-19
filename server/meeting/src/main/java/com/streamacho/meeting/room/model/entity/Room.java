@@ -10,6 +10,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Document(indexName = "meeting", type = "room")
+@Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Room {
 
@@ -41,6 +44,7 @@ public class Room {
      private String organiser;
 
      @Builder.Default
+     @ElementCollection
      @Field
      private Set<String> tags = new HashSet<>();
 

@@ -9,10 +9,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.EntityMapper;
 import org.springframework.data.elasticsearch.core.geo.CustomGeoModule;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 import java.io.IOException;
 
 @Configuration
+@EnableElasticsearchRepositories(basePackages = "com.streamacho.meeting.room.search")
 public class ElasticsearchConfig {
 
      @Bean

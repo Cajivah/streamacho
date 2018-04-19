@@ -7,6 +7,7 @@ import com.streamacho.meeting.room.model.dto.RoomCreationDTO;
 import com.streamacho.meeting.room.model.dto.RoomDTO;
 import com.streamacho.meeting.room.model.entity.Room;
 import com.streamacho.meeting.room.repository.RoomRepository;
+import com.streamacho.meeting.room.search.RoomSearchRepository;
 import com.streamacho.meeting.room.validator.RoomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 @RequiredArgsConstructor
 public class RoomService {
 
+     private final RoomSearchRepository roomSearchRepository;
      private final RoomRepository roomRepository;
      private final RoomMapper roomMapper;
 
@@ -36,6 +38,7 @@ public class RoomService {
      public RoomDTO createRoom(RoomCreationDTO roomCreationDTO, UserDetails issuer) {
           final Room room = roomMapper.toRoom(roomCreationDTO, issuer);
           final Room savedRoom = roomRepository.save(room);
+          roomSearchRepository.save(savedRoom);
           return roomMapper.toRoomDTO(savedRoom);
      }
 
@@ -46,6 +49,7 @@ public class RoomService {
                .ifInvalidThrow(ValidationException::of);
           final Room updatedRoom = roomMapper.updateRoom(roomCreationDTO, existingRoom);
           final Room savedRoom = roomRepository.save(updatedRoom);
+          roomSearchRepository.save(updatedRoom);
           return roomMapper.toRoomDTO(savedRoom);
      }
 
@@ -55,6 +59,7 @@ public class RoomService {
                .isModifiableBy(issuer)
                .ifInvalidThrow(ValidationException::of);
           roomRepository.deleteSoft(room);
+          roomSearchRepository.deleteSoft(room);
      }
 
      private Page<Room> getRooms(Pageable pageable) {
@@ -68,7 +73,7 @@ public class RoomService {
      }
 
      public Page<RoomDTO> fullTextSearch(String query, Pageable pageable) {
-          Page<Room> rooms = roomRepository.search(queryStringQuery(query), pageable);
+          Page<Room> rooms = roomSearchRepository.search(queryStringQuery(query), pageable);
           return rooms.map(roomMapper::toRoomDTO);
      }
 }
