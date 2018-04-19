@@ -1,64 +1,65 @@
 <template>
   <div>
-    <h2 class='header is-large header-centered'>{{ headerText }}</h2>
-    <meetings-list :meetings=exampleMeetings />
+    <div class="search field has-addons">
+      <p class="control is-expanded">
+        <input
+          v-model="searchQuery"
+          type="text"
+          class="input"
+          placeholder="Find stream"
+        >
+      </p>
+      <p class="control">
+        <button 
+          class="button" 
+          @click="searchMeetings">Search</button>
+      </p>
+    </div>
+    <meetings-list :meetings="meetings" />
   </div>
 </template>
 
 <script>
-  import MeetingsList from '@/meetings/MeetingsList';
+import MeetingsList from '@/meetings/MeetingsList';
+import { FETCH_ROOMS } from '../store/actions.type';
 
-  export default {
-    name: "MeetingsPanel",
-    props: {
-      organisedOnly: {
-        default: false,
-        type: Boolean
-      }
+export default {
+  name: 'MeetingsPanel',
+  components: {
+    MeetingsList,
+  },
+  props: {
+    organisedOnly: {
+      default: false,
+      type: Boolean
+    }
+  },
+  data() {
+    return {
+      searchQuery: '',
+    }
+  },
+  computed: {
+    headerText() {
+      return this.organisedOnly ? 'My rooms' : 'Rooms';
     },
-    components: {
-      MeetingsList,
-    },
-    data() {
-      return {
-        exampleMeetings: [{
-          id: '123',
-          organizer: 'Wojtek',
-          description: 'Blah blah',
-          logoURL: 'someURL',
-          title: 'Room title',
-          date: '30.01.2020',
-          tags: ['a', 'b', 'c']
-        }, {
-          id: '1233',
-          organizer: 'Wojtek',
-          description: 'Blah blah',
-          logoURL: 'someURL',
-          title: 'Room title',
-          date: '30.01.2020',
-          tags: ['a', 'b', 'c']
-        }, {
-          id: '1234',
-          organizer: 'Wojtek',
-          description: 'Blah blah',
-          logoURL: 'someURL',
-          title: 'Room title',
-          date: '30.01.2020',
-          tags: ['a', 'b', 'c']
-        }]
-      }
-    },
-    computed: {
-      headerText() {
-        return this.organisedOnly ? 'My rooms' : 'Rooms';
-      }
+    meetings() {
+      return this.$store.getters.meetings;
+    }
+  },
+  mounted() {
+    this.searchMeetings();
+  },
+  methods: {
+    searchMeetings() {
+      this.$store.dispatch(FETCH_ROOMS, this.searchQuery);
     }
   }
+}
 </script>
 
 <style scoped>
-  .header-centered {
-    text-align: center;
-    font-size: 1.5em;
+  .search {
+    margin: 40px 0;
   }
 </style>

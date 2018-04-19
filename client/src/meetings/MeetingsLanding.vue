@@ -3,14 +3,14 @@
 </template>
 
 <script>
-  import MeetingsPanel from '@/meetings/MeetingsPanel';
+import MeetingsPanel from '@/meetings/MeetingsPanel';
 
-  export default {
-    name: 'meetings-landing',
-    components: {
-      MeetingsPanel
-    }
-  };
+export default {
+  name: 'MeetingsLanding',
+  components: {
+    MeetingsPanel
+  }
+};
 </script>
 
 <style scoped>

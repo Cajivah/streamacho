@@ -22,20 +22,9 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.landing-page-wrap {
-  height: 100vh;
-}
+<style>
 
 .landing-page {
-  display: flex;
   padding-top: 52px;
-  height: 100vh;
-  justify-content: center;
-}
-
-.l {
-  height: 100vh;
 }
 </style>

@@ -8,6 +8,7 @@ import CreateRoom from '@/meetings/CreateRoom'
 import MyMeetings from '@/meetings/MyMeetings'
 import store from '@/store';
 import Activate from '@/activation/Activate';
+import MeetingsLanding from '@/meetings/MeetingsLanding';
 
 Vue.use(Router);
 
@@ -46,6 +47,11 @@ export default new Router({
         name: 'myMeetings',
         component: MyMeetings,
         beforeEnter: ifAuthenticated
+      }, {
+        path: '/meetings',
+        name: 'meetingsLanding',
+        component: MeetingsLanding,
+       //todo beforeEnter: ifAuthenticated
       }]
     },
     {
