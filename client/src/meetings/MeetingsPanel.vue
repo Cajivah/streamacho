@@ -23,7 +23,7 @@
       return {
         exampleMeetings: [{
           id: '123',
-          organizer: 'Wojtek',
+          organizer: 'malyjasiak',
           description: 'Blah blah',
           logoURL: 'someURL',
           title: 'Room title',
