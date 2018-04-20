@@ -2,13 +2,12 @@ package com.streamacho.meeting.room.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.ElementCollection;
@@ -20,13 +19,11 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Document(indexName = "meeting", type = "room")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Room {
@@ -35,16 +32,20 @@ public class Room {
      @GeneratedValue
      private Long id;
 
+     @Field
      private String name;
 
+     @Field
      private String description;
 
-     private LocalDateTime startAt;
+     private LocalDateTime startAtDate;
 
+     @Field
      private String organiser;
 
      @Builder.Default
      @ElementCollection
+     @Field
      private Set<String> tags = new HashSet<>();
 
      private boolean closed;
@@ -52,8 +53,8 @@ public class Room {
      private boolean deleted;
 
      @CreatedDate
-     private LocalDateTime created;
+     private LocalDateTime createdDate;
 
      @LastModifiedDate
-     private LocalDateTime modified;
+     private LocalDateTime modifiedDate;
 }

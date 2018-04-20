@@ -27,7 +27,7 @@ public class RoomValidator {
      }
 
      public RoomValidator isStartAtDateBeforeNow() {
-          if (valid && !room.getStartAt().isBefore(LocalDateTime.now())) {
+          if (valid && !room.getStartAtDate().isBefore(LocalDateTime.now())) {
                valid = false;
           }
           return this;
