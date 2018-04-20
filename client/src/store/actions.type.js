@@ -7,3 +7,4 @@ export const REGISTER = 'register';
 export const CREATE_ROOM = 'createRoom';
 export const REMOVE_ROOM = 'removeRoom';
 export const FETCH_ROOMS = 'fetchRooms';
+export const ACTIVATE_ACCOUNT = 'verifyAccount';

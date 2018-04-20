@@ -38,21 +38,21 @@ const actions = {
         .catch(({ error }) => commit(SET_ERROR, error))
     })
   },
-  [FETCH_ROOMS]({ commit }, payload) {
+  [FETCH_ROOMS]({ commit }, query) {
     return new Promise(resolve =>
-      this.$http.get('meetings/rooms')
+      Vue.axios.get(`meetings/rooms?query=${query}`)
         .then(({ data }) => commit(SET_MEETINGS, data))
         .catch(({ error }) => commit(SET_ERROR, error))
     )
-  }
+  },
 };
 
 const mutations = {
   [SET_ERROR](state, error) {
     state.errors = error;
   },
-  [SET_MEETINGS](state, data) {
-    state.meetings = data.meetings;
+  [SET_MEETINGS](state, payload) {
+    state.meetings = payload.content;
     state.errors = {};
   }
 };

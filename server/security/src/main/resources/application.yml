@@ -42,7 +42,7 @@ mail:
     no_reply_address: 'no-reply@streamacho.com'
 
 routes:
-  verification_template: 'www.google.com/%s'
+  verification_template: 'http://localhost:8080/#/activate?token=%s'
   frontendOrigin: 'http://localhost:8080'
 server:
   port: 0

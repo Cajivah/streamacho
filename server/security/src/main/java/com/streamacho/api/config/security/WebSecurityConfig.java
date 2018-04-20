@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                          .antMatchers(HttpMethod.OPTIONS, ANY_PATH).permitAll()
                          .antMatchers(
                               "/accounts",
-                              "/accounts/verification")
+                              "/verification")
                               .permitAll()
                          .antMatchers(
                               "/",
