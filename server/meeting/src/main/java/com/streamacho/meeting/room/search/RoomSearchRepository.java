@@ -1,6 +1,9 @@
 package com.streamacho.meeting.room.search;
 
 import com.streamacho.meeting.room.model.entity.Room;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +14,8 @@ public interface RoomSearchRepository extends ElasticsearchRepository<Room, Long
           room.setDeleted(true);
           save(room);
      }
+
+     @Query("{\"multi_match\" : {\"fields\": [\"name\", \"organiser\", \"description\", \"tags\"],"
+          + "\"query\": \"?0\",\"fuzziness\": \"AUTO\"}}")
+     Page<Room> fuzzySearch(String query, Pageable pageable);
 }

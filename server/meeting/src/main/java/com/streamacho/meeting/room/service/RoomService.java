@@ -15,8 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-
 @Service
 @RequiredArgsConstructor
 public class RoomService {
@@ -73,7 +71,7 @@ public class RoomService {
      }
 
      public Page<RoomDTO> fullTextSearch(String query, Pageable pageable) {
-          Page<Room> rooms = roomSearchRepository.search(queryStringQuery(query), pageable);
+          Page<Room> rooms = roomSearchRepository.fuzzySearch(query, pageable);
           return rooms.map(roomMapper::toRoomDTO);
      }
 }
