@@ -15,7 +15,8 @@ public interface RoomSearchRepository extends ElasticsearchRepository<Room, Long
           save(room);
      }
 
-     @Query("{\"multi_match\" : {\"fields\": [\"name\", \"organiser\", \"description\", \"tags\"],"
-          + "\"query\": \"?0\",\"fuzziness\": \"AUTO\"}}")
-     Page<Room> fuzzySearch(String query, Pageable pageable);
+     @Query("{\"bool\": {\"must\": [{\"match\": {\"deleted\": false}},{\"multi_match\":"
+          + "{\"fields\": [\"name\", \"organiser\", \"description\", \"tags\"],\"query\": \"?0\","
+          + "\"fuzziness\": \"AUTO\"}}]}}")
+     Page<Room> fuzzySearchNonDeleted(String query, Pageable pageable);
 }

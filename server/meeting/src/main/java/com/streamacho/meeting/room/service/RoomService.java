@@ -71,7 +71,7 @@ public class RoomService {
      }
 
      public Page<RoomDTO> fullTextSearch(String query, Pageable pageable) {
-          Page<Room> rooms = roomSearchRepository.fuzzySearch(query, pageable);
+          Page<Room> rooms = roomSearchRepository.fuzzySearchNonDeleted(query, pageable);
           return rooms.map(roomMapper::toRoomDTO);
      }
 }
