@@ -1,11 +1,10 @@
 spring:
   application:
     name: streamacho-meetings
-  session:
-    store-type: redis
-    redis:
-      flush-mode: ON_SAVE
-      namespace: streamacho
+  data:
+    elasticsearch:
+      cluster-name: jgBay-cluster
+      cluster-nodes: localhost:9300
   datasource:
     url: jdbc:postgresql://localhost:55433/streamacho-meetings
     username: root
@@ -21,6 +20,13 @@ spring:
           use_jdbc_metadata_defaults: false
         hbm2ddl:
           import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+  profiles:
+    active: dev
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: streamacho
 
 openvidu:
   secret: MY_SECRET

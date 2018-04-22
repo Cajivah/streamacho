@@ -14,6 +14,7 @@ import java.util.Collection;
 @Mapper(componentModel = "spring", uses = DateMapper.class)
 public interface RoomMapper {
 
+     @Mapping(target = "startAt", source = "startAtDate")
      RoomDTO toRoomDTO(Room room);
 
      Collection<RoomDTO> toRoomDTOs(Collection<Room> rooms);
@@ -21,12 +22,12 @@ public interface RoomMapper {
      @Mapping(target = "id", ignore = true)
      @Mapping(target = "closed", ignore = true)
      @Mapping(target = "deleted", ignore = true)
-     @Mapping(target = "created", ignore = true)
-     @Mapping(target = "modified", ignore = true)
+     @Mapping(target = "createdDate", ignore = true)
+     @Mapping(target = "modifiedDate", ignore = true)
      @Mapping(target = "organiser", source = "user.username")
      @Mapping(target = "name", source = "room.name")
      @Mapping(target = "description", source = "room.description")
-     @Mapping(target = "startAt", source = "room.startAt")
+     @Mapping(target = "startAtDate", source = "room.startAt")
      @Mapping(target = "tags", source = "room.tags")
      Room toRoom(RoomCreationDTO room, UserDetails user);
 
@@ -34,7 +35,8 @@ public interface RoomMapper {
      @Mapping(target = "organiser", ignore = true)
      @Mapping(target = "closed", ignore = true)
      @Mapping(target = "deleted", ignore = true)
-     @Mapping(target = "created", ignore = true)
-     @Mapping(target = "modified", ignore = true)
+     @Mapping(target = "createdDate", ignore = true)
+     @Mapping(target = "modifiedDate", ignore = true)
+     @Mapping(target = "startAtDate", source = "startAt")
      Room updateRoom(RoomCreationDTO roomCreationDTO, @MappingTarget Room room);
 }

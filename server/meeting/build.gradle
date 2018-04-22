@@ -79,6 +79,7 @@ ext {
     postgresqlVersion = '42.2.1'
     springBootVersion = '2.0.0.RELEASE'
     springCloudVersion = 'Finchley.M8'
+    springDataElasticSearchVersion = '3.0.3.RELEASE'
     springSessionCoreVersion = '2.0.2.RELEASE'
     springVersion = '5.0.4.RELEASE'
     swaggerVersion = '2.8.0'
@@ -95,17 +96,19 @@ dependencies {
     compile("org.springframework.session:spring-session-core:${springSessionCoreVersion}")
     compile("org.springframework.session:spring-session-data-redis:${springSessionCoreVersion}")
     compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}")
+    compile("org.springframework.data:spring-data-elasticsearch:${springDataElasticSearchVersion}")
     compile("io.vavr:vavr:$vavrVersion")
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
     compile("io.lettuce:lettuce-core:${lettuceVersion}")
+    compile("io.openvidu:openvidu-java-client:${openviduVersion}")
+
     // Transition to Java9 dependencies
     compile("javax.xml.bind:jaxb-api:${jaxbVersion}")
     compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
     compile("org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}")
     compile("javax.activation:activation:${javaxActivationVersion}")
-    compile("io.openvidu:openvidu-java-client:${openviduVersion}")
 
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     compileOnly("org.mapstruct:mapstruct-processor:${mapstructVersion}")
