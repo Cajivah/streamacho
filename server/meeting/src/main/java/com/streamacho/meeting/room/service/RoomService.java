@@ -6,6 +6,7 @@ import com.streamacho.meeting.room.mapper.RoomMapper;
 import com.streamacho.meeting.room.model.dto.RoomCreationDTO;
 import com.streamacho.meeting.room.model.dto.RoomDTO;
 import com.streamacho.meeting.room.model.entity.Room;
+import com.streamacho.meeting.room.model.enumeration.RoomStatus;
 import com.streamacho.meeting.room.repository.RoomRepository;
 import com.streamacho.meeting.room.search.RoomSearchRepository;
 import com.streamacho.meeting.room.validator.RoomValidator;
@@ -61,17 +62,17 @@ public class RoomService {
      }
 
      private Page<Room> getRooms(Pageable pageable) {
-          return roomRepository.findAllByDeletedFalse(pageable);
+          return roomRepository.findAllByStatus(RoomStatus.PLANNED, pageable);
      }
 
      private Room getRoomById(Long id) {
           return roomRepository
-               .findOneByIdAndDeletedFalse(id)
+               .findOneByIdAndStatus(id, RoomStatus.PLANNED)
                .orElseThrow(RoomNotFoundException::of);
      }
 
      public Page<RoomDTO> fullTextSearch(String query, Pageable pageable) {
-          Page<Room> rooms = roomSearchRepository.fuzzySearchNonDeleted(query, pageable);
+          Page<Room> rooms = roomSearchRepository.fuzzySearchPlanned(query, pageable);
           return rooms.map(roomMapper::toRoomDTO);
      }
 }

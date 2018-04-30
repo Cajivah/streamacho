@@ -4,6 +4,7 @@ import com.streamacho.meeting.config.properties.OpenViduProperties;
 import com.streamacho.meeting.room.exception.RoomNotFoundException;
 import com.streamacho.meeting.room.exception.ValidationException;
 import com.streamacho.meeting.room.model.entity.Room;
+import com.streamacho.meeting.room.model.enumeration.RoomStatus;
 import com.streamacho.meeting.room.repository.RoomRepository;
 import com.streamacho.meeting.room.validator.RoomValidator;
 import com.streamacho.meeting.transmission.exception.SessionDoesNotExistException;
@@ -41,7 +42,7 @@ public class TransmissionService {
      }
 
      public SessionDTO startStream(Long roomId, UserDetails issuer) {
-          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
+          Room room = roomRepository.findOneByIdAndStatus(roomId, RoomStatus.PLANNED)
                                     .orElseThrow(RoomNotFoundException::of);
           RoomValidator.of(room)
                        .isStartAtDateBeforeNow()
@@ -65,7 +66,7 @@ public class TransmissionService {
      }
 
      public SessionDTO joinStream(Long roomId, UserDetails issuer) {
-          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
+          Room room = roomRepository.findOneByIdAndStatus(roomId, RoomStatus.LIVE)
                                     .orElseThrow(RoomNotFoundException::of);
           Session session = Optional.ofNullable(sessions.get(room))
                                     .orElseThrow(SessionDoesNotExistException::of);
@@ -81,7 +82,7 @@ public class TransmissionService {
      }
 
      public void closeStream(Long roomId, UserDetails issuer) {
-          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
+          Room room = roomRepository.findOneByIdAndStatus(roomId, RoomStatus.LIVE)
                                     .orElseThrow(RoomNotFoundException::of);
           RoomValidator.of(room)
                        .isModifiableBy(issuer)

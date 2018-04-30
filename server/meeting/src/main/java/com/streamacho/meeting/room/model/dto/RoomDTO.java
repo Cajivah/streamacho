@@ -1,5 +1,6 @@
 package com.streamacho.meeting.room.model.dto;
 
+import com.streamacho.meeting.room.model.enumeration.RoomStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class RoomDTO {
      private String description;
      private ZonedDateTime startAt;
      private String organiser;
+     private RoomStatus status;
      private List<String> tags;
      private boolean closed;
 }
