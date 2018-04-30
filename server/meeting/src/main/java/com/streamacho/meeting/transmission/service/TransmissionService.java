@@ -43,7 +43,7 @@ public class TransmissionService {
      }
 
      public SessionDTO startStream(Long roomId, UserDetails issuer) {
-          Room room = roomRepository.findOneByIdAndStatus(roomId, RoomStatus.PLANNED)
+          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
                                     .orElseThrow(RoomNotFoundException::of);
           RoomValidator.of(room)
                        .isStartAtDateBeforeNow()
@@ -59,7 +59,9 @@ public class TransmissionService {
           String sessionId = session.getSessionId();
           String token = session.generateToken(tokenOptions);
           sessions.put(room, session);
+
           room.setTransmissionStartedAt(LocalDateTime.now());
+          roomRepository.save(room);
           return new SessionDTO(token, sessionId);
      }
 
@@ -68,7 +70,7 @@ public class TransmissionService {
      }
 
      public SessionDTO joinStream(Long roomId, UserDetails issuer) {
-          Room room = roomRepository.findOneByIdAndStatus(roomId, RoomStatus.LIVE)
+          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
                                     .orElseThrow(RoomNotFoundException::of);
           Session session = Optional.ofNullable(sessions.get(room))
                                     .orElseThrow(SessionDoesNotExistException::of);
@@ -84,14 +86,14 @@ public class TransmissionService {
      }
 
      public void closeStream(Long roomId, UserDetails issuer) {
-          Room room = roomRepository.findOneByIdAndStatus(roomId, RoomStatus.LIVE)
+          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
                                     .orElseThrow(RoomNotFoundException::of);
           RoomValidator.of(room)
                        .isModifiableBy(issuer)
                        .ifInvalidThrow(ValidationException::of);
 
+          room.setStatus(RoomStatus.COMPLETED);
           sessions.remove(room);
-          room.setClosed(true);
           roomRepository.save(room);
      }
 }

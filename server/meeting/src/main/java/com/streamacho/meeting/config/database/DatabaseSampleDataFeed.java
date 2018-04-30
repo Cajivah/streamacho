@@ -30,7 +30,7 @@ public class DatabaseSampleDataFeed implements ApplicationRunner {
                                  .description("Lorem impsum but a little bit longer")
                                  .tags(Sets.newHashSet("Programming"))
                                  .startAtDate(LocalDateTime.now().plusDays(2))
-                                 .closed(false)
+                                 .deleted(false)
                                  .createdDate(LocalDateTime.now())
                                  .modifiedDate(LocalDateTime.now())
                                  .build(),
@@ -41,7 +41,7 @@ public class DatabaseSampleDataFeed implements ApplicationRunner {
                                  .description("Lorem impsum but a little bit longer")
                                  .tags(Sets.newHashSet("Life Style", "Dance", "Spain"))
                                  .startAtDate(LocalDateTime.now().plusDays(2))
-                                 .closed(false)
+                                 .deleted(false)
                                  .createdDate(LocalDateTime.now())
                                  .modifiedDate(LocalDateTime.now())
                                  .build(),
@@ -52,7 +52,7 @@ public class DatabaseSampleDataFeed implements ApplicationRunner {
                                  .description("Lorem impsum but a little bit longer")
                                  .tags(Sets.newHashSet("Cooking", "Baking"))
                                  .startAtDate(LocalDateTime.now().plusDays(2))
-                                 .closed(false)
+                                 .deleted(false)
                                  .createdDate(LocalDateTime.now())
                                  .modifiedDate(LocalDateTime.now())
                                  .build()

@@ -52,7 +52,7 @@ public class Room {
      @Field
      private Set<String> tags = new HashSet<>();
 
-     private boolean closed;
+     private boolean deleted;
 
      @Builder.Default
      @Enumerated(EnumType.STRING)

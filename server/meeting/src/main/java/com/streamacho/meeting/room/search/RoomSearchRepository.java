@@ -7,18 +7,17 @@ import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.stereotype.Repository;
 
-import static com.streamacho.meeting.room.model.enumeration.RoomStatus.WASTED;
-
 @Repository
 public interface RoomSearchRepository extends ElasticsearchRepository<Room, Long> {
 
      default void deleteSoft(Room room) {
-          room.setStatus(WASTED);
+          room.setDeleted(true);
           save(room);
      }
 
-     @Query("{\"bool\": {\"must\": [{\"multi_match\" : {\"fields\": [\"name\", \"organiser\","
-          + "\"description\", \"tags\"],\"query\": \"test\",\"fuzziness\": \"AUTO\"}},"
-          + "{\"constant_score\": {\"filter\" : {\"term\" : {\"status\" : \"planned\" }}}}]}}")
-     Page<Room> fuzzySearchPlanned(String query, Pageable pageable);
+     @Query("{\"bool\": {\"must\": [{\"match\": {\"deleted\": false}},{\"multi_match\":"
+          + "{\"fields\": [\"name\", \"organiser\", \"description\", \"tags\"],\"query\": \"?0\","
+          + "\"fuzziness\": \"AUTO\"}}]}}")
+     Page<Room> fuzzySearchNonDeleted(String query, Pageable pageable);
+
 }

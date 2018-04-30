@@ -20,7 +20,7 @@ public interface RoomMapper {
      Collection<RoomDTO> toRoomDTOs(Collection<Room> rooms);
 
      @Mapping(target = "id", ignore = true)
-     @Mapping(target = "closed", ignore = true)
+     @Mapping(target = "deleted", ignore = true)
      @Mapping(target = "createdDate", ignore = true)
      @Mapping(target = "modifiedDate", ignore = true)
      @Mapping(target = "status", ignore = true)
@@ -34,7 +34,7 @@ public interface RoomMapper {
 
      @Mapping(target = "id", ignore = true)
      @Mapping(target = "organiser", ignore = true)
-     @Mapping(target = "closed", ignore = true)
+     @Mapping(target = "deleted", ignore = true)
      @Mapping(target = "createdDate", ignore = true)
      @Mapping(target = "modifiedDate", ignore = true)
      @Mapping(target = "status", ignore = true)

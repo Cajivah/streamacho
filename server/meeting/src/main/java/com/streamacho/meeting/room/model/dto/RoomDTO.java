@@ -23,5 +23,4 @@ public class RoomDTO {
      private String organiser;
      private RoomStatus status;
      private List<String> tags;
-     private boolean closed;
 }
