@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import static java.util.Objects.isNull;
+
 @Mapper(componentModel = "spring")
 public interface DateMapper {
 
@@ -14,7 +16,7 @@ public interface DateMapper {
      }
 
      default ZonedDateTime toZonedDateTime(LocalDateTime local, ZoneId zone) {
-          return ZonedDateTime.of(local, zone);
+          return !isNull(local) ? ZonedDateTime.of(local, zone) : null;
      }
 
      default LocalDateTime toLocalDateTime(ZonedDateTime zoned) {

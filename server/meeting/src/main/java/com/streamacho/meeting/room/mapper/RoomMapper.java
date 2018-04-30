@@ -24,6 +24,7 @@ public interface RoomMapper {
      @Mapping(target = "createdDate", ignore = true)
      @Mapping(target = "modifiedDate", ignore = true)
      @Mapping(target = "status", ignore = true)
+     @Mapping(target = "transmissionStartedAt", ignore = true)
      @Mapping(target = "organiser", source = "user.username")
      @Mapping(target = "name", source = "room.name")
      @Mapping(target = "description", source = "room.description")
@@ -37,6 +38,7 @@ public interface RoomMapper {
      @Mapping(target = "createdDate", ignore = true)
      @Mapping(target = "modifiedDate", ignore = true)
      @Mapping(target = "status", ignore = true)
+     @Mapping(target = "transmissionStartedAt", ignore = true)
      @Mapping(target = "startAtDate", source = "startAt")
      Room updateRoom(RoomCreationDTO roomCreationDTO, @MappingTarget Room room);
 }

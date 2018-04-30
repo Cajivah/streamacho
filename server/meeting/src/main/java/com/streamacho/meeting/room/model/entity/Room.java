@@ -1,6 +1,7 @@
 package com.streamacho.meeting.room.model.entity;
 
 import com.streamacho.meeting.room.model.enumeration.RoomStatus;
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -56,6 +57,9 @@ public class Room {
      @Builder.Default
      @Enumerated(EnumType.STRING)
      private RoomStatus status = RoomStatus.PLANNED;
+
+     @Nullable
+     private LocalDateTime transmissionStartedAt;
 
      @CreatedDate
      private LocalDateTime createdDate;

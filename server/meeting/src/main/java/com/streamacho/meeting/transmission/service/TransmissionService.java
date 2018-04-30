@@ -18,6 +18,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -58,6 +59,7 @@ public class TransmissionService {
           String sessionId = session.getSessionId();
           String token = session.generateToken(tokenOptions);
           sessions.put(room, session);
+          room.setTransmissionStartedAt(LocalDateTime.now());
           return new SessionDTO(token, sessionId);
      }
 

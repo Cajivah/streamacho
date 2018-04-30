@@ -19,6 +19,7 @@ public class RoomDTO {
      private String name;
      private String description;
      private ZonedDateTime startAt;
+     private ZonedDateTime transmissionStartedAt;
      private String organiser;
      private RoomStatus status;
      private List<String> tags;
