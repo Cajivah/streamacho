@@ -13,13 +13,13 @@
             <a class="button is-danger is-size-5" @click="destroyStream" v-if="isPlaying">Stop stream</a>
           </div>
           <div v-else>
-            <a class="button is-danger" @click="disconnect" v-if="isPlaying">Leave stream</a>
+            <a class="button is-danger is-size-5" @click="disconnect" v-if="isPlaying">Leave stream</a>
           </div>
         </div>
       </div>
     </div>
     <div class="container mt-2">
-      <div id="main-video" class="video-placeholder">
+      <div id="main-video" ref="mainVideo" class="video-placeholder">
         <div class="stream-initializer" v-if="!isPlaying">
           <a class="button is-circle-300 is-primary" @click="startStream" v-if="isOrganiser">
             <div class="stream-initializer-prompt" >
@@ -48,18 +48,22 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import {CREATE_TRANSMISSION, DESTROY_TRANSMISSION, JOIN_TRANSMISSION} from "@/store/actions.type";
+  import { CREATE_TRANSMISSION, DESTROY_TRANSMISSION, JOIN_TRANSMISSION } from "@/store/actions.type";
   import store from '@/store'
   import { showErrorToasts } from "@/ToastHandler";
   import { FETCH_SELECTED_ROOM } from "@/store/actions.type";
   import * as dateformat from "dateformat";
-  import {ERASE_TRANSMISSION} from "../store/actions.type";
+  import { ERASE_TRANSMISSION } from "../store/actions.type";
+  import { OpenVidu } from 'openvidu-browser';
+  import { defaultStreamProps } from "./streamQuality";
 
   export default {
     name: "RoomPanel",
     data() {
       return {
         isPlaying: false,
+        session: null,
+        streamProps: defaultStreamProps,
       }
     },
     beforeRouteEnter(to, from, next) {
@@ -73,23 +77,24 @@
       ...mapGetters([
         'selectedRoom',
         'loggedUser',
+        'transmission',
       ]),
       isOrganiser() {
         return this.loggedUser.username === this.selectedRoom.organiser;
       },
       formattedStartAt() {
         return dateformat(new Date(this.selectedRoom.startAt), 'ddd mmm dd yyyy HH:MM');
-      }
+      },
     },
     methods: {
       startStream() {
         this.$store.dispatch(CREATE_TRANSMISSION, { roomId: this.selectedRoom.id })
-          .then(() => this.isPlaying = true)
+          .then(() => this.createPublisherSession())
           .catch(showErrorToasts);
       },
       joinStream() {
         this.$store.dispatch(JOIN_TRANSMISSION, { roomId: this.selectedRoom.id })
-          .then(() => this.isPlaying = true)
+          .then(() => this.createSpectatorSession())
           .catch(showErrorToasts);
       },
       destroyStream() {
@@ -100,10 +105,54 @@
       disconnect() {
         this.$store.dispatch(ERASE_TRANSMISSION)
           .then(() => {
-              this.isPlaying = false;
+            this.session.disconnect();
+            this.resetView();
             }
           );
-      }
+      },
+      createPublisherSession: function() {
+        const OV = new OpenVidu();
+        this.session = OV.initSession(this.transmission.sessionId);
+        this.session.connect(this.transmission.token,
+          (error) => {
+            if (!error) {
+              if (this.publishStream(OV)) {
+              } else {
+                showErrorToasts(({messages: ['Could not initialize stream, check webcam access!']}));
+              }
+              this.isPlaying = true;
+            } else {
+              showErrorToasts({messages: [`There was an error connecting to the session: ${error.code} ${error.message}`]})
+            }
+          }
+        );
+      },
+      createSpectatorSession: function() {
+        const OV = new OpenVidu();
+        this.session = OV.initSession(this.transmission.sessionId);
+        this.session.on('streamCreated', event => this.subscribeToRemoteStream(event));
+        this.session.connect(this.transmission.token,
+          error => error
+            ? showErrorToasts({messages: [`There was an error connecting to the session: ${error.code} ${error.message}`]})
+            : this.isPlaying = true
+        );
+      },
+      publishStream: function(OV) {
+        const publisher = OV.initPublisher('main-video', this.streamProps);
+        return this.session.publish(publisher);
+      },
+      subscribeToRemoteStream: function(streamCreatedEvent) {
+        const  subscriber = this.session.subscribe(streamCreatedEvent.stream, 'main-video');
+        subscriber.on('videoElementCreated', () => {
+          const video = this.$refs.mainVideo.querySelector('video');
+          video.controls = 'controls';
+        });
+      },
+      resetView: function() {
+        this.session = null;
+        this.isPlaying = false;
+        this.streamProps = defaultStreamProps;
+      },
     },
   }
 </script>
@@ -130,6 +179,9 @@
   .video-placeholder {
     width: 100%;
     height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .stream-initializer {
     height: 100%;
