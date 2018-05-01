@@ -1,5 +1,7 @@
 package com.streamacho.meeting.room.model.entity;
 
+import com.streamacho.meeting.room.model.enumeration.RoomStatus;
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +15,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
@@ -48,9 +52,14 @@ public class Room {
      @Field
      private Set<String> tags = new HashSet<>();
 
-     private boolean closed;
-
      private boolean deleted;
+
+     @Builder.Default
+     @Enumerated(EnumType.STRING)
+     private RoomStatus status = RoomStatus.PLANNED;
+
+     @Nullable
+     private LocalDateTime transmissionStartedAt;
 
      @CreatedDate
      private LocalDateTime createdDate;

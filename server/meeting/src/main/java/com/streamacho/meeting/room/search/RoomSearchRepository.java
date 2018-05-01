@@ -19,4 +19,5 @@ public interface RoomSearchRepository extends ElasticsearchRepository<Room, Long
           + "{\"fields\": [\"name\", \"organiser\", \"description\", \"tags\"],\"query\": \"?0\","
           + "\"fuzziness\": \"AUTO\"}}]}}")
      Page<Room> fuzzySearchNonDeleted(String query, Pageable pageable);
+
 }

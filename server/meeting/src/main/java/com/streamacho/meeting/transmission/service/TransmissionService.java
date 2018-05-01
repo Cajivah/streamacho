@@ -4,7 +4,9 @@ import com.streamacho.meeting.config.properties.OpenViduProperties;
 import com.streamacho.meeting.room.exception.RoomNotFoundException;
 import com.streamacho.meeting.room.exception.ValidationException;
 import com.streamacho.meeting.room.model.entity.Room;
+import com.streamacho.meeting.room.model.enumeration.RoomStatus;
 import com.streamacho.meeting.room.repository.RoomRepository;
+import com.streamacho.meeting.room.search.RoomSearchRepository;
 import com.streamacho.meeting.room.validator.RoomValidator;
 import com.streamacho.meeting.transmission.exception.SessionDoesNotExistException;
 import com.streamacho.meeting.transmission.model.dto.SessionDTO;
@@ -17,6 +19,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -28,13 +31,16 @@ public class TransmissionService {
      private final OpenVidu openViduServer;
      private final OpenViduProperties openViduProperties;
      private final RoomRepository roomRepository;
+     private final RoomSearchRepository roomSearchRepository;
      private final Map<Room, Session> sessions;
 
      @Autowired
      public TransmissionService(OpenViduProperties openViduProperties,
-                                RoomRepository roomRepository) {
+                                RoomRepository roomRepository,
+                                RoomSearchRepository roomSearchRepository) {
           this.openViduProperties = openViduProperties;
           this.roomRepository = roomRepository;
+          this.roomSearchRepository = roomSearchRepository;
           this.sessions = new HashMap<>();
           this.openViduServer = new OpenVidu(openViduProperties.getUrl(),
                openViduProperties.getSecret());
@@ -57,6 +63,11 @@ public class TransmissionService {
           String sessionId = session.getSessionId();
           String token = session.generateToken(tokenOptions);
           sessions.put(room, session);
+
+          room.setTransmissionStartedAt(LocalDateTime.now());
+          room.setStatus(RoomStatus.LIVE);
+          roomRepository.save(room);
+          roomSearchRepository.save(room);
           return new SessionDTO(token, sessionId);
      }
 
@@ -87,8 +98,9 @@ public class TransmissionService {
                        .isModifiableBy(issuer)
                        .ifInvalidThrow(ValidationException::of);
 
+          room.setStatus(RoomStatus.COMPLETED);
           sessions.remove(room);
-          room.setClosed(true);
           roomRepository.save(room);
+          roomSearchRepository.save(room);
      }
 }
