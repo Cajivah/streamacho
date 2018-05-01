@@ -6,6 +6,7 @@ import com.streamacho.meeting.room.exception.ValidationException;
 import com.streamacho.meeting.room.model.entity.Room;
 import com.streamacho.meeting.room.model.enumeration.RoomStatus;
 import com.streamacho.meeting.room.repository.RoomRepository;
+import com.streamacho.meeting.room.search.RoomSearchRepository;
 import com.streamacho.meeting.room.validator.RoomValidator;
 import com.streamacho.meeting.transmission.exception.SessionDoesNotExistException;
 import com.streamacho.meeting.transmission.model.dto.SessionDTO;
@@ -30,13 +31,16 @@ public class TransmissionService {
      private final OpenVidu openViduServer;
      private final OpenViduProperties openViduProperties;
      private final RoomRepository roomRepository;
+     private final RoomSearchRepository roomSearchRepository;
      private final Map<Room, Session> sessions;
 
      @Autowired
      public TransmissionService(OpenViduProperties openViduProperties,
-                                RoomRepository roomRepository) {
+                                RoomRepository roomRepository,
+                                RoomSearchRepository roomSearchRepository) {
           this.openViduProperties = openViduProperties;
           this.roomRepository = roomRepository;
+          this.roomSearchRepository = roomSearchRepository;
           this.sessions = new HashMap<>();
           this.openViduServer = new OpenVidu(openViduProperties.getUrl(),
                openViduProperties.getSecret());
@@ -61,7 +65,9 @@ public class TransmissionService {
           sessions.put(room, session);
 
           room.setTransmissionStartedAt(LocalDateTime.now());
+          room.setStatus(RoomStatus.LIVE);
           roomRepository.save(room);
+          roomSearchRepository.save(room);
           return new SessionDTO(token, sessionId);
      }
 
@@ -95,5 +101,6 @@ public class TransmissionService {
           room.setStatus(RoomStatus.COMPLETED);
           sessions.remove(room);
           roomRepository.save(room);
+          roomSearchRepository.save(room);
      }
 }
