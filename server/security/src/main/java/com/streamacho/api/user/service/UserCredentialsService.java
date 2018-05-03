@@ -1,7 +1,6 @@
 package com.streamacho.api.user.service;
 
 import com.streamacho.api.config.security.mapper.WebSecurityMapper;
-import com.streamacho.api.user.exception.Fault;
 import com.streamacho.api.user.exception.PasswordsMatchException;
 import com.streamacho.api.user.exception.UserNotFoundException;
 import com.streamacho.api.user.mapper.UserMapper;
@@ -14,6 +13,8 @@ import com.streamacho.api.user.model.entity.UserCredentials;
 import com.streamacho.api.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,6 +46,15 @@ public class UserCredentialsService implements UserDetailsService {
      public UserCredentials findById(Long id) {
           return userRepository.findById(id)
                .orElseThrow(UserNotFoundException::of);
+     }
+
+     public Page<UserCredentials> findByUsernameOrEmail(String username, String email, Pageable pageable) {
+          return userRepository.findAllByUsernameLikeOrEmailLike(username, email, pageable);
+     }
+
+     public Page<UserDetailsDTO> getUsersDTO(String username, String email, Pageable pageable) {
+          final Page<UserCredentials> usersPage = findByUsernameOrEmail(username, email, pageable);
+          return usersPage.map(userMapper::toUserDetailsDTO);
      }
 
      public UserDetailsDTO createUser(UserRegistrationDTO userRegistrationDTO) {
