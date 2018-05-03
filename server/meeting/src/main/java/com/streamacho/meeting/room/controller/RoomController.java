@@ -2,6 +2,7 @@ package com.streamacho.meeting.room.controller;
 
 import com.streamacho.meeting.room.model.dto.RoomCreationDTO;
 import com.streamacho.meeting.room.model.dto.RoomDTO;
+import com.streamacho.meeting.room.model.enumeration.RoomStatus;
 import com.streamacho.meeting.room.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/rooms")
@@ -57,14 +60,22 @@ public class RoomController {
      }
 
      @GetMapping
-     public Page<RoomDTO> getRooms(Pageable pageable) {
-          return roomService.getRoomsDTO(pageable);
+     public Page<RoomDTO> getRooms(@RequestParam(value = "status", required = false)
+                                        List<RoomStatus> statuses,
+                                   Pageable pageable) {
+          statuses = Optional.ofNullable(statuses)
+                             .orElse(RoomStatus.valuesAsList());
+          return roomService.getRoomsDTO(statuses, pageable);
      }
 
      @GetMapping(params = "query")
-     public Page<RoomDTO> fullTextSearch(@RequestParam String query,
-                                         Pageable pageable) {
-          return roomService.fullTextSearch(query, pageable);
+     public Page<RoomDTO> getRooms(@RequestParam String query,
+                                   @RequestParam(value = "status", required = false)
+                                        List<RoomStatus> statuses,
+                                   Pageable pageable) {
+          statuses = Optional.ofNullable(statuses)
+                             .orElse(RoomStatus.valuesAsList());
+          return roomService.getRoomsDTO(query, statuses, pageable);
      }
 
      @GetMapping("/{id}")
