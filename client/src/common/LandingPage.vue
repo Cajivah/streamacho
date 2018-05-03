@@ -21,5 +21,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+  .landing-page {
+    min-height: 100vh;
+  }
 </style>
