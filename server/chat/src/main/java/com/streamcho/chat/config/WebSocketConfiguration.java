@@ -1,6 +1,7 @@
 package com.streamcho.chat.config;
 
 import com.streamcho.chat.config.properties.ChatEndpointsProperties;
+import com.streamcho.chat.config.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -16,9 +17,12 @@ public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrok
 
      private final ChatEndpointsProperties chatEndpointsProperties;
 
+     private final SecurityProperties securityProperties;
+
      @Autowired
-     public WebSocketConfiguration(ChatEndpointsProperties chatEndpointsProperties) {
+     public WebSocketConfiguration(ChatEndpointsProperties chatEndpointsProperties, SecurityProperties securityProperties) {
           this.chatEndpointsProperties = chatEndpointsProperties;
+          this.securityProperties = securityProperties;
      }
 
      @Override
@@ -28,7 +32,9 @@ public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrok
 
      @Override
      public void registerStompEndpoints(StompEndpointRegistry registry) {
-          registry.addEndpoint(chatEndpointsProperties.getWebSocketEndpoint()).setAllowedOrigins("*").withSockJS();
+          registry.addEndpoint(chatEndpointsProperties.getWebSocketEndpoint())
+               .setAllowedOrigins(securityProperties.getFrontendOrigin())
+               .withSockJS();
      }
 
      @Override

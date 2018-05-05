@@ -28,8 +28,8 @@ public class MessagingController {
      }
 
      @MessageMapping("${streamcho.chat.chatSendPrefix}/{chatId}")
-     public void receiveChatMessage(@Payload String message, @DestinationVariable String chatId) {
-          log.info(String.format("Received text for chat %s with text %s", chatId, message));
+     public void receiveChatMessage(@Payload String message, @DestinationVariable Long chatId) {
+          log.debug(String.format("Received text for chat %s with text %s", chatId, message));
           UserChatMessagePayload inputMessagePayload = UserChatMessagePayload.builder()
                .chatId(chatId)
                .text(message)
@@ -41,7 +41,7 @@ public class MessagingController {
 
      @StreamListener(Sink.INPUT)
      public void sendSystemMessageToChat(@Payload SystemMessagePayload systemMessagePayload) {
-          log.info(String.format("Received system text %s", systemMessagePayload.toString()));
+          log.debug(String.format("Received system text %s", systemMessagePayload.toString()));
           chatMessagingService.sendSystemMessageToChat(systemMessagePayload);
      }
 }

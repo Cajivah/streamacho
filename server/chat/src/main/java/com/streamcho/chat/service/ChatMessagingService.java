@@ -25,10 +25,10 @@ public class ChatMessagingService {
      public void sendSystemMessageToChat(SystemMessagePayload payload) {
           UserChatMessagePayload chatMessagePayload = mapper.toChatMessage(payload);
           log.info(String.format("Sending message to chat %s", chatMessagePayload.toString()));
-          messageOps.convertAndSend(createDestination(payload), chatMessagePayload);
+          messageOps.convertAndSend(inferDestination(payload), chatMessagePayload);
      }
 
-     private String createDestination(SystemMessagePayload payload) {
+     private String inferDestination(SystemMessagePayload payload) {
           return String.format("/chat/%s", payload.getChatId());
      }
 }

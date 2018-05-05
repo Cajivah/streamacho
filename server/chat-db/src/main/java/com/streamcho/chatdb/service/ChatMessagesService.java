@@ -28,7 +28,7 @@ public class ChatMessagesService {
           repository.save(chatMessage);
      }
 
-     public Page<ChatMessageDto> getChatMessages(String chatId, Pageable pageable) {
+     public Page<ChatMessageDto> getChatMessages(Long chatId, Pageable pageable) {
           Page<ChatMessage> messages = repository.getByChatId(chatId, pageable);
           return messages.map(messageMapper::map);
      }

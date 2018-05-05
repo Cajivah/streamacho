@@ -20,7 +20,7 @@ public class ChatMessagesController {
      }
 
      @GetMapping("/chat/{chatId}")
-     public Page<ChatMessageDto> getLastChatMessages(@PathVariable String chatId, Pageable pageable) {
+     public Page<ChatMessageDto> getLastChatMessages(@PathVariable Long chatId, Pageable pageable) {
           return chatMessagesService.getChatMessages(chatId, pageable);
      }
 

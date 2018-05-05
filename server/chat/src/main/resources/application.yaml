@@ -68,5 +68,6 @@ eureka:
   instance:
     prefer-ip-address: true
 
-
+security:
+  frontendOrigin: 'http://localhost:8081'
 

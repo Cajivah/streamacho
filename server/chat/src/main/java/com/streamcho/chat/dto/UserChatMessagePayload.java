@@ -11,7 +11,7 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserChatMessagePayload {
-     private String chatId;
+     private Long chatId;
      @Nullable
      private String username;
      private String text;
