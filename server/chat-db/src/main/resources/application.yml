@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: streamacho-chat-db
+  cloud:
+      stream:
+        bindings:
+          input:
+            destination: queue.chat.frontend.in
+            group: default
+            durableSubscription: true
+          output:
+            destination: queue.chat.frontend.out
+            group: default
+            durableSubscription: true
+  datasource:
+    url: jdbc:postgresql://localhost:32775/streamcho-chat
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        hbm2ddl:
+          import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+  profiles:
+    active: dev
+
+server:
+  port: 8077
+#  servlet:
+#    context-path: /api/meetings
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true

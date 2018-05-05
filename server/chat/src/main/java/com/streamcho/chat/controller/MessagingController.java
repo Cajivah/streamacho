@@ -11,7 +11,6 @@ import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
 @Log4j2
@@ -22,18 +21,10 @@ public class MessagingController {
 
     private final ChatMessagingService chatMessagingService;
 
-    private final SimpMessageSendingOperations simpMessageSendingOperations;
-
-
     @Autowired
-    public MessagingController(SimpMessageSendingOperations simpMessageSendingOperations, SystemMessagesService systemMessagesService, ChatMessagingService chatMessagingService) {
-        this.simpMessageSendingOperations = simpMessageSendingOperations;
+    public MessagingController(SystemMessagesService systemMessagesService, ChatMessagingService chatMessagingService) {
         this.systemMessagesService = systemMessagesService;
         this.chatMessagingService = chatMessagingService;
-    }
-
-    private String createMessageReceiveMapping(String chatSendPrefix) {
-        return chatSendPrefix + "{chatId}";
     }
 
     @MessageMapping("${streamcho.chat.chatSendPrefix}/{chatId}")
@@ -47,7 +38,6 @@ public class MessagingController {
 
         systemMessagesService.sendChatMessageToSystem(inputMessagePayload);
     }
-
 
     @StreamListener(Sink.INPUT)
     public void sendSystemMessageToChat(@Payload SystemMessagePayload systemMessagePayload) {

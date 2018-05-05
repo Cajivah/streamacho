@@ -5,7 +5,7 @@ spring:
     stream:
       bindings:
         input:
-          destination: queue.chat.frontend.in
+          destination: queue.chat.frontend.out
 #          binder: localrabbit
           group: default
           durableSubscription: true
