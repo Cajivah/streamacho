@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(ChatEndpointsProperties.class)
 public class ChatApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ChatApplication.class, args);
-    }
+     public static void main(String[] args) {
+          SpringApplication.run(ChatApplication.class, args);
+     }
 }

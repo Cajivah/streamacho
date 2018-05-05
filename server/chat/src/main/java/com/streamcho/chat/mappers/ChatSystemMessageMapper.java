@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ChatSystemMessageMapper {
 
-    UserChatMessagePayload toChatMessage(SystemMessagePayload systemMessagePayload);
+     UserChatMessagePayload toChatMessage(SystemMessagePayload systemMessagePayload);
 
-    SystemMessagePayload toSystemMessage(UserChatMessagePayload systemMessagePayload);
+     SystemMessagePayload toSystemMessage(UserChatMessagePayload systemMessagePayload);
 
 }

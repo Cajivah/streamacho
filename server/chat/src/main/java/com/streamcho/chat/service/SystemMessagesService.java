@@ -14,24 +14,24 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class SystemMessagesService {
 
-    private final Processor processor;
+     private final Processor processor;
 
-    private final ChatSystemMessageMapper mapper;
+     private final ChatSystemMessageMapper mapper;
 
-    @Autowired
-    public SystemMessagesService(Processor processor, ChatSystemMessageMapper mapper) {
-        this.processor = processor;
-        this.mapper = mapper;
-    }
+     @Autowired
+     public SystemMessagesService(Processor processor, ChatSystemMessageMapper mapper) {
+          this.processor = processor;
+          this.mapper = mapper;
+     }
 
-    public void sendChatMessageToSystem(UserChatMessagePayload userChatMessagePayload) {
-        SystemMessagePayload payload = mapper.toSystemMessage(userChatMessagePayload);
-        Message<SystemMessagePayload> systemMessage = MessageBuilder.withPayload(payload).build();
-        log.info("Sending text to system with payload " + payload.toString());
-        sendMessage(systemMessage);
-    }
+     public void sendChatMessageToSystem(UserChatMessagePayload userChatMessagePayload) {
+          SystemMessagePayload payload = mapper.toSystemMessage(userChatMessagePayload);
+          Message<SystemMessagePayload> systemMessage = MessageBuilder.withPayload(payload).build();
+          log.info("Sending text to system with payload " + payload.toString());
+          sendMessage(systemMessage);
+     }
 
-    private void sendMessage(Message<SystemMessagePayload> systemMessage) {
-        processor.output().send(systemMessage);
-    }
+     private void sendMessage(Message<SystemMessagePayload> systemMessage) {
+          processor.output().send(systemMessage);
+     }
 }

@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SystemMessagePayload {
-    private String username;
-    private String chatId;
-    private String text;
+     private String username;
+     private String chatId;
+     private String text;
 }

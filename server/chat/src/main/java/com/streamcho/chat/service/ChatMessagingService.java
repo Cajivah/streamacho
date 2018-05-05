@@ -12,23 +12,23 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class ChatMessagingService {
 
-    private final SimpMessageSendingOperations messageOps;
+     private final SimpMessageSendingOperations messageOps;
 
-    private final ChatSystemMessageMapper mapper;
+     private final ChatSystemMessageMapper mapper;
 
-    @Autowired
-    public ChatMessagingService(SimpMessageSendingOperations messageOps, ChatSystemMessageMapper mapper) {
-        this.messageOps = messageOps;
-        this.mapper = mapper;
-    }
+     @Autowired
+     public ChatMessagingService(SimpMessageSendingOperations messageOps, ChatSystemMessageMapper mapper) {
+          this.messageOps = messageOps;
+          this.mapper = mapper;
+     }
 
-    public void sendSystemMessageToChat(SystemMessagePayload payload) {
-        UserChatMessagePayload chatMessagePayload = mapper.toChatMessage(payload);
-        log.info(String.format("Sending message to chat %s", chatMessagePayload.toString()));
-        messageOps.convertAndSend(createDestination(payload), chatMessagePayload);
-    }
+     public void sendSystemMessageToChat(SystemMessagePayload payload) {
+          UserChatMessagePayload chatMessagePayload = mapper.toChatMessage(payload);
+          log.info(String.format("Sending message to chat %s", chatMessagePayload.toString()));
+          messageOps.convertAndSend(createDestination(payload), chatMessagePayload);
+     }
 
-    private String createDestination(SystemMessagePayload payload) {
-        return String.format("/chat/%s", payload.getChatId());
-    }
+     private String createDestination(SystemMessagePayload payload) {
+          return String.format("/chat/%s", payload.getChatId());
+     }
 }

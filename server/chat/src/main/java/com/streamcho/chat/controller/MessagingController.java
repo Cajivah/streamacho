@@ -17,31 +17,31 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MessagingController {
 
-    private final SystemMessagesService systemMessagesService;
+     private final SystemMessagesService systemMessagesService;
 
-    private final ChatMessagingService chatMessagingService;
+     private final ChatMessagingService chatMessagingService;
 
-    @Autowired
-    public MessagingController(SystemMessagesService systemMessagesService, ChatMessagingService chatMessagingService) {
-        this.systemMessagesService = systemMessagesService;
-        this.chatMessagingService = chatMessagingService;
-    }
+     @Autowired
+     public MessagingController(SystemMessagesService systemMessagesService, ChatMessagingService chatMessagingService) {
+          this.systemMessagesService = systemMessagesService;
+          this.chatMessagingService = chatMessagingService;
+     }
 
-    @MessageMapping("${streamcho.chat.chatSendPrefix}/{chatId}")
-    public void receiveChatMessage(@Payload String message, @DestinationVariable String chatId) {
-        log.info(String.format("Received text for chat %s with text %s", chatId, message));
-        UserChatMessagePayload inputMessagePayload = UserChatMessagePayload.builder()
-                .chatId(chatId)
-                .text(message)
-                .username("robert")
-                .build();
+     @MessageMapping("${streamcho.chat.chatSendPrefix}/{chatId}")
+     public void receiveChatMessage(@Payload String message, @DestinationVariable String chatId) {
+          log.info(String.format("Received text for chat %s with text %s", chatId, message));
+          UserChatMessagePayload inputMessagePayload = UserChatMessagePayload.builder()
+               .chatId(chatId)
+               .text(message)
+               .username("robert")
+               .build();
 
-        systemMessagesService.sendChatMessageToSystem(inputMessagePayload);
-    }
+          systemMessagesService.sendChatMessageToSystem(inputMessagePayload);
+     }
 
-    @StreamListener(Sink.INPUT)
-    public void sendSystemMessageToChat(@Payload SystemMessagePayload systemMessagePayload) {
-        log.info(String.format("Received system text %s", systemMessagePayload.toString()));
-        chatMessagingService.sendSystemMessageToChat(systemMessagePayload);
-    }
+     @StreamListener(Sink.INPUT)
+     public void sendSystemMessageToChat(@Payload SystemMessagePayload systemMessagePayload) {
+          log.info(String.format("Received system text %s", systemMessagePayload.toString()));
+          chatMessagingService.sendSystemMessageToChat(systemMessagePayload);
+     }
 }

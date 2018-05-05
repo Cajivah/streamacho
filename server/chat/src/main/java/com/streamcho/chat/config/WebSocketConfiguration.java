@@ -14,42 +14,41 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
-    private final ChatEndpointsProperties chatEndpointsProperties;
+     private final ChatEndpointsProperties chatEndpointsProperties;
 
-    @Autowired
-    public WebSocketConfiguration(ChatEndpointsProperties chatEndpointsProperties) {
-        this.chatEndpointsProperties = chatEndpointsProperties;
-    }
+     @Autowired
+     public WebSocketConfiguration(ChatEndpointsProperties chatEndpointsProperties) {
+          this.chatEndpointsProperties = chatEndpointsProperties;
+     }
 
-    @Override
-    protected boolean sameOriginDisabled() {
-        return true;
-    }
+     @Override
+     protected boolean sameOriginDisabled() {
+          return true;
+     }
 
-    @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint(chatEndpointsProperties.getWebSocketEndpoint()).setAllowedOrigins("*").withSockJS();
-    }
+     @Override
+     public void registerStompEndpoints(StompEndpointRegistry registry) {
+          registry.addEndpoint(chatEndpointsProperties.getWebSocketEndpoint()).setAllowedOrigins("*").withSockJS();
+     }
 
+     @Override
+     protected void customizeClientInboundChannel(ChannelRegistration registration) {
+          //registration.interceptors(new AuthenticationChannelInterceptor());
+          super.customizeClientInboundChannel(registration);
+     }
 
-    @Override
-    protected void customizeClientInboundChannel(ChannelRegistration registration) {
-//        registration.interceptors(new AuthenticationChannelInterceptor());
-        super.customizeClientInboundChannel(registration);
-    }
+     @Override
+     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
+          messages
+               .nullDestMatcher().permitAll()
+               .simpSubscribeDestMatchers(chatEndpointsProperties.getChatSubscribePrefix() + "/**").permitAll()
+               .simpMessageDestMatchers(chatEndpointsProperties.getChatSendPrefix() + "/**").permitAll()
+               .anyMessage().denyAll();
+     }
 
-    @Override
-    protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
-        messages
-                .nullDestMatcher().permitAll()
-                .simpSubscribeDestMatchers(chatEndpointsProperties.getChatSubscribePrefix() + "/**").permitAll()
-                .simpMessageDestMatchers(chatEndpointsProperties.getChatSendPrefix() + "/**").permitAll()
-                .anyMessage().denyAll();
-    }
-
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker(chatEndpointsProperties.getChatSubscribePrefix());
-        registry.setApplicationDestinationPrefixes("/");
-    }
+     @Override
+     public void configureMessageBroker(MessageBrokerRegistry registry) {
+          registry.enableSimpleBroker(chatEndpointsProperties.getChatSubscribePrefix());
+          registry.setApplicationDestinationPrefixes("/");
+     }
 }

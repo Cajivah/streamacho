@@ -13,13 +13,13 @@ import javax.validation.constraints.NotBlank;
 @ConfigurationProperties("streamcho.chat")
 public class ChatEndpointsProperties {
 
-    @NotBlank
-    private String chatSubscribePrefix;
+     @NotBlank
+     private String chatSubscribePrefix;
 
-    @NotBlank
-    private String chatSendPrefix;
+     @NotBlank
+     private String chatSendPrefix;
 
-    @NotBlank
-    private String webSocketEndpoint;
+     @NotBlank
+     private String webSocketEndpoint;
 
 }
