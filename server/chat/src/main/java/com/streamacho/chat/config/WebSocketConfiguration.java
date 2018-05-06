@@ -5,7 +5,6 @@ import com.streamacho.chat.config.properties.SecurityProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
@@ -33,17 +32,11 @@ public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrok
      }
 
      @Override
-     protected void customizeClientInboundChannel(ChannelRegistration registration) {
-          //registration.interceptors(new AuthenticationChannelInterceptor());
-          super.customizeClientInboundChannel(registration);
-     }
-
-     @Override
      protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
           messages
                .nullDestMatcher().permitAll()
-               .simpSubscribeDestMatchers(chatEndpointsProperties.getChatSubscribePrefix() + "/**").permitAll()
-               .simpMessageDestMatchers(chatEndpointsProperties.getChatSendPrefix() + "/**").permitAll()
+               .simpSubscribeDestMatchers(chatEndpointsProperties.getChatSubscribePrefix() + "/**").authenticated()
+               .simpMessageDestMatchers(chatEndpointsProperties.getChatSendPrefix() + "/**").authenticated()
                .anyMessage().denyAll();
      }
 

@@ -14,6 +14,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 
+import java.security.Principal;
+
 @Log4j2
 @Controller
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,12 +25,14 @@ public class MessagingController {
      private final ChatMessagingService chatMessagingService;
 
      @MessageMapping("${streamacho.chat.chatSendPrefix}/{chatId}")
-     public void receiveChatMessage(@Payload String message, @DestinationVariable Long chatId) {
+     public void receiveChatMessage(@Payload String message,
+                                    @DestinationVariable Long chatId,
+                                    Principal user) {
           log.debug(String.format("Received text for chat %s with text %s", chatId, message));
           UserChatMessagePayload inputMessagePayload = UserChatMessagePayload.builder()
                .chatId(chatId)
                .text(message)
-               .username("robert")
+               .username(user.getName())
                .build();
 
           systemMessagesService.sendChatMessageToSystem(inputMessagePayload);
