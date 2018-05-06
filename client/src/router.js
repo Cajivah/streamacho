@@ -9,10 +9,11 @@ import RoomPanel from '@/room/RoomPanel';
 import MyMeetings from '@/meetings/MyMeetings';
 import store from '@/store';
 import Activate from '@/activation/Activate';
+import {FETCH_LOGGED_USER} from './store/actions.type';
 
 Vue.use(Router);
 
-const ifNotAuthenticated = (to, from, next) => {
+const ifNotAuthenticatedOnly = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
     next();
     return
@@ -21,11 +22,9 @@ const ifNotAuthenticated = (to, from, next) => {
 };
 
 const ifAuthenticated = (to, from, next) => {
-  if (store.getters.isAuthenticated) {
-    next();
-    return
-  }
-  next('/login')
+  store.dispatch(FETCH_LOGGED_USER)
+    .then(next)
+    .catch(() => next('/login'));
 };
 
 export default new Router({
@@ -58,13 +57,13 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register,
-      beforeEnter: ifNotAuthenticated
+      beforeEnter: ifNotAuthenticatedOnly
     },
     {
       path: '/login',
       name: 'login',
       component: Login,
-      beforeEnter: ifNotAuthenticated
+      beforeEnter: ifNotAuthenticatedOnly
     },
     {
       path: '/activate',

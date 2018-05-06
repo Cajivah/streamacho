@@ -32,7 +32,7 @@ public class TransmissionService {
      private final OpenViduProperties openViduProperties;
      private final RoomRepository roomRepository;
      private final RoomSearchRepository roomSearchRepository;
-     private final Map<Room, Session> sessions;
+     private final Map<Long, Session> sessions;
 
      @Autowired
      public TransmissionService(OpenViduProperties openViduProperties,
@@ -62,7 +62,7 @@ public class TransmissionService {
           Session session = openViduServer.createSession();
           String sessionId = session.getSessionId();
           String token = session.generateToken(tokenOptions);
-          sessions.put(room, session);
+          sessions.put(room.getId(), session);
 
           room.setTransmissionStartedAt(LocalDateTime.now());
           room.setStatus(RoomStatus.LIVE);
@@ -78,7 +78,7 @@ public class TransmissionService {
      public SessionDTO joinStream(Long roomId, UserDetails issuer) {
           Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
                                     .orElseThrow(RoomNotFoundException::of);
-          Session session = Optional.ofNullable(sessions.get(room))
+          Session session = Optional.ofNullable(sessions.get(room.getId()))
                                     .orElseThrow(SessionDoesNotExistException::of);
 
           OpenViduRole openViduRole = OpenViduRole.SUBSCRIBER;
@@ -99,7 +99,7 @@ public class TransmissionService {
                        .ifInvalidThrow(ValidationException::of);
 
           room.setStatus(RoomStatus.COMPLETED);
-          sessions.remove(room);
+          sessions.remove(room.getId());
           roomRepository.save(room);
           roomSearchRepository.save(room);
      }

@@ -43,10 +43,11 @@ const actions = {
         .catch(({ error }) => commit(SET_ERROR, error))
     )
   },
-  [FETCH_SELECTED_ROOM]({ commit }, id) {
+  [FETCH_SELECTED_ROOM]({ commit }, { roomId }) {
     return new Promise(( resolve, reject ) =>
-      Vue.axios.get(`meetings/rooms/${id}`)
-        .then(({ data }) => {
+      Vue.axios.get(`meetings/rooms/${ roomId }`)
+        .then((response) => {
+          const data = response.data;
           commit(SET_SELECTED_ROOM, data);
           resolve(data);
         })

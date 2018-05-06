@@ -6922,6 +6922,10 @@ vue@^2.5.2:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
+vuejs-countdown@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/vuejs-countdown/-/vuejs-countdown-0.2.1.tgz#184fc578356cba88f7b5356881ea7e123e5bf259"
+
 vuex@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"

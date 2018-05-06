@@ -14,8 +14,5 @@ export default {
   components: {
     Navigation
   },
-  mounted() {
-    this.$store.dispatch(FETCH_LOGGED_USER);
-  }
 };
 </script>

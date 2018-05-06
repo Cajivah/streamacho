@@ -21,18 +21,8 @@
     <div class="container mt-2">
       <div id="main-video" ref="mainVideo" class="video-placeholder">
         <div class="stream-initializer" v-if="!isPlaying">
-          <a class="button is-circle-300 is-primary" @click="startStream" v-if="isOrganiser">
-            <div class="stream-initializer-prompt" >
-              <h5 class="is-size-1 has-text-weight-bold">Start</h5>
-              <h6 class="is-size-4">streaming</h6>
-            </div>
-          </a>
-          <a class="button is-circle-300 is-primary" @click="joinStream" v-else>
-            <div class="stream-initializer-prompt">
-              <h5 class="is-size-1 has-text-weight-bold">Join</h5>
-              <h6 class="is-size-4">stream</h6>
-            </div>
-          </a>
+          <organiser-controls v-if="isOrganiser" :start="startStream" :status="selectedRoom.status" :start-at="selectedRoom.startAt"/>
+          <spectator-controls v-else :start="joinStream" :status="selectedRoom.status" :start-at="selectedRoom.startAt"/>
         </div>
       </div>
     </div>
@@ -48,14 +38,16 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import { CREATE_TRANSMISSION, DESTROY_TRANSMISSION, JOIN_TRANSMISSION } from "@/store/actions.type";
+  import { CREATE_TRANSMISSION, DESTROY_TRANSMISSION, JOIN_TRANSMISSION } from '@/store/actions.type';
   import store from '@/store'
-  import { showErrorToasts } from "@/ToastHandler";
-  import { FETCH_SELECTED_ROOM } from "@/store/actions.type";
-  import * as dateformat from "dateformat";
-  import { ERASE_TRANSMISSION } from "../store/actions.type";
+  import { showErrorToasts } from '@/ToastHandler';
+  import { FETCH_SELECTED_ROOM } from '@/store/actions.type';
+  import * as dateformat from 'dateformat';
+  import { ERASE_TRANSMISSION } from '../store/actions.type';
   import { OpenVidu } from 'openvidu-browser';
-  import { defaultStreamProps } from "./streamQuality";
+  import { defaultStreamProps } from './streamQuality';
+  import OrganiserControls from '@/room/OrganiserControls';
+  import SpectatorControls from '@/room/SpectatorControls';
 
   export default {
     name: "RoomPanel",
@@ -66,9 +58,14 @@
         streamProps: defaultStreamProps,
       }
     },
+    components: {
+      OrganiserControls,
+      SpectatorControls,
+    },
     beforeRouteEnter(to, from, next) {
-      store.dispatch(FETCH_SELECTED_ROOM, to.params.id)
+      store.dispatch(FETCH_SELECTED_ROOM, { roomId: to.params.id })
         .then(() => next())
+        .catch(showErrorToasts);
     },
     beforeDestroy() {
       this.isOrganiser && this.isPlaying ? this.destroyStream() : this.disconnect();
@@ -81,6 +78,13 @@
       ]),
       isOrganiser() {
         return this.loggedUser.username === this.selectedRoom.organiser;
+      },
+      canStartTransmission() {
+        const dateStart = new Date(this.selectedRoom.startAt);
+        return dateStart <= new Date() && this.selectedRoom.status === 'PLANNED';
+      },
+      canJoinTransmission() {
+        return this.selectedRoom.status === 'LIVE';
       },
       formattedStartAt() {
         return dateformat(new Date(this.selectedRoom.startAt), 'ddd mmm dd yyyy HH:MM');
@@ -95,11 +99,11 @@
       joinStream() {
         this.$store.dispatch(JOIN_TRANSMISSION, { roomId: this.selectedRoom.id })
           .then(() => this.createSpectatorSession())
-          .catch(showErrorToasts);
+          .catch(() => showErrorToasts({ messages: ['Stream has not been started yet']}));
       },
       destroyStream() {
         this.$store.dispatch(DESTROY_TRANSMISSION, { roomId: this.selectedRoom.id })
-          .then(() => this.disconnect())
+          .then(this.disconnect)
           .catch(showErrorToasts);
       },
       disconnect() {
@@ -108,7 +112,9 @@
             this.session.disconnect();
             this.resetView();
             }
-          );
+          )
+          .then(() => store.dispatch(FETCH_SELECTED_ROOM, { roomId: this.selectedRoom.id }))
+          .catch(showErrorToasts);
       },
       createPublisherSession: function() {
         const OV = new OpenVidu();
@@ -139,6 +145,10 @@
       },
       publishStream: function(OV) {
         const publisher = OV.initPublisher('main-video', this.streamProps);
+        publisher.on('videoElementCreated', () => {
+          const video = this.$refs.mainVideo.querySelector('video');
+          video.controls = 'controls';
+        });
         return this.session.publish(publisher);
       },
       subscribeToRemoteStream: function(streamCreatedEvent) {
@@ -182,28 +192,5 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .stream-initializer {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .stream-initializer-prompt {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    line-height: 36px;
-  }
-  .is-circle-300 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: none;
-    text-align: center;
-    border-radius: 50%;
-    height: 300px;
-    line-height: 300px;
-    width: 300px;
   }
 </style>
