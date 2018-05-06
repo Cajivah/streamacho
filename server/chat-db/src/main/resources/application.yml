@@ -13,7 +13,7 @@ spring:
             group: default
             durableSubscription: true
   datasource:
-    url: jdbc:postgresql://localhost:32775/streamcho-chat
+    url: jdbc:postgresql://localhost:55434/streamacho-chat
     username: root
     password: root
     driver-class-name: org.postgresql.Driver
@@ -31,13 +31,13 @@ spring:
     active: dev
 
 server:
-  port: 8077
-#  servlet:
-#    context-path: /api/meetings
+  port: 0
+  servlet:
+    context-path: /api/chat-db
 
 eureka:
   client:
-    registerWithEureka: false
+    registerWithEureka: true
     fetch-registry: false
     serviceUrl:
       defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}

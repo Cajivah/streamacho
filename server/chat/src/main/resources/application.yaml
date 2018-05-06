@@ -6,68 +6,37 @@ spring:
       bindings:
         input:
           destination: queue.chat.frontend.out
-#          binder: localrabbit
           group: default
           durableSubscription: true
         output:
           destination: queue.chat.frontend.in
-#          binder: localrabbit
           group: default
           durableSubscription: true
-#      binders:
-#        localrabbit:
-#          type: rabbit
-#          environment:
-#            spring:
-#              rabbitmq:
-#                host: localhost
-#                port: 5672
-#                username: guest
-#                password: guest
-#                virtual-host: /
-
-
   session:
     store-type: redis
     redis:
       flush-mode: ON_SAVE
       namespace: streamacho
-#  datasource:
-#    url: jdbc:postgresql://localhost:55433/streamacho-meetings
-#    username: root
-#    password: root
-#    driver-class-name: org.postgresql.Driver
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
-#    properties:
-#      hibernate:
-#        show_sql: true
-#        temp:
-#          use_jdbc_metadata_defaults: false
-#        hbm2ddl:
-#          import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-
 server:
-  port: 8091
-#  servlet:
-#    context-path: /api/chat
-
-streamcho:
-  chat:
-    chatSubscribePrefix: /chat
-    chatSendPrefix: /send
-    webSocketEndpoint: /ws
+  port: 0
+  servlet:
+    context-path: /api/chat
 
 eureka:
   client:
-    registerWithEureka: false
+    registerWithEureka: true
     fetch-registry: false
     serviceUrl:
       defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
 
+streamacho:
+  chat:
+    chatSubscribePrefix: /chat
+    chatSendPrefix: /send
+    webSocketEndpoint: /ws
+
 security:
-  frontendOrigin: 'http://localhost:8081'
+  frontendOrigin: 'http://localhost:8080'
 

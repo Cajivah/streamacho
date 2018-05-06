@@ -17,6 +17,35 @@ services:
       - streamacho-security-database
       - streamacho-session-redis
 
+  streamacho-chat-service:
+    build:
+      context: chat/
+      dockerfile: build/docker/Dockerfile
+    depends_on:
+      - streamacho-chat-rabbitmq
+      - streamacho-chat-database
+      - streamacho-chat-db-service
+    network_mode: host
+    ports:
+      - 8091:8091
+
+  streamacho-chat-db-service:
+    build:
+      context: chat-db/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-chat-rabbitmq
+      - streamacho-chat-database
+
+  streamacho-chat-service:
+    build:
+      context: chat/
+      dockerfile: build/docker/Dockerfile
+    network_mode: host
+    depends_on:
+      - streamacho-chat-rabbitmq
+
   streamacho-meetings-service:
     build:
       context: meeting/
@@ -58,6 +87,23 @@ services:
       POSTGRES_DB: streamacho-meetings
     ports:
      - 55433:5432
+
+  streamacho-chat-database:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: streamacho-chat
+    ports:
+     - 55434:5432
+
+  streamacho-chat-rabbitmq:
+    image: rabbitmq:3.6-management
+    ports:
+      - 25672:25672
+      - 15672:15672
+      - 5672:5672
+      - 4369:4369
 
   streamacho-openvidu:
     image: openvidu/openvidu-server-kms
