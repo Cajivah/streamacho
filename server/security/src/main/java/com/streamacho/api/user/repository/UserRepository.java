@@ -13,6 +13,6 @@ public interface UserRepository extends JpaRepository<UserCredentials, Long> {
 
      Optional<UserCredentials> findByUsernameIgnoreCaseAndVerifiedTrue(String username);
 
-     Page<UserCredentials> findAllByUsernameLikeOrEmailLike(String username, String email,
+     Page<UserCredentials> findAllByUsernameContainingOrEmailContainingAllIgnoreCase(String username, String email,
                                                             Pageable pageable);
 }

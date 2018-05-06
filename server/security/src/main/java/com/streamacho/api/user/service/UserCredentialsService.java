@@ -48,12 +48,12 @@ public class UserCredentialsService implements UserDetailsService {
                .orElseThrow(UserNotFoundException::of);
      }
 
-     public Page<UserCredentials> findByUsernameOrEmail(String username, String email, Pageable pageable) {
-          return userRepository.findAllByUsernameLikeOrEmailLike(username, email, pageable);
+     public Page<UserCredentials> findByUsernameOrEmail(String query, Pageable pageable) {
+          return userRepository.findAllByUsernameContainingOrEmailContainingAllIgnoreCase(query, query, pageable);
      }
 
-     public Page<UserDetailsDTO> getUsersDTO(String username, String email, Pageable pageable) {
-          final Page<UserCredentials> usersPage = findByUsernameOrEmail(username, email, pageable);
+     public Page<UserDetailsDTO> getUsersDTO(String query, Pageable pageable) {
+          final Page<UserCredentials> usersPage = findByUsernameOrEmail(query, pageable);
           return usersPage.map(userMapper::toUserDetailsDTO);
      }
 

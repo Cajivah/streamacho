@@ -29,14 +29,6 @@ public class UserController {
 
      private final UserCredentialsService userCredentialsService;
 
-     @GetMapping
-     public Page<UserDetailsDTO> getUsers(@RequestParam String username,
-                                          @RequestParam String email,
-                                          Pageable pageable,
-                                          @AuthenticationPrincipal UserDetails issuer) {
-          return userCredentialsService.getUsersDTO(username, email, pageable);
-     }
-
      @PostMapping
      @ResponseStatus(HttpStatus.CREATED)
      public UserDetailsDTO createUser(@RequestBody @Validated UserRegistrationDTO registrationDTO) {
