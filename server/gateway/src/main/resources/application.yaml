@@ -26,6 +26,7 @@ spring:
         predicates:
         - Path=/api/meetings/**
       - id: streamacho-chat-ws
+        order: 8888
         uri: lb:ws://streamacho-chat
         predicates:
         - Path=/api/chat/**

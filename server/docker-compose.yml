@@ -22,6 +22,7 @@ services:
       context: chat/
       dockerfile: build/docker/Dockerfile
     depends_on:
+      - streamacho-discovery-server
       - streamacho-chat-rabbitmq
       - streamacho-chat-database
       - streamacho-chat-db-service
@@ -35,6 +36,7 @@ services:
       dockerfile: build/docker/Dockerfile
     network_mode: host
     depends_on:
+      - streamacho-discovery-server
       - streamacho-chat-rabbitmq
       - streamacho-chat-database
 
