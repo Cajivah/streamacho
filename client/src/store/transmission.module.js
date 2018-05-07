@@ -8,7 +8,6 @@ const state = {
 
 const getters = {
   transmission: state => state.transmission,
-  errors: state => state.errors,
 };
 
 const actions = {

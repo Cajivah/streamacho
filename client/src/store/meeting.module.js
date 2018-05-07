@@ -11,7 +11,6 @@ const state = {
 
 const getters = {
   meetings: state => state.meetings,
-  errors: state => state.errors,
   selectedRoom: state => state.selectedRoom,
 };
 
