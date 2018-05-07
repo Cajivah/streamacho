@@ -5,14 +5,13 @@ import com.streamacho.chatdb.dto.SystemChatMessagePayload;
 import com.streamacho.chatdb.mapper.MessageMapper;
 import com.streamacho.chatdb.model.ChatMessage;
 import com.streamacho.chatdb.repository.ChatMessageRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class ChatMessagesService {
 
      private final ChatMessageRepository repository;

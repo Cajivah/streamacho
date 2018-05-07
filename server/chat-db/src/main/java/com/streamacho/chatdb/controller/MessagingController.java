@@ -2,15 +2,14 @@ package com.streamacho.chatdb.controller;
 
 import com.streamacho.chatdb.dto.SystemChatMessagePayload;
 import com.streamacho.chatdb.service.ChatMessagesService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 @Controller
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class MessagingController {
 
      private final ChatMessagesService chatMessagesService;

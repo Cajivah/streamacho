@@ -2,8 +2,7 @@ package com.streamacho.chatdb.controller;
 
 import com.streamacho.chatdb.dto.ChatMessageDto;
 import com.streamacho.chatdb.service.ChatMessagesService;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class ChatMessagesController {
 
      private final ChatMessagesService chatMessagesService;

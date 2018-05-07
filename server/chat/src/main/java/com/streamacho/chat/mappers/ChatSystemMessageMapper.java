@@ -1,14 +1,14 @@
 package com.streamacho.chat.mappers;
 
-import com.streamacho.chat.dto.SystemMessagePayload;
+import com.streamacho.chat.dto.SystemChatMessagePayload;
 import com.streamacho.chat.dto.UserChatMessagePayload;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ChatSystemMessageMapper {
 
-     UserChatMessagePayload toChatMessage(SystemMessagePayload systemMessagePayload);
+     UserChatMessagePayload toChatMessage(SystemChatMessagePayload systemChatMessagePayload);
 
-     SystemMessagePayload toSystemMessage(UserChatMessagePayload systemMessagePayload);
+     SystemChatMessagePayload toSystemMessage(UserChatMessagePayload systemMessagePayload);
 
 }

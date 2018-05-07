@@ -1,35 +1,38 @@
 package com.streamacho.chat.service;
 
-import com.streamacho.chat.config.properties.ChatEndpointsProperties;
 import com.streamacho.chat.dto.OnlineUserDto;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.user.SimpSubscriptionMatcher;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class ChatRoomService {
 
-     private final ChatEndpointsProperties chatEndpointsProperties;
      private final SimpUserRegistry simpUserRegistry;
+     private final ChatEndpointDestinationResolver chatEndpointDestinationResolver;
 
      public List<OnlineUserDto> getOnlineUsers(Long chatId) {
-          SimpSubscriptionMatcher destinationChatIdMatcher = subscription ->
-               subscription
-                    .getDestination()
-                    .equals(chatEndpointsProperties.getChatSubscribePrefix() + "/" + chatId);
+          SimpSubscriptionMatcher chatIdMatcher = createChatIdMatcher(chatId);
           return simpUserRegistry
-               .findSubscriptions(destinationChatIdMatcher)
+               .findSubscriptions(chatIdMatcher)
                .stream()
                .map(simpSubscription ->
                     new OnlineUserDto(simpSubscription.getSession().getUser().getName()))
                .distinct()
-               .collect(Collectors.toList());
+               .collect(toList());
 
+     }
+
+     private SimpSubscriptionMatcher createChatIdMatcher(Long chatId) {
+          return subscription ->
+               subscription
+                    .getDestination()
+                    .equals(chatEndpointDestinationResolver.getDestination(chatId));
      }
 }

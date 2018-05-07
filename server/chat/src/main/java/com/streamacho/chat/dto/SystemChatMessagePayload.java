@@ -7,7 +7,7 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemMessagePayload {
+public class SystemChatMessagePayload {
      private Long chatId;
      private String username;
      private String text;

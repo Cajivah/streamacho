@@ -2,8 +2,7 @@ package com.streamacho.chat.config;
 
 import com.streamacho.chat.config.properties.ChatEndpointsProperties;
 import com.streamacho.chat.config.properties.SecurityProperties;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
@@ -13,7 +12,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 
 @Configuration
 @EnableWebSocketMessageBroker
-@AllArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
      private final ChatEndpointsProperties chatEndpointsProperties;
@@ -35,7 +34,7 @@ public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrok
      protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
           messages
                .nullDestMatcher().permitAll()
-               .simpSubscribeDestMatchers(chatEndpointsProperties.getChatSubscribePrefix() + "/**").authenticated()
+               .simpSubscribeDestMatchers(chatEndpointsProperties.getChatSubscribePrefix() + "/**").permitAll()
                .simpMessageDestMatchers(chatEndpointsProperties.getChatSendPrefix() + "/**").authenticated()
                .anyMessage().denyAll();
      }
