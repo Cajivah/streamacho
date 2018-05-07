@@ -6,14 +6,17 @@ import com.streamacho.meeting.room.mapper.RoomMapper;
 import com.streamacho.meeting.room.model.dto.RoomCreationDTO;
 import com.streamacho.meeting.room.model.dto.RoomDTO;
 import com.streamacho.meeting.room.model.entity.Room;
-import com.streamacho.meeting.room.repository.RoomRepository;
-import com.streamacho.meeting.room.search.RoomSearchRepository;
+import com.streamacho.meeting.room.model.enumeration.RoomStatus;
+import com.streamacho.meeting.room.repository.elasticsearch.RoomSearchRepository;
+import com.streamacho.meeting.room.repository.jpa.RoomRepository;
 import com.streamacho.meeting.room.validator.RoomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +26,13 @@ public class RoomService {
      private final RoomRepository roomRepository;
      private final RoomMapper roomMapper;
 
-     public Page<RoomDTO> getRoomsDTO(Pageable pageable) {
-          final Page<Room> rooms = getRooms(pageable);
+     public Page<RoomDTO> getRoomsDTO(String query, List<RoomStatus> statuses, Pageable pageable) {
+          Page<Room> rooms = roomSearchRepository.fuzzySearchNonDeleted(query, statuses, pageable);
+          return rooms.map(roomMapper::toRoomDTO);
+     }
+
+     public Page<RoomDTO> getRoomsDTO(List<RoomStatus> statuses, Pageable pageable) {
+          Page<Room> rooms = roomSearchRepository.searchNonDeleted(statuses, pageable);
           return rooms.map(roomMapper::toRoomDTO);
      }
 
@@ -60,18 +68,9 @@ public class RoomService {
           roomSearchRepository.deleteSoft(room);
      }
 
-     private Page<Room> getRooms(Pageable pageable) {
-          return roomRepository.findAllByDeletedFalse(pageable);
-     }
-
      private Room getRoomById(Long id) {
           return roomRepository
                .findOneByIdAndDeletedFalse(id)
                .orElseThrow(RoomNotFoundException::of);
-     }
-
-     public Page<RoomDTO> fullTextSearch(String query, Pageable pageable) {
-          Page<Room> rooms = roomSearchRepository.fuzzySearchNonDeleted(query, pageable);
-          return rooms.map(roomMapper::toRoomDTO);
      }
 }

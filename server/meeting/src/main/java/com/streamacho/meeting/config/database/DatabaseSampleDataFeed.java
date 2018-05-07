@@ -2,7 +2,7 @@ package com.streamacho.meeting.config.database;
 
 import com.google.common.collect.Sets;
 import com.streamacho.meeting.room.model.entity.Room;
-import com.streamacho.meeting.room.search.RoomSearchRepository;
+import com.streamacho.meeting.room.repository.elasticsearch.RoomSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;

@@ -1,8 +1,6 @@
-package com.streamacho.meeting.room.repository;
+package com.streamacho.meeting.room.repository.jpa;
 
 import com.streamacho.meeting.room.model.entity.Room;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +13,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
           room.setDeleted(true);
           save(room);
      }
-
-     Page<Room> findAllByDeletedFalse(Pageable pageable);
 
      Optional<Room> findOneByIdAndDeletedFalse(Long id);
 }
