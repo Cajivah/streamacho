@@ -31,7 +31,7 @@ public class MessagingController {
           UserChatMessagePayload inputMessagePayload = UserChatMessagePayload.builder()
                .chatId(chatId)
                .text(message)
-               .username(user.getName())
+               .authorUsername(user.getName())
                .build();
 
           systemMessagingService.sendChatMessageToSystem(inputMessagePayload);
