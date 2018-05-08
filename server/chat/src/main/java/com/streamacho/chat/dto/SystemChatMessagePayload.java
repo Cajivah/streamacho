@@ -9,6 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class SystemChatMessagePayload {
      private Long chatId;
-     private String username;
+     private String authorUsername;
      private String text;
 }

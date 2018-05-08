@@ -13,6 +13,6 @@ import org.springframework.lang.Nullable;
 public class UserChatMessagePayload {
      private Long chatId;
      @Nullable
-     private String username;
+     private String authorUsername;
      private String text;
 }

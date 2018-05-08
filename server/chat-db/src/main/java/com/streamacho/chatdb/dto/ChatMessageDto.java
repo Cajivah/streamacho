@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ChatMessageDto {
      private LocalDateTime sendAt;
-     private String username;
+     private String authorUsername;
      private String text;
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SystemChatMessagePayload {
-     private String username;
+     private String authorUsername;
      private Long chatId;
      private LocalDateTime sendAt;
      private String text;

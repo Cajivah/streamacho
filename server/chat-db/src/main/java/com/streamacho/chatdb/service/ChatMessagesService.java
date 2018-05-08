@@ -23,7 +23,7 @@ public class ChatMessagesService {
      }
 
      public Page<ChatMessageDto> getChatMessages(Long chatId, Pageable pageable) {
-          Page<ChatMessage> messages = repository.getByChatId(chatId, pageable);
+          Page<ChatMessage> messages = repository.findAllByChatId(chatId, pageable);
           return messages.map(messageMapper::map);
      }
 }

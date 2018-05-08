@@ -23,7 +23,7 @@ public class ChatMessage {
      @GeneratedValue
      private Long id;
 
-     private String username;
+     private String authorUsername;
 
      private Long chatId;
 
