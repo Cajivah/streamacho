@@ -1,10 +1,10 @@
 package com.streamacho.chatdb.service;
 
 import com.streamacho.chatdb.dto.ChatMessageDto;
-import com.streamacho.chatdb.dto.SystemChatMessagePayload;
 import com.streamacho.chatdb.mapper.MessageMapper;
 import com.streamacho.chatdb.model.ChatMessage;
 import com.streamacho.chatdb.repository.ChatMessageRepository;
+import com.streamacho.core.chat.SystemChatMessagePayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

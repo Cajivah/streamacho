@@ -11,13 +11,16 @@ buildscript {
     classpath "com.avast.gradle:gradle-docker-compose-plugin:$gradleDockerComposePluginVersion"
   }
 }
-
 apply plugin: 'docker-compose'
+
+def nonDockerModules = ['core']
 
 task buildAll() {
   subprojects.each {
-    dependsOn("${it.name}:build")
-    dependsOn("${it.name}:createDockerfile")
+      dependsOn("${it.name}:build")
+    if(!nonDockerModules.contains(it.name)) {
+      dependsOn("${it.name}:createDockerfile")
+    }
   }
 }
 

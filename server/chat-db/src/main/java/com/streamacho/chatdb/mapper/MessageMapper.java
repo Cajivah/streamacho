@@ -1,8 +1,8 @@
 package com.streamacho.chatdb.mapper;
 
 import com.streamacho.chatdb.dto.ChatMessageDto;
-import com.streamacho.chatdb.dto.SystemChatMessagePayload;
 import com.streamacho.chatdb.model.ChatMessage;
+import com.streamacho.core.chat.SystemChatMessagePayload;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,8 +1,8 @@
 package com.streamacho.chat.service;
 
-import com.streamacho.chat.dto.SystemChatMessagePayload;
 import com.streamacho.chat.dto.UserChatMessagePayload;
 import com.streamacho.chat.mappers.ChatSystemMessageMapper;
+import com.streamacho.core.chat.SystemChatMessagePayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;

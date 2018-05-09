@@ -1,7 +1,7 @@
 package com.streamacho.chatdb.controller;
 
-import com.streamacho.chatdb.dto.SystemChatMessagePayload;
 import com.streamacho.chatdb.service.ChatMessagesService;
+import com.streamacho.core.chat.SystemChatMessagePayload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;

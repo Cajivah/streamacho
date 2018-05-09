@@ -76,6 +76,7 @@ ext {
     jacksonDatatypeJsr310Version = '2.4.0'
     springVersion = '5.0.4.RELEASE'
     springBootVersion = '2.0.0.RELEASE'
+    springCloudStreamVersion = '2.0.0.RELEASE'
     springSessionCoreVersion = '2.0.2.RELEASE'
     springCloudVersion = 'Finchley.M8'
     jaxbVersion = '2.3.0'
@@ -85,21 +86,18 @@ ext {
 }
 
 dependencies {
+    compile project(':core')
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
-//    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-validation:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
-//    compile("org.springframework.session:spring-session-core:${springSessionCoreVersion}")
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-stream', version: '2.0.0.RELEASE'
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-stream-rabbit', version: '2.0.0.RELEASE'
-//    compile("org.springframework.session:spring-session-data-redis:${springSessionCoreVersion}")
+    compile("org.springframework.cloud:spring-cloud-stream:${springCloudStreamVersion}")
+    compile("org.springframework.cloud:spring-cloud-starter-stream-rabbit:${springCloudStreamVersion}")
     compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}")
     compile("io.vavr:vavr:$vavrVersion")
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
-//    compile("io.lettuce:lettuce-core:${lettuceVersion}")
 
     // Transition to Java9 dependencies
     compile("javax.xml.bind:jaxb-api:${jaxbVersion}")
@@ -114,7 +112,6 @@ dependencies {
     runtime("org.postgresql:postgresql:${postgresqlVersion}")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-//	testCompile('org.springframework.security:spring-security-test')
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     testCompile("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
     testCompile("org.mockito:mockito-core:${mockitoCoreVersion}")

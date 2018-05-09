@@ -1,4 +1,4 @@
-package com.streamacho.chatdb.dto;
+package com.streamacho.core.chat;
 
 import lombok.*;
 
