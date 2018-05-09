@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+group 'com.streamacho.api'
+version '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_1_9
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    lombokVersion = '1.16.20'
+    mapstructVersion = '1.2.0.Final'
+}
+
+dependencies {
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    compileOnly("org.mapstruct:mapstruct-processor:${mapstructVersion}")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok:${lombokVersion}")
+}

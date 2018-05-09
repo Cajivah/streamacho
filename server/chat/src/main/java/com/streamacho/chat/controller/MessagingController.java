@@ -1,9 +1,9 @@
 package com.streamacho.chat.controller;
 
-import com.streamacho.chat.dto.SystemChatMessagePayload;
 import com.streamacho.chat.dto.UserChatMessagePayload;
 import com.streamacho.chat.service.ChatMessagingService;
 import com.streamacho.chat.service.SystemMessagingService;
+import com.streamacho.core.chat.SystemChatMessagePayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.stream.annotation.StreamListener;
