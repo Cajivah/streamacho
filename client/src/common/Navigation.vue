@@ -13,7 +13,7 @@
           <router-link to="/" class="has-text-weight-semibold is-size-4 stays-white">Streamacho</router-link>
         </div>
         <div class="navbar-end" v-if="this.$store.getters.isAuthenticated" >
-          <router-link to="create-room" class="button is-primary is-inverted is-outlined has-text-weight-semibold mr-1">
+          <router-link to="/create-room" class="button is-primary is-inverted is-outlined has-text-weight-semibold mr-1">
             <i class="fa fa-plus mr-1"></i>Create room
           </router-link>
           <div class="navbar-item has-dropdown is-hoverable">
@@ -21,7 +21,7 @@
               {{ userGreeter }}
             </a>
             <div class="navbar-dropdown">
-              <router-link class="navbar-item" to="my">
+              <router-link class="navbar-item" to="/my">
                 <i class="fa fa-tv mr-1 fa-lg"></i>My rooms
               </router-link>
               <hr class="navbar-divider">
