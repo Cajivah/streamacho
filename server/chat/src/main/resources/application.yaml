@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: streamacho-chat
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: queue.chat.frontend.out
+          group: default
+          durableSubscription: true
+        output:
+          destination: queue.chat.frontend.in
+          group: default
+          durableSubscription: true
+  session:
+    store-type: redis
+    redis:
+      flush-mode: ON_SAVE
+      namespace: streamacho
+server:
+  port: 0
+  servlet:
+    context-path: /api/chat
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetch-registry: false
+    serviceUrl:
+      defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+
+streamacho:
+  chat:
+    chatSubscribePrefix: /chat
+    chatSendPrefix: /send
+    webSocketEndpoint: /ws
+
+security:
+  frontendOrigin: 'http://localhost:8080'
+

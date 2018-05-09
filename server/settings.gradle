@@ -2,5 +2,7 @@ include 'discovery-server'
 include 'gateway'
 include 'security'
 include 'meeting'
+include 'chat'
+include 'chat-db'
 
 rootProject.name = 'server'

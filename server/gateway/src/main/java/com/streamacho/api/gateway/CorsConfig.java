@@ -1,4 +1,4 @@
-package com.streamcho.api.gateway;
+package com.streamacho.api.gateway;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

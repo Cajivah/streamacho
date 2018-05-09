@@ -22,7 +22,7 @@ apply plugin: 'com.bmuschko.docker-remote-api'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.streamcho.api'
+group = 'com.streamacho.api'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_1_9
 
@@ -34,10 +34,10 @@ repositories {
 }
 
 ext {
-    springCloudVersion = 'Finchley.M8'
+    springCloudVersion = 'Finchley.RC1'
     jaxbVersion = '2.3.0'
     javaxActivationVersion = '1.1.1'
-    springCloudGatewayVersion = '2.0.0.M9'
+    springCloudGatewayVersion = '2.0.0.RC1'
     eurekaClientVersion = '2.0.0.M8'
     reactorCoreVersion = '3.1.6.RELEASE'
 }

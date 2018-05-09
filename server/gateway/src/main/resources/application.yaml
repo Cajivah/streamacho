@@ -25,6 +25,19 @@ spring:
         uri: lb://streamacho-meetings
         predicates:
         - Path=/api/meetings/**
+      - id: streamacho-chat-ws
+        order: 8888
+        uri: lb:ws://streamacho-chat
+        predicates:
+        - Path=/api/chat/**
+      - id: streamacho-chat
+        uri: lb://streamacho-chat
+        predicates:
+        - Path=/api/chat/**
+      - id: streamcho-chat-db
+        uri: lb://streamcho-chat-db
+        predicates:
+        - Path=/api/chat-db/**
 
 server:
   port: 8888
