@@ -9,4 +9,4 @@ FROM httpd:2.4-alpine
 RUN mkdir -p /var/log/httpd
 COPY ./docker/conf /usr/local/apache2/conf
 COPY --from=build-deps /usr/src/app/dist /var/www
-
+EXPOSE 80 443
