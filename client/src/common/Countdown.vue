@@ -26,9 +26,7 @@
     props: {
       deadline: {
         type: String,
-      },
-      end: {
-        type: String,
+        required: true,
       },
       stop: {
         type: Boolean,
@@ -48,10 +46,7 @@
       }
     },
     created() {
-      if (!this.deadline && !this.end) {
-        throw new Error("Missing props 'deadline' or 'end'");
-      }
-      let endTime = this.deadline ? this.deadline : this.end;
+      let endTime = this.deadline;
       this.date = Math.trunc(Date.parse(endTime.replace(/-/g, "/")) / 1000);
       if (!this.date) {
         throw new Error("Invalid props value, correct the 'deadline' or 'end'");
@@ -140,8 +135,9 @@
   }
 
   .vuejs-countdown .digit {
+    font-family: "Roboto", monospace;
     font-size: 32px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.4;
     margin-bottom: 0;
   }

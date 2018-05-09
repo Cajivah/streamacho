@@ -7,7 +7,7 @@
       </div>
       <div v-else-if="isPlanned()">
         <h6 class="is-size-4 has-text-weight-semibold">Starts in</h6>
-        <Countdown :deadline="formattedDateStart" :on-deadline="forceUpdate" :on-deadline-delay="1000"></Countdown>
+        <countdown :deadline="formattedDateStart" :on-deadline="forceUpdate" :on-deadline-delay="1000"></countdown>
       </div>
       <div v-else>
         <h5 class="is-size-2 has-text-weight-bold">This stream</h5>

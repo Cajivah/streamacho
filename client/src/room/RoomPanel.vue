@@ -45,7 +45,7 @@
   import * as dateformat from 'dateformat';
   import { ERASE_TRANSMISSION } from '../store/actions.type';
   import { OpenVidu } from 'openvidu-browser';
-  import { defaultStreamProps } from './streamQuality';
+  import { defaultStreamProps } from './StreamQuality';
   import OrganiserControls from '@/room/OrganiserControls';
   import SpectatorControls from '@/room/SpectatorControls';
 
