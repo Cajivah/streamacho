@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 import java.io.IOException;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "com.streamacho.meeting.room.repository.elasticsearch.")
+@EnableElasticsearchRepositories(basePackages = "com.streamacho.meeting.room.repository.elasticsearch")
 public class ElasticsearchConfig {
 
      @Bean

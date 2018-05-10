@@ -1,35 +1,25 @@
 <template>
-  <div class="landing-page-wrap">
-    <div class="landing-page container">
-      <meetings-landing></meetings-landing>
-    </div>
+  <div class="landing-page">
+    <rooms-panel />
   </div>
 </template>
 
 <script>
-import MeetingsLanding from '@/meetings/MeetingsLanding';
+import RoomsPanel from '@/rooms/panel/RoomsPanel';
+import { FETCH_LOGGED_USER } from '@/store/actions.type';
 
 export default {
-  name: 'landing-page',
+  name: 'LandingPage',
   components: {
-    MeetingsLanding
+    RoomsPanel
+  },
+  mounted: function() {
+    this.$nextTick(function() {
+      this.$store.dispatch(FETCH_LOGGED_USER);
+    })
   }
 };
 </script>
 
-<style scoped>
-.landing-page-wrap {
-  height: 100vh;
-}
-
-.landing-page {
-  display: flex;
-  padding-top: 52px;
-  height: 100vh;
-  justify-content: center;
-}
-
-.l {
-  height: 100vh;
-}
+<style>
 </style>

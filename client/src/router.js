@@ -4,12 +4,12 @@ import LandingPage from '@/common/LandingPage';
 import Register from '@/registration/Register';
 import Login from '@/login/Login';
 import Hub from '@/Hub';
-import CreateRoom from '@/meetings/CreateRoom';
+import MyRooms from '@/rooms/MyRooms'
+import CreateRoom from '@/rooms/CreateRoom';
 import RoomPanel from '@/room/RoomPanel';
-import MyMeetings from '@/meetings/MyMeetings';
 import store from '@/store';
 import Activate from '@/activation/Activate';
-import {FETCH_LOGGED_USER} from './store/actions.type';
+import { FETCH_LOGGED_USER } from './store/actions.type';
 
 Vue.use(Router);
 
@@ -48,8 +48,8 @@ export default new Router({
         beforeEnter: ifAuthenticated
       }, {
         path: '/my',
-        name: 'myMeetings',
-        component: MyMeetings,
+        name: 'myRooms',
+        component: MyRooms,
         beforeEnter: ifAuthenticated
       }]
     },
