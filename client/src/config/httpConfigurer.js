@@ -9,9 +9,9 @@ export default axios.create({
 });
 
 export const isExcluded = (url) => {
-  const excludedRoutes = ['/users/login', '/users/accounts/me'];
+  const excludedRoutesNames = ['landingPage', 'login'];
   const route = extractRoute(url);
-  return excludedRoutes.indexOf(route) > -1;
+  return excludedRoutesNames.indexOf(route) > -1;
 };
 
 const extractRoute = (url) => {

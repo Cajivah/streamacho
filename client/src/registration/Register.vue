@@ -104,7 +104,7 @@ export default {
         };
         this.$store
           .dispatch(REGISTER, body)
-          .then(response => this.$router.push('login'));
+          .then(() => this.$router.push('login'));
         this.registerForm.passwordPair.password = '';
         this.registerForm.passwordPair.matchingPassword = '';
         this.$validator.reset();

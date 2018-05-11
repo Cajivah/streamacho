@@ -1,4 +1,4 @@
-import {JOIN_TRANSMISSION, DESTROY_TRANSMISSION, CREATE_TRANSMISSION, ERASE_TRANSMISSION} from './actions.type';
+import { JOIN_TRANSMISSION, DESTROY_TRANSMISSION, CREATE_TRANSMISSION } from './actions.type';
 import { PURGE_TRANSMISSION, SET_ERROR, SET_TRANSMISSION } from './mutations.type';
 import Vue from 'vue';
 
@@ -53,12 +53,6 @@ const actions = {
         });
     })
   },
-  [ERASE_TRANSMISSION]({ commit }) {
-    return new Promise(resolve => {
-      commit(PURGE_TRANSMISSION);
-      resolve();
-    })
-  }
 };
 
 const mutations = {

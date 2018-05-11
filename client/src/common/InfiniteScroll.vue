@@ -6,21 +6,20 @@
   >
     <div slot="no-more"/>
     <div slot="no-results">
-      <div class="no-results notification is-info">
-        <i class="icon fa fa-info-circle fa-lg"/>
-        No data available
-      </div>
+      <no-data-info></no-data-info>
     </div>
   </infinite-loading>
 </template>
 
 <script>
 import InfiniteLoading from 'vue-infinite-loading';
+import NoDataInfo from '../common/NoDataInfo'
 
 export default {
   name: 'InfiniteScroll',
   components: {
-    InfiniteLoading
+    InfiniteLoading,
+    NoDataInfo,
   },
   methods: {
     loadNextPage($loadingState) {
