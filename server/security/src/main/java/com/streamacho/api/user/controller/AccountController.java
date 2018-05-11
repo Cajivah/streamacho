@@ -5,6 +5,7 @@ import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.dto.UserRegistrationDTO;
 import com.streamacho.api.user.model.event.OnRegistrationCompleteEvent;
 import com.streamacho.api.user.service.UserCredentialsService;
+import io.swagger.annotations.ApiImplicitParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -58,6 +59,7 @@ public class AccountController {
      }
 
      @GetMapping
+     @ApiImplicitParam(name = "query", value = "email or username")
      public Page<UserDetailsDTO> getUsers(@RequestParam String query,
                                           Pageable pageable) {
           return userCredentialsService.getUsersDTO(query, pageable);
