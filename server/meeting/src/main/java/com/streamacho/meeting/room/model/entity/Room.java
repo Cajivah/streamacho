@@ -5,7 +5,6 @@ import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -18,13 +17,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Document(indexName = "meeting", type = "room")
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Room {
+
+     public Room() {
+         tags = new HashSet<>();
+         status = RoomStatus.PLANNED;
+     }
 
      @Id
      @GeneratedValue
