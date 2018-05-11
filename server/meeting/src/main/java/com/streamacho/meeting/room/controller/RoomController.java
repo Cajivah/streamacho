@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class RoomController {
 
      @PostMapping
      @ResponseStatus(HttpStatus.CREATED)
-     public RoomDTO createRoom(@RequestBody RoomCreationDTO roomCreationDTO,
+     public RoomDTO createRoom(@RequestBody @Valid RoomCreationDTO roomCreationDTO,
                                @AuthenticationPrincipal UserDetails issuer) {
           return roomService.createRoom(roomCreationDTO, issuer);
      }
@@ -47,7 +48,7 @@ public class RoomController {
      @PutMapping("/{roomId}")
      @ResponseStatus(HttpStatus.OK)
      public RoomDTO updateRoom(@PathVariable Long roomId,
-                               @RequestBody RoomCreationDTO roomCreationDTO,
+                               @RequestBody @Valid RoomCreationDTO roomCreationDTO,
                                @AuthenticationPrincipal UserDetails issuer) {
           return roomService.updateRoom(roomId, roomCreationDTO, issuer);
      }
