@@ -1,10 +1,10 @@
 package com.streamacho.api.mail.factory;
 
-import com.streamacho.api.config.properties.MailExtendedProperties;
 import com.streamacho.api.config.properties.RoutingProperties;
+import com.streamacho.api.mail.config.properties.MailExtendedProperties;
+import com.streamacho.api.mail.utils.LocalizedMessageSource;
 import com.streamacho.api.mail.utils.MultipartMimeMessageBuilder;
 import com.streamacho.api.user.model.dto.VerificationMailDTO;
-import com.streamacho.api.util.message.LocalizedMessageSource;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

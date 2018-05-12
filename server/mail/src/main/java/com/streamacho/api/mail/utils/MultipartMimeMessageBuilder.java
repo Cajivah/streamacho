@@ -5,6 +5,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class MultipartMimeMessageBuilder {
@@ -26,6 +27,11 @@ public class MultipartMimeMessageBuilder {
      }
 
      public MultipartMimeMessageBuilder to(String to) throws MessagingException {
+          messageHelper.setTo(to);
+          return this;
+     }
+
+     public MultipartMimeMessageBuilder to(InternetAddress to) throws MessagingException {
           messageHelper.setTo(to);
           return this;
      }
