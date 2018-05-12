@@ -68,7 +68,7 @@
         .catch(showErrorToasts);
     },
     beforeDestroy() {
-      this.isOrganiser && this.isPlaying ? this.destroyStream() : this.disconnect();
+      this.disconnect();
     },
     computed: {
       ...mapGetters([

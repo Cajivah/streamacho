@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import { isPlanned, canJoinTransmission } from "./RoomUtils";
+  import { isPlanned, canStartTransmission } from "./RoomUtils";
   import Countdown from '../common/Countdown';
   import * as dateformat from 'dateformat';
 
@@ -51,7 +51,7 @@
         this.$forceUpdate();
       },
       canJoinTransmission() {
-        return canJoinTransmission(this.status, this.startAt);
+        return canStartTransmission(this.status, this.startAt);
       },
       isPlanned() {
         return isPlanned(this.status, this.startAt);
