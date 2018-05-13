@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.Objects.isNull;
+
 @Service
 @EnableConfigurationProperties(OpenViduProperties.class)
 public class TransmissionService {
@@ -47,28 +49,38 @@ public class TransmissionService {
      }
 
      public SessionDTO startStream(Long roomId, UserDetails issuer) {
-          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
-                                    .orElseThrow(RoomNotFoundException::of);
-          RoomValidator.of(room)
-                       .isStartAtDateBeforeNow()
-                       .isModifiableBy(issuer)
-                       .ifInvalidThrow(ValidationException::of);
-
           OpenViduRole openViduRole = OpenViduRole.PUBLISHER;
           String serverData = prepareOpenViduServerData(issuer.getUsername());
           TokenOptions tokenOptions = new TokenOptions.Builder().data(serverData)
-                                                                .role(openViduRole)
-                                                                .build();
+               .role(openViduRole)
+               .build();
+
+          Session session = Optional.ofNullable(sessions.get(roomId))
+               .orElseGet(() -> initializeSession(roomId, issuer));
+
+          return SessionDTO.builder()
+               .sessionId(session.getSessionId())
+               .token(session.generateToken(tokenOptions))
+               .build();
+     }
+
+     private Session initializeSession(Long roomId, UserDetails issuer) {
+          Room room = roomRepository.findOneByIdAndDeletedFalse(roomId)
+               .orElseThrow(RoomNotFoundException::of);
+
+          RoomValidator.of(room)
+               .isStartAtDateBeforeNow()
+               .isModifiableBy(issuer)
+               .ifInvalidThrow(ValidationException::of);
+
           Session session = openViduServer.createSession();
-          String sessionId = session.getSessionId();
-          String token = session.generateToken(tokenOptions);
           sessions.put(room.getId(), session);
 
           room.setTransmissionStartedAt(LocalDateTime.now());
           room.setStatus(RoomStatus.LIVE);
           roomRepository.save(room);
           roomSearchRepository.save(room);
-          return new SessionDTO(token, sessionId);
+          return session;
      }
 
      private String prepareOpenViduServerData(String username) {

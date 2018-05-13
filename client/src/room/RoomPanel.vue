@@ -68,7 +68,7 @@
         .catch(showErrorToasts);
     },
     beforeDestroy() {
-      this.isOrganiser && this.isPlaying ? this.destroyStream() : this.disconnect();
+      this.disconnect();
     },
     computed: {
       ...mapGetters([
@@ -78,13 +78,6 @@
       ]),
       isOrganiser() {
         return this.loggedUser.username === this.selectedRoom.organiser;
-      },
-      canStartTransmission() {
-        const dateStart = new Date(this.selectedRoom.startAt);
-        return dateStart <= new Date() && this.selectedRoom.status === 'PLANNED';
-      },
-      canJoinTransmission() {
-        return this.selectedRoom.status === 'LIVE';
       },
       formattedStartAt() {
         return dateformat(new Date(this.selectedRoom.startAt), 'ddd mmm dd yyyy HH:MM');
@@ -122,13 +115,12 @@
         this.session.connect(this.transmission.token,
           (error) => {
             if (!error) {
-              if (this.publishStream(OV)) {
-              } else {
-                showErrorToasts(({messages: ['Could not initialize stream, check webcam access!']}));
+              if (!this.publishStream(OV)) {
+                showErrorToasts(({ messages: ['Could not initialize stream, check webcam access!'] }));
               }
               this.isPlaying = true;
             } else {
-              showErrorToasts({messages: [`There was an error connecting to the session: ${error.code} ${error.message}`]})
+              showErrorToasts({ messages: [`There was an error connecting to the session: ${error.code} ${error.message}`] })
             }
           }
         );
@@ -136,12 +128,26 @@
       createSpectatorSession: function() {
         const OV = new OpenVidu();
         this.session = OV.initSession(this.transmission.sessionId);
+        this.session.on('streamDestroyed', () => setTimeout(this.handleStreamDestroyed, 1000));
         this.session.on('streamCreated', event => this.subscribeToRemoteStream(event));
         this.session.connect(this.transmission.token,
           error => error
-            ? showErrorToasts({messages: [`There was an error connecting to the session: ${error.code} ${error.message}`]})
+            ? showErrorToasts({ messages: [`There was an error connecting to the session: ${error.code} ${error.message}`] })
             : this.isPlaying = true
         );
+      },
+      handleStreamDestroyed: function() {
+        this.$store.dispatch(FETCH_SELECTED_ROOM, { roomId: this.selectedRoom.id })
+          .then(this.handlePublisherDisconnection)
+          .catch(showErrorToasts);
+      },
+      handlePublisherDisconnection(room) {
+        if(room.status === 'LIVE') {
+          showErrorToasts({ messages: [`Organiser disconnected. Waiting for him to continue...`] });
+        } else {
+          showErrorToasts({ messages: [`Organiser closed transmission, disconnecting...`] });
+          this.disconnect();
+        }
       },
       publishStream: function(OV) {
         const publisher = OV.initPublisher('main-video', this.streamProps);
