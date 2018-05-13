@@ -30,6 +30,25 @@
   white-space: pre-wrap;
 }
 
+.is-align-center {
+  align-items: center;
+}
+
+.is-justify {
+  &-end {
+    justify-content: flex-end;
+  }
+  &-center {
+    justify-content: center;
+  }
+  &-start {
+    justify-content: flex-start;
+  }
+  &-space-between {
+    justify-content: space-between;
+  }
+}
+
 .background-primary {
   background-color: #00c4a7;
 }
@@ -49,6 +68,9 @@
     }
   }
   &b {
+    &-0 {
+      margin-bottom: 0 !important;
+    }
     &-5 {
       margin-bottom: 5rem;
     }

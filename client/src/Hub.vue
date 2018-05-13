@@ -3,17 +3,19 @@
     <navigation></navigation>
     <div id="top"/>
     <router-view></router-view>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Navigation from '@/common/Navigation';
-import {FETCH_LOGGED_USER} from "./store/actions.type";
+import AppFooter from '@/common/AppFooter';
 
 export default {
   name: 'app',
   components: {
-    Navigation
-  },
+    Navigation,
+    AppFooter,
+  }
 };
 </script>
