@@ -10,6 +10,21 @@ spring:
     username: root
     password: root
     driver-class-name: org.postgresql.Driver
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: streamacho@gmail.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            require: true
+    password: 42asd87!f0A
+    default-encoding: UTF-8
+  thymeleaf:
+    encoding: UTF-8
   jpa:
     hibernate:
       ddl-auto: create

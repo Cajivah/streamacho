@@ -15,4 +15,7 @@ public class RoutingProperties {
 
      @NotBlank
      private String frontendOrigin;
+
+     @NotBlank
+     private String roomInvitationTemplate;
 }

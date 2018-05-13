@@ -88,11 +88,12 @@ ext {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-mail:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-validation:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-websocket:${springBootVersion}")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
     compile("org.springframework.session:spring-session-core:${springSessionCoreVersion}")
     compile("org.springframework.session:spring-session-data-redis:${springSessionCoreVersion}")
     compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}")
@@ -103,6 +104,7 @@ dependencies {
     compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
     compile("io.lettuce:lettuce-core:${lettuceVersion}")
     compile("io.openvidu:openvidu-java-client:${openviduVersion}")
+    compile project(":mail")
 
     // Transition to Java9 dependencies
     compile("javax.xml.bind:jaxb-api:${jaxbVersion}")
