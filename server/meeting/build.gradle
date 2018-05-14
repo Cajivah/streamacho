@@ -79,7 +79,7 @@ ext {
     postgresqlVersion = '42.2.1'
     springBootVersion = '2.0.0.RELEASE'
     springCloudVersion = 'Finchley.M8'
-    springDataElasticSearchVersion = '3.0.3.RELEASE'
+    springDataElasticSearchVersion = '3.0.7.RELEASE'
     springSessionCoreVersion = '2.0.2.RELEASE'
     springVersion = '5.0.4.RELEASE'
     swaggerVersion = '2.8.0'
