@@ -5,6 +5,8 @@ import VueAxios from 'vue-axios';
 import Toasted from 'vue-toasted';
 import VueScrollTo from 'vue-scrollto';
 import VueTippy from 'vue-tippy'
+import Buefy from 'buefy'
+import 'buefy/lib/buefy.css'
 import store from './store';
 import router from './router';
 import App from './App.vue';
@@ -49,6 +51,7 @@ Vue.use(VueScrollTo, {
 });
 
 Vue.use(Toasted);
+Vue.use(Buefy);
 Vue.toasted.register('error_toast',
   (payload) => {
     if(! payload.message) {

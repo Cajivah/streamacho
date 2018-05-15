@@ -15,7 +15,7 @@ const getters = {
 };
 
 const actions = {
-  [CREATE_ROOM]({ commit }, payload) {
+  [CREATE_ROOM](_, payload) {
     return new Promise(resolve =>
       Vue.axios
         .post('/meetings/rooms', payload, {
@@ -23,9 +23,7 @@ const actions = {
             'Content-type': 'application/json'
           }
         })
-        .then(data => {
-          resolve(data);
-        })
+        .then(resolve)
         .catch((error) => showErrorToasts(error.response.data))
     );
   },
