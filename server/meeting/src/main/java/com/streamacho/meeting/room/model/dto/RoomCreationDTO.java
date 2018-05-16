@@ -1,5 +1,8 @@
 package com.streamacho.meeting.room.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.streamacho.meeting.image.model.dto.ImageDTO;
+import com.sun.istack.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,4 +29,8 @@ public class RoomCreationDTO {
      private ZonedDateTime startAt;
 
      private Collection<String> tags;
+
+     @Nullable
+     @JsonProperty("logo")
+     private ImageDTO logoDTO;
 }

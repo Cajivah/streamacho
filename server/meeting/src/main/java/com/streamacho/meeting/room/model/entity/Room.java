@@ -44,6 +44,8 @@ public class Room {
      @Field
      private String organiser;
 
+     private String logoUrl;
+
      @Builder.Default
      @ElementCollection(fetch = FetchType.EAGER)
      @Field

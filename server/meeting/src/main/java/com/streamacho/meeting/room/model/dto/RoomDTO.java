@@ -18,6 +18,7 @@ public class RoomDTO {
      private Long id;
      private String name;
      private String description;
+     private String logoUrl;
      private ZonedDateTime startAt;
      private ZonedDateTime transmissionStartedAt;
      private String organiser;

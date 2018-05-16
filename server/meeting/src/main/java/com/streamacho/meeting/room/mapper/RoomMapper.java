@@ -30,7 +30,7 @@ public interface RoomMapper {
      @Mapping(target = "description", source = "room.description")
      @Mapping(target = "startAtDate", source = "room.startAt")
      @Mapping(target = "tags", source = "room.tags")
-     Room toRoom(RoomCreationDTO room, UserDetails user);
+     Room toRoom(RoomCreationDTO room, UserDetails user, String logoUrl);
 
      @Mapping(target = "id", ignore = true)
      @Mapping(target = "organiser", ignore = true)
@@ -40,5 +40,5 @@ public interface RoomMapper {
      @Mapping(target = "status", ignore = true)
      @Mapping(target = "transmissionStartedAt", ignore = true)
      @Mapping(target = "startAtDate", source = "startAt")
-     Room updateRoom(RoomCreationDTO roomCreationDTO, @MappingTarget Room room);
+     Room updateRoom(RoomCreationDTO roomCreationDTO, String logoUrl, @MappingTarget Room room);
 }

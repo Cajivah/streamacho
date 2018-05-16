@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class RoomController {
      @PostMapping
      @ResponseStatus(HttpStatus.CREATED)
      public RoomDTO createRoom(@RequestBody @Valid RoomCreationDTO roomCreationDTO,
-                               @AuthenticationPrincipal UserDetails issuer) {
+                               @AuthenticationPrincipal UserDetails issuer) throws IOException {
           return roomService.createRoom(roomCreationDTO, issuer);
      }
 

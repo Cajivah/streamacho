@@ -60,6 +60,8 @@ repositories {
 }
 
 ext {
+    cloudinaryHttp44Version = '1.18.0'
+    commonsIoVersion = '2.6'
     eurekaClientVersion = '2.0.0.M8'
     gradleAptPluginVersion = '0.15'
     jacksonDatatypeJsr310Version = '2.4.0'
@@ -98,12 +100,14 @@ dependencies {
     compile("org.springframework.session:spring-session-data-redis:${springSessionCoreVersion}")
     compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}")
     compile("org.springframework.data:spring-data-elasticsearch:${springDataElasticSearchVersion}")
+    compile("com.cloudinary:cloudinary-http44:${cloudinaryHttp44Version}")
     compile("io.vavr:vavr:$vavrVersion")
     compile("io.springfox:springfox-swagger2:${swaggerVersion}")
     compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
     compile("io.lettuce:lettuce-core:${lettuceVersion}")
     compile("io.openvidu:openvidu-java-client:${openviduVersion}")
+    compile("commons-io:commons-io:${commonsIoVersion}")
     compile project(":mail")
 
     // Transition to Java9 dependencies
