@@ -3,10 +3,9 @@ buildscript {
         gradleDockerPluginVersion = '3.2.5'
         springBootVersion = '2.0.0.RELEASE'
         junitPlatformPluginVersion = '1.1.0'
-        sonarqubePluginVersion = '2.6.2'
     }
     repositories {
-	jcenter()
+        jcenter()
         mavenCentral()
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -14,21 +13,19 @@ buildscript {
     }
     dependencies {
         classpath("com.bmuschko:gradle-docker-plugin:${gradleDockerPluginVersion}")
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath("org.junit.platform:junit-platform-gradle-plugin:${junitPlatformPluginVersion}")
-        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarqubePluginVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'com.bmuschko.docker-remote-api'
-apply plugin: 'org.springframework.boot'
+apply plugin: 'idea'
+apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'org.junit.platform.gradle.plugin'
-apply plugin: 'org.sonarqube'
 
-group = 'com.streamacho.api'
+group = 'com.streamacho.mail'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 9
 
@@ -60,49 +57,27 @@ repositories {
 }
 
 ext {
-    vavrVersion = '0.9.2'
-    swaggerVersion = '2.8.0'
+    gradleAptPluginVersion = '0.15'
     junitJupiterVersion = '5.1.0'
+    javaxActivationVersion = '1.1.1'
+    jaxbApiVersion = '2.3.0'
+    jaxbVersion = '2.3.0'
     junitPlatformVersion = '1.1.0'
     junit4Version = '4.12'
     junitVintageVersion = '5.1.0'
-    mapstructVersion = '1.2.0.Final'
-    jaxbApiVersion = '2.3.0'
-    mockitoCoreVersion = '2.15.0'
-    gradleAptPluginVersion = '0.15'
     lombokVersion = '1.16.20'
-    passayVersion = '1.3.1'
-    nimbudJoseJwtVersion = '5.5'
-    postgresqlVersion = '42.2.1'
-    jacksonDatatypeJsr310Version = '2.4.0'
+    mapstructVersion = '1.2.0.Final'
+    mockitoCoreVersion = '2.15.0'
     springVersion = '5.0.4.RELEASE'
-    springSessionCoreVersion = '2.0.2.RELEASE'
-    springSessionVersion = '1.3.2.RELEASE'
-    springCloudVersion = 'Finchley.M8'
-    jaxbVersion = '2.3.0'
-    javaxActivationVersion = '1.1.1'
-    eurekaClientVersion = '2.0.0.M8'
-    lettuceVersion = '5.0.2.RELEASE'
+    vavrVersion = '0.9.2'
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
-    compile("org.springframework.boot:spring-boot-starter-security:${springBootVersion}")
-    compile("org.springframework.boot:spring-boot-starter-validation:${springBootVersion}")
-    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-mail:${springBootVersion}")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}")
-    compile("org.springframework.session:spring-session-data-redis:${springSessionCoreVersion}")
+    compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
     compile("io.vavr:vavr:${vavrVersion}")
-    compile("io.springfox:springfox-swagger2:${swaggerVersion}")
-    compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
     compile("org.mapstruct:mapstruct-jdk8:${mapstructVersion}")
-    compile("org.passay:passay:${passayVersion}")
-    compile("io.lettuce:lettuce-core:${lettuceVersion}")
-    compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:${eurekaClientVersion}")
-    compile project(":mail")
-
     // Transition to Java9 dependencies
     compile("javax.xml.bind:jaxb-api:${jaxbVersion}")
     compile("com.sun.xml.bind:jaxb-impl:${jaxbVersion}")
@@ -113,29 +88,10 @@ dependencies {
     compileOnly("org.mapstruct:mapstruct-processor:${mapstructVersion}")
     annotationProcessor("org.mapstruct:mapstruct-processor:${mapstructVersion}", "org.projectlombok:lombok:${lombokVersion}")
 
-    runtime("org.postgresql:postgresql:${postgresqlVersion}")
-
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('org.springframework.security:spring-security-test')
     testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
     testCompile("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
     testCompile("org.mockito:mockito-core:${mockitoCoreVersion}")
 
     testRuntime("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
     testRuntime("org.junit.platform:junit-platform-launcher:${junitPlatformVersion}")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
-
-task createDockerfile(type: Dockerfile) {
-  destFile = project.file('build/docker/Dockerfile')
-  from("openjdk:9.0.4-jre")
-  copyFile("build/libs/${jar.archiveName}", "app.jar")
-  defaultCommand("/usr/bin/java", "-jar", "app.jar")
 }

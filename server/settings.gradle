@@ -1,9 +1,11 @@
+include 'chat'
+include 'chat-db'
 include 'core'
 include 'discovery-server'
 include 'gateway'
-include 'security'
+include ':mail'
 include 'meeting'
-include 'chat'
-include 'chat-db'
+include 'security'
 
 rootProject.name = 'server'
+

@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.streamacho.meeting.room.model.enumeration.RoomStatus.LIVE;
+import static com.streamacho.meeting.room.model.enumeration.RoomStatus.PLANNED;
+
 @Service
 @RequiredArgsConstructor
 public class RoomService {
@@ -72,5 +75,11 @@ public class RoomService {
           return roomRepository
                .findOneByIdAndDeletedFalse(id)
                .orElseThrow(RoomNotFoundException::of);
+     }
+
+     public Room getPlannedOrLiveRoomById(Long id) {
+          return roomRepository
+                  .findOneByIdAndDeletedFalseAndStatusIn(id, List.of(PLANNED, LIVE))
+                  .orElseThrow(RoomNotFoundException::of);
      }
 }

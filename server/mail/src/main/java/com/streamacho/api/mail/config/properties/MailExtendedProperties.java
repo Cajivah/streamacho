@@ -1,4 +1,4 @@
-package com.streamacho.meeting.config.properties;
+package com.streamacho.api.mail.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,12 +10,9 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Validated
-@ConfigurationProperties("routes")
-public class RoutingProperties {
+@ConfigurationProperties("mail.extended")
+public class MailExtendedProperties {
 
      @NotBlank
-     private String frontendOrigin;
-
-     @NotBlank
-     private String roomInvitationTemplate;
+     private String noReplyAddress;
 }
