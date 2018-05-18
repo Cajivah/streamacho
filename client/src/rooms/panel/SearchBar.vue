@@ -32,7 +32,7 @@
         >
           {{ tag }}
           <button
-            class="delete-tag delete is-small tooltip"
+            class="delete-tag delete is-small"
             @click="deleteTag(index)"
           />
         </span>
