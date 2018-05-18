@@ -13,3 +13,4 @@ export const ERASE_TRANSMISSION = 'eraseTransmission';
 export const JOIN_TRANSMISSION = 'joinRoom';
 export const CREATE_TRANSMISSION = 'createTransmission';
 export const ACTIVATE_ACCOUNT = 'verifyAccount';
+export const SAVE_PATH = 'savePath';

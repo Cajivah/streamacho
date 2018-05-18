@@ -33,16 +33,16 @@
         </div>
         <div class="is-size-5 room-header-section has-text-right">
           <div v-if="isOrganiser">
-            <a 
+            <a
+              v-if="isPlaying"
               class="button is-danger is-size-5" 
-              @click="destroyStream" 
-              v-if="isPlaying">Stop stream</a>
+              @click="destroyStream">Stop stream</a>
           </div>
           <div v-else>
-            <a 
+            <a
+              v-if="isPlaying"
               class="button is-danger is-size-5" 
-              @click="disconnect" 
-              v-if="isPlaying">Leave stream</a>
+              @click="disconnect">Leave stream</a>
           </div>
         </div>
       </div>
@@ -52,10 +52,10 @@
         id="main-video" 
         ref="mainVideo" 
         class="video-placeholder">
-        <div 
-          class="stream-initializer" 
-          v-if="!isPlaying">
-          <organiser-controls 
+        <div
+          v-if="!isPlaying"
+          class="stream-initializer" >
+          <organiser-controls
             v-if="isOrganiser" 
             :start="startStream" 
             :status="selectedRoom.status" 
@@ -71,9 +71,11 @@
     <div class="container">
       <h2 class="is-size-1 mt-2">{{ selectedRoom.name }}</h2>
       <div class="tags">
-        <span 
-          class="tag is-primary is-size-6 mr-1" 
-          v-for="tag in this.selectedRoom.tags">{{ tag }}</span>
+        <span
+          v-for="tag in selectedRoom.tags"
+          class="tag is-primary is-size-6 mr-1">
+          {{ tag }}
+        </span>
       </div>
       <p class="has-text-grey-dark is-max-width-6 is-whitespace-preserve">{{ selectedRoom.description }}</p>
     </div>
@@ -82,16 +84,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CREATE_TRANSMISSION, DESTROY_TRANSMISSION, JOIN_TRANSMISSION } from '@/store/actions.type';
+import { CREATE_TRANSMISSION, DESTROY_TRANSMISSION, JOIN_TRANSMISSION, FETCH_SELECTED_ROOM } from '../store/actions.type';
 import store from '@/store'
 import { showErrorToasts } from '@/ToastHandler';
-import { FETCH_SELECTED_ROOM } from '@/store/actions.type';
 import * as dateformat from 'dateformat';
-import { ERASE_TRANSMISSION } from '../store/actions.type';
 import { OpenVidu } from 'openvidu-browser';
 import { defaultStreamProps } from './StreamQuality';
 import OrganiserControls from '@/room/OrganiserControls';
 import SpectatorControls from '@/room/SpectatorControls';
+import { PURGE_TRANSMISSION } from '../store/mutations.type';
 
 export default {
   name: 'RoomPanel',
@@ -110,9 +111,6 @@ export default {
     store.dispatch(FETCH_SELECTED_ROOM, { roomId: to.params.id })
       .then(() => next())
       .catch(showErrorToasts);
-  },
-  beforeDestroy() {
-    this.disconnect();
   },
   computed: {
     ...mapGetters([
@@ -149,6 +147,9 @@ export default {
       }[this.selectedRoom.status];
     }
   },
+  beforeDestroy() {
+    this.disconnect();
+  },
   methods: {
     startStream() {
       this.$store.dispatch(CREATE_TRANSMISSION, { roomId: this.selectedRoom.id })
@@ -166,13 +167,12 @@ export default {
         .catch(showErrorToasts);
     },
     disconnect() {
-      this.$store.dispatch(ERASE_TRANSMISSION)
-        .then(() => {
-          this.session.disconnect();
-          this.resetView();
-        }
-        )
-        .then(() => store.dispatch(FETCH_SELECTED_ROOM, { roomId: this.selectedRoom.id }))
+      this.$store.commit(PURGE_TRANSMISSION);
+      if(this.session) {
+        this.session.disconnect();
+      }
+      this.resetView();
+      store.dispatch(FETCH_SELECTED_ROOM, { roomId: this.selectedRoom.id })
         .catch(showErrorToasts);
     },
     createPublisherSession: function() {

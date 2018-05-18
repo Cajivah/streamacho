@@ -1,16 +1,27 @@
-import { FETCH_LOGGED_USER, IS_AUTHENTICATED, LOGIN, LOGIN_OAUTH, LOGOUT, REGISTER, ACTIVATE_ACCOUNT } from './actions.type';
+import {
+  FETCH_LOGGED_USER,
+  IS_AUTHENTICATED,
+  LOGIN,
+  LOGIN_OAUTH,
+  LOGOUT,
+  REGISTER,
+  ACTIVATE_ACCOUNT,
+  SAVE_PATH
+} from './actions.type';
 import qs from 'qs';
 import Vue from 'vue';
-import { PURGE_AUTH, SET_AUTH } from './mutations.type';
+import { PURGE_AUTH, SET_AUTH, SET_LOGIN_REDIRECT_PATH } from './mutations.type';
 import { showErrorToasts } from '../ToastHandler';
 
 const state = {
   loggedUser: null,
+  afterLoginRedirect: null,
 };
 
 const getters = {
   isAuthenticated: state => !!state.loggedUser,
-  loggedUser: state => state.loggedUser
+  loggedUser: state => state.loggedUser,
+  afterLoginRedirect: state => state.afterLoginRedirect,
 };
 
 const actions = {
@@ -38,13 +49,15 @@ const actions = {
     );
   },
   [FETCH_LOGGED_USER]({ commit }) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       Vue.axios.get('/users/accounts/me')
         .then(({ data }) => {
           commit(SET_AUTH, data);
           resolve(data);
         })
-        .catch((error) => error.response.data)
+        .catch((error) => {
+          reject(error.response.data);
+        })
     })
   },
   [REGISTER]({ commit }, payload) {
@@ -71,18 +84,30 @@ const actions = {
         .then(resolve)
         .catch(reject)
     );
+  },
+  [SAVE_PATH]({ commit }, payload) {
+    const { afterLoginRedirect } = payload;
+    return new Promise((resolve) => {
+      commit(SET_LOGIN_REDIRECT_PATH, afterLoginRedirect);
+      resolve();
+    })
   }
 };
 
 const mutations = {
   [SET_AUTH](state, data) {
     state.loggedUser = data;
+    state.afterLoginRedirect = null;
     state.error = null;
   },
   [PURGE_AUTH](state) {
     state.loggedUser = null;
+    state.afterLoginRedirect = null;
     state.error = null;
-  }
+  },
+  [SET_LOGIN_REDIRECT_PATH](state, data) {
+    state.afterLoginRedirect = data
+  },
 };
 
 export default {

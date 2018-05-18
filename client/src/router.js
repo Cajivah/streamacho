@@ -9,7 +9,7 @@ import CreateRoom from '@/rooms/CreateRoom';
 import RoomPanel from '@/room/RoomPanel';
 import store from '@/store';
 import Activate from '@/activation/Activate';
-import { FETCH_LOGGED_USER } from './store/actions.type';
+import {FETCH_LOGGED_USER, SAVE_PATH} from './store/actions.type';
 
 Vue.use(Router);
 
@@ -22,9 +22,13 @@ const ifNotAuthenticatedOnly = (to, from, next) => {
 };
 
 const ifAuthenticated = (to, from, next) => {
+  const { fullPath } = to;
   store.dispatch(FETCH_LOGGED_USER)
-    .then(next)
-    .catch(() => next('/login'));
+    .catch(() => {
+      store.dispatch(SAVE_PATH, { afterLoginRedirect: fullPath });
+      next('/login')
+    });
+  next();
 };
 
 export default new Router({
