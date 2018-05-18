@@ -3,7 +3,7 @@ include 'chat-db'
 include 'core'
 include 'discovery-server'
 include 'gateway'
-include ':mail'
+include 'mail'
 include 'meeting'
 include 'security'
 
