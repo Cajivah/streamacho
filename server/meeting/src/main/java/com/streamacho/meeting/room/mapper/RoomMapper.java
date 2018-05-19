@@ -39,6 +39,6 @@ public interface RoomMapper {
      @Mapping(target = "modifiedDate", ignore = true)
      @Mapping(target = "status", ignore = true)
      @Mapping(target = "transmissionStartedAt", ignore = true)
-     @Mapping(target = "startAtDate", source = "startAt")
+     @Mapping(target = "startAtDate", source = "roomCreationDTO.startAt")
      Room updateRoom(RoomCreationDTO roomCreationDTO, String logoUrl, @MappingTarget Room room);
 }

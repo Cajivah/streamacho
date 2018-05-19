@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import java.time.ZonedDateTime;
@@ -32,5 +33,6 @@ public class RoomCreationDTO {
 
      @Nullable
      @JsonProperty("logo")
+     @Valid
      private ImageDTO logoDTO;
 }

@@ -50,7 +50,7 @@ public class RoomController {
      @ResponseStatus(HttpStatus.OK)
      public RoomDTO updateRoom(@PathVariable Long roomId,
                                @RequestBody @Valid RoomCreationDTO roomCreationDTO,
-                               @AuthenticationPrincipal UserDetails issuer) {
+                               @AuthenticationPrincipal UserDetails issuer) throws IOException {
           return roomService.updateRoom(roomId, roomCreationDTO, issuer);
      }
 
