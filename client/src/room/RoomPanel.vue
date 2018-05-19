@@ -154,6 +154,7 @@ export default {
     startStream() {
       this.$store.dispatch(CREATE_TRANSMISSION, { roomId: this.selectedRoom.id })
         .then(() => this.createPublisherSession())
+        .then(() => this.$store.dispatch(FETCH_SELECTED_ROOM, { roomId: this.selectedRoom.id }))
         .catch(showErrorToasts);
     },
     joinStream() {
