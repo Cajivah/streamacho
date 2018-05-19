@@ -1,6 +1,5 @@
 package com.streamacho.meeting.room.service;
 
-import com.streamacho.meeting.config.properties.ImageProperties;
 import com.streamacho.meeting.image.model.dto.ImageDTO;
 import com.streamacho.meeting.image.service.ImageService;
 import com.streamacho.meeting.room.exception.RoomNotFoundException;
@@ -14,7 +13,6 @@ import com.streamacho.meeting.room.repository.elasticsearch.RoomSearchRepository
 import com.streamacho.meeting.room.repository.jpa.RoomRepository;
 import com.streamacho.meeting.room.validator.RoomValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,10 +27,8 @@ import static com.streamacho.meeting.room.model.enumeration.RoomStatus.PLANNED;
 
 @Service
 @RequiredArgsConstructor
-@EnableConfigurationProperties({ImageProperties.class})
 public class RoomService {
 
-     private final ImageProperties imageProperties;
      private final ImageService imageService;
      private final RoomSearchRepository roomSearchRepository;
      private final RoomRepository roomRepository;
@@ -65,7 +61,7 @@ public class RoomService {
      private String createLogoUrl(ImageDTO imageDTO) throws IOException {
           return Objects.nonNull(imageDTO)
                   ? imageService.upload(imageDTO)
-                  : imageProperties.getDefaultRoomLogoUrl();
+                  : null;
      }
 
      public RoomDTO updateRoom(Long roomId, RoomCreationDTO roomCreationDTO, UserDetails issuer)

@@ -48,9 +48,6 @@ cloudinary:
   api-secret: 0Z3cr7Jvz9huUr1u21RihU-FE5A
   cloud-name: dc27vxrfo
 
-image:
-  default-room-logo-url: https://res.cloudinary.com/dc27vxrfo/image/upload/v1526498561/mykbymlahzuwbfolgjab.png
-
 openvidu:
   secret: MY_SECRET
   url: https://localhost:8443/

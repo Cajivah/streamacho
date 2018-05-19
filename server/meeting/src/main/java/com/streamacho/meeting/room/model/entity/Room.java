@@ -44,6 +44,7 @@ public class Room {
      @Field
      private String organiser;
 
+     @Nullable
      private String logoUrl;
 
      @Builder.Default
