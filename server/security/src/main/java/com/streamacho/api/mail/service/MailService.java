@@ -1,7 +1,9 @@
 package com.streamacho.api.mail.service;
 
 import com.streamacho.api.mail.exception.MailSendingException;
+import com.streamacho.api.mail.factory.PasswordResetFactory;
 import com.streamacho.api.mail.factory.VerifyRegistrationFactory;
+import com.streamacho.api.user.model.dto.PasswordResetMailDTO;
 import com.streamacho.api.user.model.dto.VerificationMailDTO;
 import io.vavr.CheckedConsumer;
 import io.vavr.control.Try;
@@ -16,8 +18,15 @@ import javax.mail.internet.MimeMessage;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class MailService {
 
-     private final VerifyRegistrationFactory verifyRegistrationFactory;
      private final JavaMailSender javaMailSender;
+     private final PasswordResetFactory passwordResetFactory;
+     private final VerifyRegistrationFactory verifyRegistrationFactory;
+
+     public void sendResetPasswordMail(PasswordResetMailDTO mailDTO) {
+          Try.of(() -> passwordResetFactory.createMessage(mailDTO))
+             .andThenTry((CheckedConsumer<? super MimeMessage>) javaMailSender::send)
+             .getOrElseThrow(MailSendingException::ofThrowable);
+     }
 
      public void sendVerificationMail(VerificationMailDTO mailDTO) {
           Try.of(() -> verifyRegistrationFactory.createMessage(mailDTO))

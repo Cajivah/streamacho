@@ -2,6 +2,7 @@ package com.streamacho.api.user.mapper;
 
 import com.streamacho.api.user.model.dto.ChangePasswordDTO;
 import com.streamacho.api.user.model.dto.PasswordPairDTO;
+import com.streamacho.api.user.model.dto.ResetPasswordDTO;
 import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.dto.UserRegistrationDTO;
 import com.streamacho.api.user.model.entity.HashedPassword;
@@ -36,10 +37,19 @@ public abstract class UserMapper {
 
      public UserCredentials updatePassword(ChangePasswordDTO changePasswordDTO,
                                            UserCredentials user) {
-          final PasswordPairDTO passwordPairDTO = changePasswordDTO.getPasswordPairDTO();
+          return updatePassword(changePasswordDTO.getPasswordPairDTO(), user);
+     }
+
+     private UserCredentials updatePassword(PasswordPairDTO passwordPairDTO,
+                                            UserCredentials user) {
           final HashedPassword hashedPassword = toHashedPassword(passwordPairDTO);
           user.setPassword(hashedPassword);
           return user;
+     }
+
+     public UserCredentials updatePassword(ResetPasswordDTO resetPasswordDTO,
+                                           UserCredentials user) {
+          return updatePassword(resetPasswordDTO.getPasswordPairDTO(), user);
      }
 
      public HashedPassword toHashedPassword(PasswordPairDTO passwordPairDTO) {

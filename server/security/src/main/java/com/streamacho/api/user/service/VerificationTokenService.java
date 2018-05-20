@@ -1,6 +1,7 @@
 package com.streamacho.api.user.service;
 
 import com.streamacho.api.user.exception.VerificationException;
+import com.streamacho.api.user.model.dto.ResetPasswordDTO;
 import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.entity.UserCredentials;
 import com.streamacho.api.user.model.entity.VerificationToken;
@@ -20,19 +21,24 @@ public class VerificationTokenService {
      private final UserCredentialsService userCredentialsService;
      private final VerificationTokenRepository verificationTokenRepository;
 
-     public VerificationToken createNewToken(UserDetailsDTO user) {
+     public VerificationToken createNewToken(UserCredentials user) {
           final VerificationToken token = buildToken(user);
           return verificationTokenRepository.save(token);
      }
 
-     private VerificationToken buildToken(UserDetailsDTO user) {
+     private VerificationToken buildToken(UserCredentials userCredentials) {
           final String uuid = UUID.randomUUID().toString();
-          final UserCredentials userCredentials =
-               userCredentialsService.findByUsername(user.getUsername());
           return VerificationToken.builder()
-               .token(uuid)
-               .user(userCredentials)
-               .build();
+                                  .token(uuid)
+                                  .user(userCredentials)
+                                  .build();
+     }
+
+     public VerificationToken createNewToken(UserDetailsDTO user) {
+          final UserCredentials userCredentials =
+                  userCredentialsService.findByUsername(user.getUsername());
+          final VerificationToken token = buildToken(userCredentials);
+          return verificationTokenRepository.save(token);
      }
 
      public void verifyUser(String token) {
@@ -49,6 +55,13 @@ public class VerificationTokenService {
 
      private void persistVerification(VerificationToken verificationToken) {
           userCredentialsService.verifyUser(verificationToken.getUser());
+          verificationTokenRepository.delete(verificationToken);
+     }
+
+     public void resetPassword(ResetPasswordDTO resetPasswordDTO) {
+          VerificationToken verificationToken = findVerificationByToken(resetPasswordDTO.getToken());
+          UserCredentials user = verificationToken.getUser();
+          userCredentialsService.resetPassword(resetPasswordDTO, user);
           verificationTokenRepository.delete(verificationToken);
      }
 }

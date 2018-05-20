@@ -1,10 +1,15 @@
 package com.streamacho.api.user.controller;
 
 import com.streamacho.api.user.model.dto.ChangePasswordDTO;
+import com.streamacho.api.user.model.dto.EmailDTO;
+import com.streamacho.api.user.model.dto.ResetPasswordDTO;
 import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.dto.UserRegistrationDTO;
+import com.streamacho.api.user.model.entity.UserCredentials;
+import com.streamacho.api.user.model.event.OnPasswordResetEvent;
 import com.streamacho.api.user.model.event.OnRegistrationCompleteEvent;
 import com.streamacho.api.user.service.UserCredentialsService;
+import com.streamacho.api.user.service.VerificationTokenService;
 import io.swagger.annotations.ApiImplicitParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +37,9 @@ import java.util.Locale;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class AccountController {
 
-     private final UserCredentialsService userCredentialsService;
      private final ApplicationEventPublisher eventPublisher;
+     private final UserCredentialsService userCredentialsService;
+     private final VerificationTokenService verificationTokenService;
 
      @PostMapping
      @ResponseStatus(HttpStatus.CREATED)
@@ -51,6 +57,21 @@ public class AccountController {
      public void changePassword(@RequestBody @Validated ChangePasswordDTO changePasswordDTO,
                                 @AuthenticationPrincipal UserDetails user) {
           userCredentialsService.changePassword(changePasswordDTO, user);
+     }
+
+     @PostMapping("/reset-password")
+     @ResponseStatus(HttpStatus.NO_CONTENT)
+     public void resetPassword(@RequestBody @Validated EmailDTO emailDTO,
+                                 HttpServletRequest request) {
+          UserCredentials user = userCredentialsService.findByEmail(emailDTO.getEmail());
+          Locale locale = request.getLocale();
+          eventPublisher.publishEvent(new OnPasswordResetEvent(this, locale, user));
+     }
+
+     @PatchMapping("/reset-password")
+     @ResponseStatus(HttpStatus.NO_CONTENT)
+     public void changePassword(@RequestBody @Validated ResetPasswordDTO resetPasswordDTO) {
+          verificationTokenService.resetPassword(resetPasswordDTO);
      }
 
      @GetMapping("/me")

@@ -14,8 +14,11 @@ import javax.validation.constraints.NotBlank;
 public class RoutingProperties {
 
      @NotBlank
-     private String verificationTemplate;
+     private String changePasswordTemplate;
 
      @NotBlank
      private String frontendOrigin;
+
+     @NotBlank
+     private String verificationTemplate;
 }

@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.util.AntPathMatcher;
 
 import static com.streamacho.api.config.security.util.SecurityConstants.ANY_PATH;
 import static com.streamacho.api.config.security.util.SecurityConstants.AUTH_WHITELIST;
@@ -59,6 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                          .antMatchers(AUTH_WHITELIST).permitAll()
                          .antMatchers(HttpMethod.OPTIONS, ANY_PATH).permitAll()
                          .antMatchers(HttpMethod.POST, "/accounts").permitAll()
+                         .antMatchers(HttpMethod.POST, "/accounts/reset-password").permitAll()
+                         .antMatchers(HttpMethod.PATCH, "/accounts/reset-password").permitAll()
                          .antMatchers(
                               "/",
                               "/*/lock")
