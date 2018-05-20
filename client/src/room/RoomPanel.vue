@@ -1,81 +1,25 @@
 <template>
-  <div class="is-fullwidth has-navbar mb-5">
-    <div class="is-fullwidth room-header">
-      <div class="container room-header-content">
-        <div
-          v-if="status.status === 'Planned' || status.status === 'Live'"
-          class="is-size-6 room-header-section"
-        >
-          <invite-users :room-id="selectedRoom.id"/>
-        </div>
-        <div
-          v-tippy
-          v-if="status.status !== 'Live'"
-          :title="status.tooltip"
-          class="is-size-6 room-header-section"
-        >
-          <i
-            :class="status.icon"
-            class="fa mr-1"
-          />
-          {{ status.status }}
-        </div>
-        <div
-          v-tippy
-          v-else
-          title="The stream is currently live"
-          class="room-header-section"
-        >
-          <div class="tag is-danger is-size-6 is-unselectable blinking">
-            <i class="fa fa-circle mr-1"/>
-            Live
-          </div>
-        </div>
-        <div class="is-size-6 room-header-section">
-          <i class="fa fa-calendar-o mr-1"/> {{ formattedStartAt }}
-        </div>
-        <div class="is-size-6 room-header-section has-text-centered">
-          <i class="fa fa-user mr-1"/> {{ selectedRoom.organiser }}
-        </div>
-        <div class="is-size-6 room-header-section">
-          <select-stream-source
-            v-if="isOrganiser && isPlaying"
-            v-model="streamSource"
-          />
-          <a
-            v-tippy
-            v-if="isPlaying && streamSource === 'screen'"
-            class="change-streamed-application-button button is-success"
-            title="Change streamed application"
-            @click="changeStreamedApplication"
-          >
-            <b-icon
-              icon="window-restore"
-              icon-pack="fa"
-            />
-          </a>
-        </div>
-        <div class="is-size-6 room-header-section has-text-right">
-          <div v-if="isOrganiser">
-            <a
-              v-if="isPlaying"
-              class="button is-danger is-size-6"
-              @click="destroyStream">Stop stream</a>
-          </div>
-          <div v-else>
-            <a
-              v-if="isPlaying"
-              class="button is-danger is-size-6"
-              @click="disconnect">Leave stream</a>
-          </div>
-        </div>
-      </div>
+  <div 
+    v-if="loggedUser" 
+    class="is-fullwidth has-navbar mb-5">
+    <div class="is-fullwidth">
+      <room-header
+        :room-id="selectedRoom.id"
+        :start-at="formattedStartAt"
+        :organiser="selectedRoom.organiser"
+        :is-organiser="isOrganiser"
+        :is-playing="isPlaying"
+        :destroy-stream="destroyStream"
+        :disconnect="disconnect"
+        :status="selectedRoom.status"
+        :change-streamed-application="changeStreamedApplication"
+        :change-stream-source="changeSource"
+      />
     </div>
     <div
       :class="isPlaying && 'video-background--playing'"
-      class="is-fullwidth video-background"
-    >
-      <div class="container">
+      class="is-fullwidth main-section video-background">
+      <div class="container stream">
         <div
           id="main-video"
           ref="mainVideo"
@@ -96,27 +40,14 @@
           </div>
         </div>
       </div>
+      <chat
+        :chat-id="selectedRoom.id"
+        :organiser="selectedRoom.organiser"
+      />
     </div>
-    <div class="info container">
-      <figure class="logo is-128x128">
-        <img-placeholder
-          :string="selectedRoom.name"
-          :url="selectedRoom.logoUrl"
-          :size="128"
-        />
-      </figure>
-      <div>
-        <h2 class="is-size-1 mt-2">{{ selectedRoom.name }}</h2>
-        <div class="tags">
-          <span
-            v-for="tag in selectedRoom.tags"
-            class="tag is-primary is-size-6 mr-1">
-            {{ tag }}
-          </span>
-        </div>
-        <p class="has-text-grey-dark is-max-width-6 is-whitespace-preserve">{{ selectedRoom.description }}</p>
-      </div>
-    </div>
+    <room-details
+      :room="selectedRoom"
+    />
   </div>
 </template>
 
@@ -129,26 +60,26 @@ import {
   FETCH_SELECTED_ROOM,
   JOIN_TRANSMISSION
 } from '../store/actions.type';
-import store from '@/store'
+import store from '../store'
 import { showErrorToasts } from '@/ToastHandler';
 import * as dateformat from 'dateformat';
 import { OpenVidu } from 'openvidu-browser';
-import { defaultStreamProps } from './StreamQuality';
-import OrganiserControls from '@/room/OrganiserControls';
-import SpectatorControls from '@/room/SpectatorControls';
+import { defaultStreamProps } from './utils/StreamQuality';
+import OrganiserControls from '../room/OrganiserControls';
+import SpectatorControls from '../room/SpectatorControls';
+import Chat from '../chat/Chat';
+import RoomHeader from './RoomHeader';
+import RoomDetails from './RoomDetails';
 import { PURGE_TRANSMISSION } from '../store/mutations.type';
-import ImgPlaceholder from '../common/ImgPlaceholder';
-import InviteUsers from './InviteUsers';
-import SelectStreamSource from './SelectStreamSource';
 
 export default {
   name: 'RoomPanel',
   components: {
-    SelectStreamSource,
-    InviteUsers,
     OrganiserControls,
     SpectatorControls,
-    ImgPlaceholder,
+    Chat,
+    RoomHeader,
+    RoomDetails,
   },
   data() {
     return {
@@ -156,15 +87,12 @@ export default {
       session: null,
       streamProps: _.clone(defaultStreamProps),
       publisher: null,
-      streamSource: 'camera',
     }
   },
   beforeRouteEnter(to, from, next) {
     store.dispatch(FETCH_SELECTED_ROOM, { roomId: to.params.id })
       .then(() => next())
       .catch(showErrorToasts);
-
-    this.streamSource = this.streamProps.screen ? 'screen' : 'camera';
   },
   computed: {
     ...mapGetters([
@@ -178,33 +106,6 @@ export default {
     formattedStartAt() {
       return dateformat(new Date(this.selectedRoom.startAt), 'ddd mmm dd yyyy HH:MM');
     },
-    status() {
-      return {
-        PLANNED: {
-          status: 'Planned',
-          icon: 'fa-calendar',
-          tooltip: 'The stream has been planned'
-        },
-        COMPLETED: {
-          status: 'Completed',
-          icon: 'fa-check',
-          tooltip: 'The stream has already ended'
-        },
-        WASTED: {
-          status: 'Wasted',
-          icon: 'fa-trash',
-          tooltip: 'The stream did not start at the planned time'
-        },
-        LIVE: {
-          status: 'Live',
-        }
-      }[this.selectedRoom.status];
-    }
-  },
-  watch: {
-    streamSource(val) {
-      this.changeSource(val);
-    }
   },
   beforeDestroy() {
     this.disconnect();
@@ -314,29 +215,12 @@ export default {
 </script>
 
 <style scoped>
-  .room-header {
-    display: flex;
-    flex-direction: row;
-    background-color: #eee;
-    height: 50px;
+  .stream {
+    width: 77%;
   }
-
-  .room-header-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .room-header-section {
-    width: 33%;
-    text-align: center;
-  }
-
   .has-navbar {
     padding-top: 52px;
   }
-
   .video-placeholder {
     width: 100%;
     min-height: 90vh;
@@ -344,55 +228,15 @@ export default {
     align-items: center;
     justify-content: center;
   }
-
-  .icon {
-    margin: 0 10px;
-  }
-
-  .blinking {
-    animation: blinker 2s ease-in-out infinite;
-  }
-
-  .info {
-    display: flex;
-  }
-
-  .logo {
-    margin: 40px;
-  }
-
   .video-background {
     transition: 1s;
   }
-
   .video-background--playing {
     transition: 1s;
     background: black;
   }
-
-  .change-streamed-application-button {
-    margin-left: 10px;
-  }
-
-  @keyframes blinker {
-    0% {
-      transform: scale(0.8);
-      opacity: 0.6;
-    }
-
-    10% {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    80% {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    100% {
-      transform: scale(0.8);
-      opacity: 0.6;
-    }
+  .main-section {
+    display: flex;
+    justify-content: space-between;
   }
 </style>

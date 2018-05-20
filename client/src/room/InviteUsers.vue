@@ -2,19 +2,19 @@
   <div>
     <b-dropdown
       ref="dropdown"
+      :disabled="disabled"
       v-model="isOpen"
       @active-change="active => isOpen = active"
     >
       <a
         v-tippy
-        title="Invite users to this room"
         slot="trigger"
-        class="has-text-dark is-unselectable"
+        title="Invite users to this room"
+        class="is-unselectable button button-invite"
       >
-        Invitations
+        Invite Friends
         <caret-down :is-open="isOpen"/>
       </a>
-
 
       <div class="modal-card">
         <div class="modal-card-head">
@@ -100,7 +100,11 @@ export default {
     roomId: {
       type: Number,
       required: true
-    }
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     isOpen: false,
@@ -201,5 +205,10 @@ export default {
   .no-users {
     color: #aaaaaa;
     font-size: 15px;
+  }
+
+  .button-invite {
+    background-color: #eee;
+    border-color: black;
   }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <b-dropdown
     v-model="source"
+    :disabled="disabled"
     @active-change="active => isOpen = active"
   >
     <a
@@ -52,6 +53,7 @@
     </b-dropdown-item>
   </b-dropdown>
 </template>
+
 <script>
 import CaretDown from '../common/CaretDown';
 export default {
@@ -63,7 +65,11 @@ export default {
     value: {
       type: String,
       default: 'camera',
-    }
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     isOpen: false,

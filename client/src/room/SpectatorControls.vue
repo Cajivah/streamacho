@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import { isPlanned, canStartTransmission } from "./RoomUtils";
+  import { isPlanned, canStartTransmission } from "./utils/RoomUtils";
   import Countdown from '../common/Countdown';
   import * as dateformat from 'dateformat';
 

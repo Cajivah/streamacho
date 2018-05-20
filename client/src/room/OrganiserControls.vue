@@ -20,7 +20,7 @@
 <script>
   import Countdown from '../common/Countdown';
   import * as dateformat from 'dateformat';
-  import { canStartTransmission, isPlanned } from './RoomUtils';
+  import { canStartTransmission, isPlanned } from './utils/RoomUtils';
 
   export default {
     name: "OrganiserControls",
