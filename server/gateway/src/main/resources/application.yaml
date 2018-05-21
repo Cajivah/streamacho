@@ -35,7 +35,7 @@ spring:
         predicates:
         - Path=/api/chat/**
       - id: streamacho-chat-db
-        uri: lb://streamcho-chat-db
+        uri: lb://streamacho-chat-db
         predicates:
         - Path=/api/chat-db/**
 
