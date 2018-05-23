@@ -6,22 +6,25 @@ import {
   LOGOUT,
   REGISTER,
   ACTIVATE_ACCOUNT,
-  SAVE_PATH
+  SAVE_PATH, FETCH_USERS
 } from './actions.type';
 import qs from 'qs';
 import Vue from 'vue';
-import { PURGE_AUTH, SET_AUTH, SET_LOGIN_REDIRECT_PATH } from './mutations.type';
+import { CLEAR_USERS, PURGE_AUTH, SET_AUTH, SET_LOGIN_REDIRECT_PATH, SET_USERS } from './mutations.type';
 import { showErrorToasts } from '../ToastHandler';
 
 const state = {
   loggedUser: null,
   afterLoginRedirect: null,
+  users: [],
 };
 
 const getters = {
   isAuthenticated: state => !!state.loggedUser,
   loggedUser: state => state.loggedUser,
   afterLoginRedirect: state => state.afterLoginRedirect,
+  users: state => state.users,
+  userNames: state => state.users.map(user => user.username),
 };
 
 const actions = {
@@ -91,6 +94,16 @@ const actions = {
       commit(SET_LOGIN_REDIRECT_PATH, afterLoginRedirect);
       resolve();
     })
+  },
+  [FETCH_USERS]({ commit }, params) {
+    return new Promise((resolve, reject) => {
+      Vue.axios.get('/users/accounts', { params })
+        .then(({ data }) => {
+          commit(SET_USERS, data.content);
+          resolve(data);
+        })
+        .catch(reject);
+    })
   }
 };
 
@@ -108,6 +121,14 @@ const mutations = {
   [SET_LOGIN_REDIRECT_PATH](state, data) {
     state.afterLoginRedirect = data
   },
+  [SET_USERS](state, data) {
+    state.users = data;
+    state.error = null;
+  },
+  [CLEAR_USERS](state) {
+    state.users = [];
+    state.error = null;
+  }
 };
 
 export default {

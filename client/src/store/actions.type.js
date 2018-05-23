@@ -14,3 +14,5 @@ export const JOIN_TRANSMISSION = 'joinRoom';
 export const CREATE_TRANSMISSION = 'createTransmission';
 export const ACTIVATE_ACCOUNT = 'verifyAccount';
 export const SAVE_PATH = 'savePath';
+export const INVITE_USERS = 'inviteUsers';
+export const FETCH_USERS = 'fetchUsers';

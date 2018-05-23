@@ -3,6 +3,12 @@
     <div class="is-fullwidth room-header">
       <div class="container room-header-content">
         <div
+          v-if="status.status === 'Planned' || status.status === 'Live'"
+          class="is-size-5 room-header-section"
+        >
+          <invite-users :room-id="selectedRoom.id"/>
+        </div>
+        <div
           v-tippy
           v-if="status.status !== 'Live'"
           :title="status.tooltip"
@@ -93,10 +99,12 @@ import { defaultStreamProps } from './StreamQuality';
 import OrganiserControls from '@/room/OrganiserControls';
 import SpectatorControls from '@/room/SpectatorControls';
 import { PURGE_TRANSMISSION } from '../store/mutations.type';
+import InviteUsers from './InviteUsers';
 
 export default {
   name: 'RoomPanel',
   components: {
+    InviteUsers,
     OrganiserControls,
     SpectatorControls,
   },
