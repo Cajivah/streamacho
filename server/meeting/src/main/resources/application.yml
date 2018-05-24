@@ -43,6 +43,11 @@ spring:
       flush-mode: ON_SAVE
       namespace: streamacho
 
+cloudinary:
+  api-key: 385895442613275
+  api-secret: 0Z3cr7Jvz9huUr1u21RihU-FE5A
+  cloud-name: dc27vxrfo
+
 openvidu:
   secret: MY_SECRET
   url: https://localhost:8443/
