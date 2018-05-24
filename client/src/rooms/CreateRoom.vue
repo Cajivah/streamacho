@@ -10,7 +10,23 @@
 
         <div class="card">
           <div class="card-hero has-background-info">
-            <room-image-dropzone class="room-image-dropzone"/>
+            <room-image-dropzone
+              class="room-image-dropzone"
+              accept="image/png,image/jpeg"
+              @load-image="processFile"
+              @error="imageError"
+            >
+              <template slot="icon">
+                <i class="icon fa fa-upload"/>
+              </template>
+              <template slot="header">
+                Choose a logo
+              </template>
+              <template slot="description">
+                Max 800&times;800 <br>
+                Both <em>png</em> and <em>jpg</em> allowed
+              </template>
+            </room-image-dropzone>
           </div>
           <div class="card-content">
             <div class="content">
@@ -106,6 +122,7 @@
 <script>
 import { CREATE_ROOM } from '../store/actions.type';
 import RoomImageDropzone from '../common/RoomImageDropzone';
+import { showErrorToasts } from '../ToastHandler';
 
 export default {
   name: 'AddRoom',
@@ -119,9 +136,9 @@ export default {
         description: '',
         date: null,
         time: null,
+        logo: null,
         tags: []
       },
-      image: null,
     };
   },
   methods: {
@@ -147,6 +164,7 @@ export default {
         this.resetForm();
       });
     },
+
     resetForm() {
       this.room.name = '';
       this.room.description = '';
@@ -154,6 +172,10 @@ export default {
       this.room.time = '';
       this.room.tags = [];
       this.$validator.reset();
+    },
+
+    imageError(dimensions) {
+      showErrorToasts({ messages: dimensions.map(dim => `The ${dim} shouldn't be greater than 800`) });
     },
 
     combineDateAndTime(dateString, timeString) {
@@ -174,8 +196,24 @@ export default {
       return new Date(1970, 0, 1, chunk[0], chunk[1]);
     },
 
-    processFile(event) {
-      this.image = URL.createObjectURL(event.target.files[0]);
+    processFile(file) {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        this.room.logo = {
+          base64: fileReader.result.split(',')[1],
+          extension: this.getFileExtension(file)
+        };
+      };
+    },
+
+    getFileExtension(file) {
+      return ((rawExtension) => {
+        switch(rawExtension) {
+        case 'JPEG': return 'JPG';
+        default: return rawExtension;
+        }
+      })(file.name.split('.').pop().toUpperCase());
     }
   }
 };

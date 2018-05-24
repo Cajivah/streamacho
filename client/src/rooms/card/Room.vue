@@ -6,19 +6,10 @@
     >
       <room-status :room="room"/>
       <figure class="image is-96x96">
-        <div v-if="room.src">
-          <img
-            :src="room.src"
-            class="picture"
-            alt="Placeholder image"
-          >
-        </div>
-        <div v-else>
-          <img-placeholder
-            :string="room.name"
-            class="picture picture-placeholder"
-          />
-        </div>
+        <img-placeholder
+          :string="room.name"
+          :url="room.logoUrl"
+        />
       </figure>
     </div>
 
@@ -158,18 +149,6 @@ export default {
     right: 0;
     margin: 0 auto;
     bottom: -50%;
-  }
-
-  .picture {
-    border-radius: 50%;
-    border: solid 2px white;
-  }
-
-  .picture-placeholder {
-    width: 96px;
-    height: 96px;
-    font-size: 60px;
-    background: white;
   }
 
   .info {

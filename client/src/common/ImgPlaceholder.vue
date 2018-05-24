@@ -1,9 +1,22 @@
 <template>
-  <div
-    :class="backgroundColor"
-    class="picture picture-placeholder is-unselectable"
-  >
-    {{ string[0] }}
+  <div>
+    <div v-if="url">
+      <img
+        :src="url"
+        :style="{ width: size + 'px', height: size + 'px' }"
+        class="rounded image"
+        alt="Logo"
+      >
+    </div>
+    <div v-else>
+      <div
+        :class="backgroundColor"
+        :style="{ width: size + 'px', height: size + 'px' }"
+        class="rounded picture-placeholder is-unselectable"
+      >
+        {{ string[0] }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,6 +27,14 @@ export default {
     string: {
       type: String,
       required: true
+    },
+    url: {
+      type: String,
+      default: null
+    },
+    size: {
+      type: Number,
+      default: 96
     }
   },
   computed: {
@@ -25,11 +46,21 @@ export default {
 </script>
 
 <style scoped>
+  .image {
+    background-color: white;
+  }
+
+  .rounded {
+    border-radius: 50%;
+    border: solid 2px white;
+  }
+
   .picture-placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
+    font-size: 60px;
   }
 
   .color-0 {
