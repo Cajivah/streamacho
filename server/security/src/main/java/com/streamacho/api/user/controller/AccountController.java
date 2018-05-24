@@ -61,8 +61,8 @@ public class AccountController {
 
      @PostMapping("/reset-password")
      @ResponseStatus(HttpStatus.NO_CONTENT)
-     public void resetPassword(@RequestBody @Validated EmailDTO emailDTO,
-                                 HttpServletRequest request) {
+     public void createPasswordResetToken(@RequestBody @Validated EmailDTO emailDTO,
+                                          HttpServletRequest request) {
           UserCredentials user = userCredentialsService.findByEmail(emailDTO.getEmail());
           Locale locale = request.getLocale();
           eventPublisher.publishEvent(new OnPasswordResetEvent(this, locale, user));
