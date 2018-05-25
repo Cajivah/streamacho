@@ -68,7 +68,7 @@ services:
       - streamacho-security-service
       - streamacho-meetings-service
     healthcheck:
-      test: curl -f http://localhost:8888/actuator/health
+      test: curl -f http://localhost:8889/actuator/health
       interval: 5s
       retries: 100
 

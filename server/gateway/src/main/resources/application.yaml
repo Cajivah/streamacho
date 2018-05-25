@@ -8,6 +8,7 @@ eureka:
       defaultZone: ${discovery-service.uri:http://localhost:8761/eureka/}
   instance:
     prefer-ip-address: true
+    secure-port-enabled: true
 spring:
   application:
     name: gateway
@@ -18,11 +19,11 @@ spring:
           enabled: true
       routes:
       - id: streamacho-security
-        uri: lb://streamacho-security
+        uri: lb:http://streamacho-security
         predicates:
         - Path=/api/users/**
       - id: streamacho-security
-        uri: lb://streamacho-meetings
+        uri: lb:http://streamacho-meetings
         predicates:
         - Path=/api/meetings/**
       - id: streamacho-chat-ws
@@ -39,8 +40,20 @@ spring:
         predicates:
         - Path=/api/chat-db/**
 
+management:
+  server:
+    ssl:
+      enabled: false
+    port: 8889
+
 server:
   port: 8888
+  ssl:
+    key-store-type: JKS
+    key-store: classpath:keystore.jks
+    key-alias: streamacho-gateway
+    key-store-password: streamacho
+    enabled: true
 
 logging:
   level:
