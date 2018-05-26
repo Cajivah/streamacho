@@ -1,4 +1,4 @@
-import { CREATE_ROOM, FETCH_ROOMS, FETCH_SELECTED_ROOM, REMOVE_ROOM } from './actions.type';
+import { CREATE_ROOM, FETCH_ROOMS, FETCH_SELECTED_ROOM, INVITE_USERS, REMOVE_ROOM } from './actions.type';
 import { APPEND_ROOMS, CLEAR_ROOMS, SET_ERROR, SET_MEETINGS, SET_SELECTED_ROOM } from './mutations.type';
 import Vue from 'vue';
 import { showErrorToasts } from '../ToastHandler';
@@ -60,6 +60,17 @@ const actions = {
         })
     );
   },
+  [INVITE_USERS]({ commit }, { roomId, invitations }) {
+    return new Promise((resolve, reject) =>
+      Vue.axios.post(`meetings/rooms/${roomId}/invitations`, { invitations })
+        .then(resolve)
+        .catch(({ error }) => {
+          showErrorToasts(error);
+          commit(SET_ERROR, error);
+          reject();
+        })
+    );
+  }
 };
 
 const mutations = {

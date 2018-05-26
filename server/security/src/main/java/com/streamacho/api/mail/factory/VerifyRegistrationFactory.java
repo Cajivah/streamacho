@@ -17,6 +17,7 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.streamacho.api.mail.utils.VerifyRegistrationMailMessageKeys.ACTION_URL_VARIABLE;
 import static com.streamacho.api.mail.utils.VerifyRegistrationMailMessageKeys.STARTING_GREETER_TEMPLATE;
@@ -68,6 +69,6 @@ public class VerifyRegistrationFactory {
      }
 
      private String createStartingGreeter(LocalizedMessageSource messages, String username) {
-          return String.format(messages.get(STARTING_GREETER_TEMPLATE), username);
+          return String.format(messages.get(STARTING_GREETER_TEMPLATE), Optional.ofNullable(username).orElse(""));
      }
 }

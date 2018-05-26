@@ -51,7 +51,9 @@ Vue.use(VueScrollTo, {
 });
 
 Vue.use(Toasted);
-Vue.use(Buefy);
+Vue.use(Buefy, {
+  defaultIconPack: 'fa'
+});
 Vue.toasted.register('error_toast',
   (payload) => {
     if(! payload.message) {

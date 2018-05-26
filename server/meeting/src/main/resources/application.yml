@@ -72,4 +72,4 @@ mail:
 
 routes:
   frontendOrigin: 'http://localhost:8080'
-  roomInvitationTemplate: 'http://localhost:8080/rooms/%s'
+  roomInvitationTemplate: 'http://localhost:8080/#/rooms/%s'
