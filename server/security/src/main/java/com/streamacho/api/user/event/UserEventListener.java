@@ -1,12 +1,16 @@
 package com.streamacho.api.user.event;
 
 import com.streamacho.api.mail.service.MailService;
+import com.streamacho.api.user.mapper.PasswordResetMapper;
 import com.streamacho.api.user.mapper.VerificationMapper;
 import com.streamacho.api.user.model.dto.LoginCompleteDTO;
+import com.streamacho.api.user.model.dto.PasswordResetMailDTO;
 import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.dto.VerificationMailDTO;
+import com.streamacho.api.user.model.entity.UserCredentials;
 import com.streamacho.api.user.model.entity.VerificationToken;
 import com.streamacho.api.user.model.event.OnLoginCompleteEvent;
+import com.streamacho.api.user.model.event.OnPasswordResetEvent;
 import com.streamacho.api.user.model.event.OnRegistrationCompleteEvent;
 import com.streamacho.api.user.service.UserLoginService;
 import com.streamacho.api.user.service.VerificationTokenService;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class UserEventListener {
 
+     private final PasswordResetMapper passwordResetMapper;
      private final VerificationTokenService verificationTokenService;
      private final VerificationMapper verificationMapper;
      private final UserLoginService userLoginService;
@@ -39,5 +44,14 @@ public class UserEventListener {
      public void handleLoginComplete(OnLoginCompleteEvent event) {
           final LoginCompleteDTO loginCompleteDTO = event.getLoginCompleteDTO();
           userLoginService.updateLastLoginDate(loginCompleteDTO);
+     }
+
+     @Async
+     @EventListener
+     public void handlePasswordResetEvent(OnPasswordResetEvent event) {
+          final UserCredentials user = event.getUserCredentials();
+          final VerificationToken token = verificationTokenService.createNewToken(user);
+          PasswordResetMailDTO mailDTO = passwordResetMapper.toPasswordResetMailDTO(token, event);
+          mailService.sendResetPasswordMail(mailDTO);
      }
 }

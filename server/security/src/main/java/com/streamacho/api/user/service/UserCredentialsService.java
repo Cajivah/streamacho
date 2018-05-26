@@ -6,6 +6,7 @@ import com.streamacho.api.user.exception.UserNotFoundException;
 import com.streamacho.api.user.mapper.UserMapper;
 import com.streamacho.api.user.model.dto.ChangePasswordDTO;
 import com.streamacho.api.user.model.dto.LockUserDTO;
+import com.streamacho.api.user.model.dto.ResetPasswordDTO;
 import com.streamacho.api.user.model.dto.UserDetailsDTO;
 import com.streamacho.api.user.model.dto.UserRegistrationDTO;
 import com.streamacho.api.user.model.entity.HashedPassword;
@@ -52,6 +53,11 @@ public class UserCredentialsService implements UserDetailsService {
           return userRepository.findAllByUsernameContainingOrEmailContainingAllIgnoreCase(query, query, pageable);
      }
 
+     public UserCredentials findByEmail(String email) {
+          return userRepository.findOneByEmail(email)
+               .orElseThrow(UserNotFoundException::of);
+     }
+
      public Page<UserDetailsDTO> getUsersDTO(String query, Pageable pageable) {
           final Page<UserCredentials> usersPage = findByUsernameOrEmail(query, pageable);
           return usersPage.map(userMapper::toUserDetailsDTO);
@@ -74,6 +80,11 @@ public class UserCredentialsService implements UserDetailsService {
           final String currentPassword = changePasswordDTO.getCurrentPassword();
           checkPasswordMatch(currentPassword, user.getPassword());
           persistPasswordUpdate(changePasswordDTO, user);
+     }
+
+     public void resetPassword(ResetPasswordDTO resetPasswordDTO, UserCredentials user) {
+          final UserCredentials updatedUser = userMapper.updatePassword(resetPasswordDTO, user);
+          userRepository.save(updatedUser);
      }
 
      private void checkPasswordMatch(String password, HashedPassword hashedPassword) {
