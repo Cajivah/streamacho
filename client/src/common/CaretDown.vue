@@ -1,7 +1,7 @@
 <template>
   <i
     :class="isOpen && 'caret--inverted'"
-    class="caret fa fa-caret-down"
+    class="caret fa fa-caret-down fa-lg"
   />
 </template>
 
@@ -19,6 +19,7 @@ export default {
 
 <style scoped>
   .caret {
+    margin-left: 5px;
     transition: 0.2s;
   }
 

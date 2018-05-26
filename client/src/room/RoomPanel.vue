@@ -4,7 +4,7 @@
       <div class="container room-header-content">
         <div
           v-if="status.status === 'Planned' || status.status === 'Live'"
-          class="is-size-5 room-header-section"
+          class="is-size-6 room-header-section"
         >
           <invite-users :room-id="selectedRoom.id"/>
         </div>
@@ -12,7 +12,7 @@
           v-tippy
           v-if="status.status !== 'Live'"
           :title="status.tooltip"
-          class="is-size-5 room-header-section"
+          class="is-size-6 room-header-section"
         >
           <i
             :class="status.icon"
@@ -26,51 +26,74 @@
           title="The stream is currently live"
           class="room-header-section"
         >
-          <div class="tag is-danger is-size-5 is-unselectable blinking">
+          <div class="tag is-danger is-size-6 is-unselectable blinking">
             <i class="fa fa-circle mr-1"/>
             Live
           </div>
         </div>
-        <div class="is-size-5 room-header-section">
+        <div class="is-size-6 room-header-section">
           <i class="fa fa-calendar-o mr-1"/> {{ formattedStartAt }}
         </div>
-        <div class="is-size-4 room-header-section has-text-centered">
+        <div class="is-size-6 room-header-section has-text-centered">
           <i class="fa fa-user mr-1"/> {{ selectedRoom.organiser }}
         </div>
-        <div class="is-size-5 room-header-section has-text-right">
+        <div class="is-size-6 room-header-section">
+          <select-stream-source
+            v-if="isOrganiser && isPlaying"
+            v-model="streamSource"
+          />
+          <a
+            v-tippy
+            v-if="isPlaying && streamSource === 'screen'"
+            class="change-streamed-application-button button is-success"
+            title="Change streamed application"
+            @click="changeStreamedApplication"
+          >
+            <b-icon
+              icon="window-restore"
+              icon-pack="fa"
+            />
+          </a>
+        </div>
+        <div class="is-size-6 room-header-section has-text-right">
           <div v-if="isOrganiser">
             <a
               v-if="isPlaying"
-              class="button is-danger is-size-5" 
+              class="button is-danger is-size-6"
               @click="destroyStream">Stop stream</a>
           </div>
           <div v-else>
             <a
               v-if="isPlaying"
-              class="button is-danger is-size-5" 
+              class="button is-danger is-size-6"
               @click="disconnect">Leave stream</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="container mt-2">
-      <div 
-        id="main-video" 
-        ref="mainVideo" 
-        class="video-placeholder">
+    <div
+      :class="isPlaying && 'video-background--playing'"
+      class="is-fullwidth video-background"
+    >
+      <div class="container">
         <div
-          v-if="!isPlaying"
-          class="stream-initializer" >
-          <organiser-controls
-            v-if="isOrganiser" 
-            :start="startStream" 
-            :status="selectedRoom.status" 
-            :start-at="selectedRoom.startAt"/>
-          <spectator-controls 
-            v-else 
-            :start="joinStream" 
-            :status="selectedRoom.status" 
-            :start-at="selectedRoom.startAt"/>
+          id="main-video"
+          ref="mainVideo"
+          class="video-placeholder">
+          <div
+            v-if="!isPlaying"
+            class="stream-initializer" >
+            <organiser-controls
+              v-if="isOrganiser"
+              :start="startStream"
+              :status="selectedRoom.status"
+              :start-at="selectedRoom.startAt"/>
+            <spectator-controls
+              v-else
+              :start="joinStream"
+              :status="selectedRoom.status"
+              :start-at="selectedRoom.startAt"/>
+          </div>
         </div>
       </div>
     </div>
@@ -90,7 +113,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { CREATE_TRANSMISSION, DESTROY_TRANSMISSION, JOIN_TRANSMISSION, FETCH_SELECTED_ROOM } from '../store/actions.type';
+import _ from 'lodash';
+import {
+  CREATE_TRANSMISSION,
+  DESTROY_TRANSMISSION,
+  FETCH_SELECTED_ROOM,
+  JOIN_TRANSMISSION
+} from '../store/actions.type';
 import store from '@/store'
 import { showErrorToasts } from '@/ToastHandler';
 import * as dateformat from 'dateformat';
@@ -100,10 +129,12 @@ import OrganiserControls from '@/room/OrganiserControls';
 import SpectatorControls from '@/room/SpectatorControls';
 import { PURGE_TRANSMISSION } from '../store/mutations.type';
 import InviteUsers from './InviteUsers';
+import SelectStreamSource from './SelectStreamSource';
 
 export default {
   name: 'RoomPanel',
   components: {
+    SelectStreamSource,
     InviteUsers,
     OrganiserControls,
     SpectatorControls,
@@ -112,13 +143,17 @@ export default {
     return {
       isPlaying: false,
       session: null,
-      streamProps: defaultStreamProps,
+      streamProps: _.clone(defaultStreamProps),
+      publisher: null,
+      streamSource: 'camera',
     }
   },
   beforeRouteEnter(to, from, next) {
     store.dispatch(FETCH_SELECTED_ROOM, { roomId: to.params.id })
       .then(() => next())
       .catch(showErrorToasts);
+
+    this.streamSource = this.streamProps.screen ? 'screen' : 'camera';
   },
   computed: {
     ...mapGetters([
@@ -153,6 +188,11 @@ export default {
           status: 'Live',
         }
       }[this.selectedRoom.status];
+    }
+  },
+  watch: {
+    streamSource(val) {
+      this.changeSource(val);
     }
   },
   beforeDestroy() {
@@ -224,13 +264,27 @@ export default {
         this.disconnect();
       }
     },
-    publishStream: function(OV) {
-      const publisher = OV.initPublisher('main-video', this.streamProps);
-      publisher.on('videoElementCreated', () => {
+    publishStream: function() {
+      this.publisher = this.session.openVidu.initPublisher('main-video', this.streamProps);
+      this.publisher.on('videoElementCreated', () => {
         const video = this.$refs.mainVideo.querySelector('video');
         video.controls = 'controls';
       });
-      return this.session.publish(publisher);
+      return this.session.publish(this.publisher);
+    },
+    unpublishStream: function() {
+      this.session.unpublish(this.publisher);
+      this.publisher = null;
+    },
+    changeSource(source) {
+      if(this.isPlaying) {
+        this.unpublishStream();
+        this.streamProps.screen = source === 'screen';
+        this.publishStream();
+      }
+    },
+    changeStreamedApplication() {
+      this.changeSource('screen');
     },
     subscribeToRemoteStream: function(streamCreatedEvent) {
       const  subscriber = this.session.subscribe(streamCreatedEvent.stream, 'main-video');
@@ -253,7 +307,7 @@ export default {
     display: flex;
     flex-direction: row;
     background-color: #eee;
-    height: 70px;
+    height: 50px;
   }
   .room-header-content {
     display: flex;
@@ -270,14 +324,31 @@ export default {
   }
   .video-placeholder {
     width: 100%;
-    height: 600px;
+    min-height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  .icon {
+    margin: 0 10px;
+  }
+
   .blinking {
     animation: blinker 2s ease-in-out infinite;
+  }
+
+  .video-background {
+    transition: 1s;
+  }
+
+  .video-background--playing {
+    transition: 1s;
+    background: black;
+  }
+
+  .change-streamed-application-button {
+    margin-left: 10px;
   }
 
   @keyframes blinker {
