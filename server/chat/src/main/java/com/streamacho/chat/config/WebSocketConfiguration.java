@@ -26,7 +26,7 @@ public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrok
      @Override
      public void registerStompEndpoints(StompEndpointRegistry registry) {
           registry.addEndpoint(chatEndpointsProperties.getWebSocketEndpoint())
-               .setAllowedOrigins(securityProperties.getFrontendOrigin())
+               .setAllowedOrigins(securityProperties.getFrontendOrigins())
                .withSockJS();
      }
 

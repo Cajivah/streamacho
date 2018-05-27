@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 @ConfigurationProperties("security")
 public class SecurityProperties {
 
-     @NotBlank
-     private String frontendOrigin;
-
+     @NotEmpty
+     private String[] frontendOrigins;
 }
