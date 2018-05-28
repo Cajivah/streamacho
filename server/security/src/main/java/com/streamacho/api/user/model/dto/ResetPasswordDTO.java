@@ -14,6 +14,6 @@ public class ResetPasswordDTO {
 
      @Valid
      @MatchingPasswords
-     private PasswordPairDTO passwordPair;
+     private PasswordPairDTO passwordPairDTO;
 
 }
