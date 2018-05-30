@@ -97,16 +97,25 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <h2 class="is-size-1 mt-2">{{ selectedRoom.name }}</h2>
-      <div class="tags">
-        <span
-          v-for="tag in selectedRoom.tags"
-          class="tag is-primary is-size-6 mr-1">
-          {{ tag }}
-        </span>
+    <div class="info container">
+      <figure class="logo is-128x128">
+        <img-placeholder
+          :string="selectedRoom.name"
+          :url="selectedRoom.logoUrl"
+          :size="128"
+        />
+      </figure>
+      <div>
+        <h2 class="is-size-1 mt-2">{{ selectedRoom.name }}</h2>
+        <div class="tags">
+          <span
+            v-for="tag in selectedRoom.tags"
+            class="tag is-primary is-size-6 mr-1">
+            {{ tag }}
+          </span>
+        </div>
+        <p class="has-text-grey-dark is-max-width-6 is-whitespace-preserve">{{ selectedRoom.description }}</p>
       </div>
-      <p class="has-text-grey-dark is-max-width-6 is-whitespace-preserve">{{ selectedRoom.description }}</p>
     </div>
   </div>
 </template>
@@ -128,6 +137,7 @@ import { defaultStreamProps } from './StreamQuality';
 import OrganiserControls from '@/room/OrganiserControls';
 import SpectatorControls from '@/room/SpectatorControls';
 import { PURGE_TRANSMISSION } from '../store/mutations.type';
+import ImgPlaceholder from '../common/ImgPlaceholder';
 import InviteUsers from './InviteUsers';
 import SelectStreamSource from './SelectStreamSource';
 
@@ -138,6 +148,7 @@ export default {
     InviteUsers,
     OrganiserControls,
     SpectatorControls,
+    ImgPlaceholder,
   },
   data() {
     return {
@@ -309,19 +320,23 @@ export default {
     background-color: #eee;
     height: 50px;
   }
+
   .room-header-content {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
+
   .room-header-section {
     width: 33%;
     text-align: center;
   }
+
   .has-navbar {
     padding-top: 52px;
   }
+
   .video-placeholder {
     width: 100%;
     min-height: 90vh;
@@ -336,6 +351,14 @@ export default {
 
   .blinking {
     animation: blinker 2s ease-in-out infinite;
+  }
+
+  .info {
+    display: flex;
+  }
+
+  .logo {
+    margin: 40px;
   }
 
   .video-background {

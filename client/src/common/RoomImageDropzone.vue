@@ -1,27 +1,31 @@
 <template>
-  <div class="image field create-room-logo">
-    <label class="load-picture file-label">
+  <div class="room-image-dropzone field">
+    <label class="file-label">
       <div class="control">
         <input
           class="file-input"
           type="file"
           name="logo"
-          accept="image/*"
+          :accept="accept"
           @change="processFile"
         >
         <span
           v-if="image === null"
           class="content"
         >
-          <p>
-            <i class="icon fa fa-upload"/>
-            <br/>
-            Choose a logo
-          </p>
+          <span>
+            <slot name="icon"/>
+            <br>
+            <slot name="header"/>
+          </span>
+          <span class="description">
+            <slot name="description"/>
+          </span>
         </span>
         <img
+          v-else
           :src="image"
-          class="create-room-image"
+          class="image"
         >
       </div>
     </label>
@@ -31,19 +35,58 @@
 <script>
 export default {
   name: 'RoomImageDropzone',
+  props: {
+    maxX: {
+      type: Number,
+      default: 800
+    },
+    maxY: {
+      type: Number,
+      default: 800
+    },
+    accept: {
+      type: String,
+      default: 'image/*'
+    }
+  },
   data: () => ({
     image: null,
   }),
   methods: {
     processFile(event) {
-      this.image = URL.createObjectURL(event.target.files[0]);
+      if(event.target.files[0]) {
+        const url = URL.createObjectURL(event.target.files[0]);
+        const image = new Image();
+
+        image.onload = () => {
+          const errors = [];
+
+          if(image.width >= this.maxX) {
+            errors.push('width');
+          }
+
+          if(image.height >= this.maxY) {
+            errors.push('height');
+          }
+
+          if(errors.length > 0) {
+            this.$emit('error', errors);
+            return;
+          }
+
+          this.image = url;
+          this.$emit('load-image', event.target.files[0]);
+        };
+
+        image.src = url;
+      }
     }
   }
 }
 </script>
 
 <style scoped>
-  .image {
+  .room-image-dropzone {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +97,7 @@ export default {
     height: 260px;
   }
 
-  .load-picture {
+  .file-label {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,7 +109,7 @@ export default {
     font-size: 20px;
   }
 
-  .load-picture:hover {
+  .file-label:hover {
     background-color: #f6f6f6;
   }
 
@@ -77,5 +120,14 @@ export default {
     justify-content: center;
     align-items: center;
     text-align: center;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .image {
+    width: 252px;
+    height: 252px;
   }
 </style>
