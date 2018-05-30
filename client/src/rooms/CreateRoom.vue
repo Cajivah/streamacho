@@ -141,7 +141,9 @@ export default {
 
         this.$store
           .dispatch(CREATE_ROOM, room)
-          .then(() => this.$router.push({ name: 'landingPage' }));
+          .then(({ data }) => this.$router.push({ name: 'room', params: { id: data.id } }))
+          .then(() => this.$snackbar.open('Room has been created'));
+
         this.resetForm();
       });
     },
