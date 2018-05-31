@@ -1,6 +1,6 @@
 <template>
   <b-dropdown
-    v-model="value"
+    v-model="source"
     @active-change="active => isOpen = active"
   >
     <a
@@ -10,7 +10,7 @@
       class="button is-info"
       type="button"
     >
-      <template v-if="value === 'camera'">
+      <template v-if="source === 'camera'">
         <b-icon
           icon="video-camera"
           icon-pack="fa"/>
@@ -67,9 +67,10 @@ export default {
   },
   data: () => ({
     isOpen: false,
+    source: this.value,
   }),
   watch: {
-    value(val) {
+    source(val) {
       this.$emit('input', val);
     }
   }
