@@ -32,6 +32,9 @@ Vue.use(VueTippy, {
     modifiers: {
       preventOverflow: {
         enabled: false
+      },
+      hide: {
+        enabled: false
       }
     }
   }
