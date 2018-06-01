@@ -38,5 +38,7 @@ streamacho:
     webSocketEndpoint: /ws
 
 security:
-  frontendOrigin: 'http://localhost:8080'
+  frontendOrigins:
+    - 'http://localhost:8080'
+    - 'https://localhost'
 

@@ -71,5 +71,7 @@ mail:
     no_reply_address: 'no-reply@streamacho.com'
 
 routes:
-  frontendOrigin: 'http://localhost:8080'
+  frontendOrigins:
+      - 'https://localhost'
+      - 'http://localhost:8080'
   roomInvitationTemplate: 'http://localhost:8080/#/rooms/%s'

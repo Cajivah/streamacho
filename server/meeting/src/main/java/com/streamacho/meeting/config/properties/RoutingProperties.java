@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
@@ -13,8 +14,8 @@ import javax.validation.constraints.NotBlank;
 @ConfigurationProperties("routes")
 public class RoutingProperties {
 
-     @NotBlank
-     private String frontendOrigin;
+     @NotEmpty
+     private String[] frontendOrigins;
 
      @NotBlank
      private String roomInvitationTemplate;
