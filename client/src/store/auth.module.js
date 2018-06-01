@@ -6,7 +6,7 @@ import {
   LOGOUT,
   REGISTER,
   ACTIVATE_ACCOUNT,
-  SAVE_PATH, FETCH_USERS
+  SAVE_PATH, FETCH_USERS, CLOSE_SOCKET
 } from './actions.type';
 import qs from 'qs';
 import Vue from 'vue';
@@ -71,14 +71,15 @@ const actions = {
     }
     );
   },
-  [LOGOUT]({ commit }) {
+  [LOGOUT]({ commit, dispatch }) {
     return new Promise((resolve) => {
       Vue.axios.post('/users/logout')
+        .then(() => dispatch(CLOSE_SOCKET))
         .then(() => {
           commit(PURGE_AUTH);
           resolve();
         })
-        .catch((error) => error.response.data);
+        .catch((error) => error);
     })
   },
   [ACTIVATE_ACCOUNT](_, token) {

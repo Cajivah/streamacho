@@ -16,3 +16,15 @@ export const ACTIVATE_ACCOUNT = 'verifyAccount';
 export const SAVE_PATH = 'savePath';
 export const INVITE_USERS = 'inviteUsers';
 export const FETCH_USERS = 'fetchUsers';
+
+//CHAT
+export const FETCH_CHAT_MESSAGES = 'fetchChatMessages';
+export const SUBSCRIBE_CHAT = 'subscribeChat';
+export const DESTROY_CHAT = 'destroyChat';
+export const SEND_CHAT_MESSAGE = 'sendChatMessage';
+
+//SOCKET
+export const OPEN_SOCKET = 'openSocket';
+export const CLOSE_SOCKET = 'closeSocket';
+export const SUBSCRIBE_TOPIC = 'subscribeSocket';
+export const SEND_TO_TOPIC = 'sendToTopic';

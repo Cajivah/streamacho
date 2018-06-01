@@ -1,5 +1,6 @@
 package com.streamacho.chat.controller;
 
+import com.streamacho.chat.dto.IncomingMessageDTO;
 import com.streamacho.chat.dto.UserChatMessagePayload;
 import com.streamacho.chat.service.ChatMessagingService;
 import com.streamacho.chat.service.SystemMessagingService;
@@ -24,13 +25,13 @@ public class MessagingController {
      private final ChatMessagingService chatMessagingService;
 
      @MessageMapping("${streamacho.chat.chatSendPrefix}/{chatId}")
-     public void receiveChatMessage(@Payload String message,
+     public void receiveChatMessage(@Payload IncomingMessageDTO message,
                                     @DestinationVariable Long chatId,
                                     Principal user) {
           log.debug("Received text for chat {} with text {}", chatId, message);
           UserChatMessagePayload inputMessagePayload = UserChatMessagePayload.builder()
                .chatId(chatId)
-               .text(message)
+               .text(message.getText())
                .authorUsername(user.getName())
                .build();
 
