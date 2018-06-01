@@ -44,7 +44,7 @@
         <div>
           <select-stream-source
             v-if="isOrganiser"
-            :disabled="!(isPlaying && isOrganiser)"
+            :disabled="!isPlaying"
             v-model="streamSource"
           />
           <a

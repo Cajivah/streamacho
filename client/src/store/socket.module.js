@@ -18,7 +18,7 @@ const actions = {
       try {
         const socket = new SockJS(`${apiURL}/chat/ws`);
         const client = stompOver(socket);
-        client.connect({}, function() {
+        client.connect({}, () => {
           commit(SET_SOCKET_CLIENT, { client });
           onConnected && onConnected();
         });
@@ -31,7 +31,7 @@ const actions = {
   [CLOSE_SOCKET]({ commit, state }) {
     return new Promise((resolve, reject) => {
       try {
-        state.stompClient && state.stompClient.disconnect(function() { commit(CLEAR_SOCKET); }, {});
+        state.stompClient && state.stompClient.disconnect(() => commit(CLEAR_SOCKET));
         resolve()
       } catch (e) {
         reject(e);
@@ -41,13 +41,11 @@ const actions = {
   [SUBSCRIBE_TOPIC]({ commit, state, dispatch }, { topic, onMessage }) {
     return new Promise((resolve, reject) => {
       if(!state.stompClient) {
-        dispatch(OPEN_SOCKET, { onConnected: function() {dispatch(SUBSCRIBE_TOPIC, { topic, onMessage })} });
+        dispatch(OPEN_SOCKET, { onConnected: () => dispatch(SUBSCRIBE_TOPIC, { topic, onMessage }) });
       } else {
         try {
           commit(UNSUBSCRIBE, { topic });
-          const subscription = state.stompClient.subscribe(topic, function(msg) {
-            onMessage(JSON.parse(msg.body));
-          });
+          const subscription = state.stompClient.subscribe(topic, msg => onMessage(JSON.parse(msg.body)));
           commit(ADD_SUBSCRIPTION, { subscription, topic });
           resolve();
         } catch (e) {

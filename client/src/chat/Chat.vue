@@ -13,11 +13,15 @@
 </template>
 
 <script>
-import { FETCH_CHAT_MESSAGES, SEND_CHAT_MESSAGE, SUBSCRIBE_TOPIC } from '../store/actions.type';
+import {
+  DESTROY_CHAT,
+  FETCH_CHAT_MESSAGES,
+  SEND_CHAT_MESSAGE,
+  SUBSCRIBE_CHAT,
+} from '../store/actions.type';
 import { mapGetters } from 'vuex';
 import MessageList from './MessageList';
 import MessageInput from './MessageInput';
-import { APPEND_CHAT_MESSAGE, CLEAR_CHAT_MESSAGES, UNSUBSCRIBE } from '../store/mutations.type';
 
 export default {
   name: 'Chat',
@@ -42,20 +46,13 @@ export default {
     ]),
   },
   created() {
-    const store = this.$store;
+    const { dispatch } = this.$store;
     const chatId = this.chatId;
-    store.dispatch(FETCH_CHAT_MESSAGES, { chatId })
-      .then(() => store.dispatch(
-        SUBSCRIBE_TOPIC,
-        {
-          topic: `/chat/${chatId}`,
-          onMessage: function(message) { store.commit(APPEND_CHAT_MESSAGE, { message }); }
-        })
-      );
+    dispatch(FETCH_CHAT_MESSAGES, { chatId })
+      .then(() => dispatch(SUBSCRIBE_CHAT, { chatId }));
   },
   beforeDestroy() {
-    this.$store.commit(CLEAR_CHAT_MESSAGES);
-    this.$store.commit(UNSUBSCRIBE, { topic: `/chat/${this.chatId}` });
+    this.$store.dispatch(DESTROY_CHAT, { chatId: this.chatId });
   },
   methods: {
     onSendMessage(msg) {
@@ -79,7 +76,7 @@ export default {
   .message-wrapper {
     display: flex;
     flex: 1;
-    min-height: 0px;
+    min-height: 0;
   }
   .message-input {
     margin: 3px 15px;

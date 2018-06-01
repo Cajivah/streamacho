@@ -19,6 +19,8 @@ export const FETCH_USERS = 'fetchUsers';
 
 //CHAT
 export const FETCH_CHAT_MESSAGES = 'fetchChatMessages';
+export const SUBSCRIBE_CHAT = 'subscribeChat';
+export const DESTROY_CHAT = 'destroyChat';
 export const SEND_CHAT_MESSAGE = 'sendChatMessage';
 
 //SOCKET

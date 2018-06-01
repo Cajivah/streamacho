@@ -10,7 +10,7 @@ insert into chat_message(id, author_username, chat_id, send_at, text) values
 (9, 'anon', 2, '2017-06-22 23:48:41', 'owo zakończenie '),
 (10, 'Słowacki', 5, '2017-06-22 21:48:41', 'Na górze pierniczki, na dole ciasta, Adam Mickiewicz to pederasta'),
 (11, 'Mickiewicz', 5, '2017-06-22 22:48:41', 'Na górze wacki, na dole wacki, kto lubi wacki? Juliusz Słowacki'),
-(12, 'Słowacki', 5, '2017-06-22 22:50:41', 'Butsztynowy jest świerzop, gryka jak śnieg biała, Panienieńskim jest rumieniec, zaś Mickiewicz pała'),
+(12, 'Słowacki', 5, '2017-06-22 22:50:41', 'Bursztynowy jest świerzop, gryka jak śnieg biała, Panienieńskim jest rumieniec, zaś Mickiewicz pała'),
 (13, 'Skłodowska', 5, '2017-06-22 23:48:41', 'Słowacki to pedał, Mickiewicz to dziad, umarłam na raka bo wąchałam rad'),
 (14, 'Dumbledore', 9, '2017-06-22 23:48:41', '10 points for Gryffindor!')
 ;

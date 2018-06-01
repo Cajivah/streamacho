@@ -1,6 +1,13 @@
 import Vue from 'vue';
-import { FETCH_CHAT_MESSAGES, SEND_CHAT_MESSAGE, SEND_TO_TOPIC } from './actions.type';
-import { APPEND_CHAT_MESSAGE, CLEAR_CHAT_MESSAGES, SET_CHAT_MESSAGES, SET_ERROR } from './mutations.type';
+import {
+  DESTROY_CHAT,
+  FETCH_CHAT_MESSAGES,
+  SEND_CHAT_MESSAGE,
+  SEND_TO_TOPIC,
+  SUBSCRIBE_CHAT,
+  SUBSCRIBE_TOPIC
+} from './actions.type';
+import { APPEND_CHAT_MESSAGE, CLEAR_CHAT_MESSAGES, SET_CHAT_MESSAGES, SET_ERROR, UNSUBSCRIBE } from './mutations.type';
 import { showErrorToasts } from '../ToastHandler';
 
 const state = {
@@ -15,7 +22,12 @@ const getters = {
 const actions = {
   [FETCH_CHAT_MESSAGES]({ commit }, { chatId }) {
     return new Promise((resolve, reject) => {
-      Vue.axios.get(`/chat-db/chat/${ chatId }?size=1000000`)
+      const config = {
+        params: {
+          size: 10000,
+        }
+      };
+      Vue.axios.get(`/chat-db/chat/${ chatId }`, config)
         .then(({ data }) => {
           commit(SET_CHAT_MESSAGES, data);
           resolve(data);
@@ -26,6 +38,19 @@ const actions = {
           reject(error);
         })
     })
+  },
+  [SUBSCRIBE_CHAT]({ commit, dispatch }, { chatId }) {
+    dispatch(
+      SUBSCRIBE_TOPIC,
+      {
+        topic: `/chat/${chatId}`,
+        onMessage: message => commit(APPEND_CHAT_MESSAGE, { message }),
+      }
+    );
+  },
+  [DESTROY_CHAT]({ commit }, { chatId }) {
+    commit(CLEAR_CHAT_MESSAGES);
+    commit(UNSUBSCRIBE, { topic: `/chat/${chatId}` });
   },
   [SEND_CHAT_MESSAGE]({ dispatch }, { chatId, text }) {
     dispatch(SEND_TO_TOPIC, { topic: `/send/${chatId}`, msg: text });
