@@ -74,4 +74,4 @@ routes:
   frontendOrigins:
       - 'https://localhost'
       - 'http://localhost:8080'
-  roomInvitationTemplate: 'https://localhost/#/rooms/%s'
+  roomInvitationTemplate: 'http://localhost:8080/#/rooms/%s'
