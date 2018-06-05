@@ -1,33 +1,35 @@
 <template>
   <nav 
-    class="navbar is-fixed-top is-primary" 
-    role="navigation" 
+    class="navbar is-fixed-top is-primary"
+    role="navigation"
     aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
-        <a 
-          role="button" 
-          class="navbar-burger" 
-          data-target="navMenu" 
-          aria-label="menu" 
-          aria-expanded="false">
-          <span aria-hidden="true"/>
-          <span aria-hidden="true"/>
-          <span aria-hidden="true"/>
-        </a>
-      </div>
-      <div class="navbar-menu">
-        <div class="navbar-brand">
-          <router-link 
-            to="/" 
-            class="has-text-weight-semibold is-size-4 stays-white">Streamacho</router-link>
+        <router-link
+          to="/"
+          class="has-text-weight-semibold is-size-4 is-flex">
+          <img
+            src="../assets/logo_white.svg"
+            width="150px"
+          >
+        </router-link>
+        <div 
+          class="navbar-burger burger" 
+          data-target="navbar-contents">
+          <span/>
+          <span/>
+          <span/>
         </div>
+      </div>
+      <div 
+        class="navbar-menu" 
+        id="navbar-contents">
         <div
           v-if="this.$store.getters.isAuthenticated"
           class="navbar-end" >
           <router-link 
             to="/create-room" 
-            class="button is-primary is-inverted is-outlined has-text-weight-semibold mr-1">
+            class="navbar-item button is-primary is-inverted is-outlined has-text-weight-semibold mr-1">
             <i class="fa fa-plus mr-1"/>Create room
           </router-link>
           <div class="navbar-item has-dropdown is-hoverable">
@@ -53,10 +55,10 @@
           v-else
           class="navbar-end" >
           <router-link 
-            class="navbar-item" 
+            class="navbar-item is-size-6"
             to="login">Login</router-link>
           <router-link 
-            class="navbar-item" 
+            class="navbar-item is-size-6"
             to="register">Register</router-link>
         </div>
       </div>
@@ -75,12 +77,6 @@ export default {
     }
   },
   methods: {
-    toggleBurger() {
-      const target = $el.dataset.target;
-      const $target = document.getElementById(target);
-      $el.classList.toggle('is-active');
-      $target.classList.toggle('is-active');
-    },
     handleLogout: function() {
       this.$store.dispatch(LOGOUT)
         .then(() => this.$router.push({ name: 'login' }));

@@ -1,18 +1,20 @@
 <template>
-  <div id='app' class="has-navbar-fixed-top">
-    <navigation></navigation>
+  <div 
+    id="app" 
+    class="has-navbar-fixed-top">
+    <navigation/>
     <div id="top"/>
-    <router-view></router-view>
-    <app-footer></app-footer>
+    <router-view/>
+    <app-footer/>
   </div>
 </template>
 
 <script>
-import Navigation from '@/common/Navigation';
-import AppFooter from '@/common/AppFooter';
+import Navigation from './common/Navigation';
+import AppFooter from './common/AppFooter';
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     Navigation,
     AppFooter,
