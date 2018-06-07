@@ -6,7 +6,7 @@
       <div class="header">
         <h1 class="is-large has-text-weight-semibold has-text-grey-darker">
           <a
-            class="return has-text-dark"
+            class="return has-text-dark is-size-3"
             @click="$router.go(-1)"
           ><i class="fa fa-arrow-left"/></a>
           Login
@@ -59,7 +59,7 @@
       </div>
       <p class="has-text-grey-darker has-text-weight-semibold">
         <router-link
-          to="/recover-password"
+          to="/reset-password"
           class="has-text-grey-darker">Forgot Password</router-link>&nbsp;&nbsp;&bull;&nbsp;
         <router-link
           to="/register"

@@ -6,12 +6,12 @@ import {
   LOGOUT,
   REGISTER,
   ACTIVATE_ACCOUNT,
-  SAVE_PATH, FETCH_USERS, CLOSE_SOCKET
+  SAVE_PATH, FETCH_USERS, CLOSE_SOCKET, RESET_PASSWORD, REQUEST_RESET_PASSWORD
 } from './actions.type';
 import qs from 'qs';
 import Vue from 'vue';
 import { CLEAR_USERS, PURGE_AUTH, SET_AUTH, SET_LOGIN_REDIRECT_PATH, SET_USERS } from './mutations.type';
-import { showErrorToasts } from '../ToastHandler';
+import { showErrorToasts, showSuccessToasts } from '../ToastHandler';
 
 const state = {
   loggedUser: null,
@@ -104,6 +104,31 @@ const actions = {
           resolve(data);
         })
         .catch(reject);
+    })
+  },
+  [RESET_PASSWORD]({}, { token, password, matchingPassword }) {
+    const body = {
+      token,
+      passwordPairDTO: {
+        password,
+        matchingPassword,
+      },
+    };
+    return new Promise((resolve, reject) => {
+      Vue.axios.patch('/users/accounts/reset-password', body)
+        .then(({ data }) => {
+          resolve(data);
+        })
+        .catch(() => reject());
+    })
+  },
+  [REQUEST_RESET_PASSWORD]({}, { email }) {
+    return new Promise((resolve, reject) => {
+      Vue.axios.post('/users/accounts/reset-password', { email })
+        .then(({ data }) => {
+          resolve(data);
+        })
+        .catch(() => reject());
     })
   }
 };
