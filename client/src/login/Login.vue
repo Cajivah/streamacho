@@ -1,9 +1,17 @@
 <template>
-  <form 
-    class="content form-view" 
+  <form
+    class="content form-view"
     @submit.prevent="onSubmit()">
     <div class="form-container auth-form">
-      <h1 class="is-large has-text-weight-semibold has-text-grey-darker">Login</h1>
+      <div class="header">
+        <h1 class="is-large has-text-weight-semibold has-text-grey-darker">
+          <a
+            class="return has-text-dark is-size-3"
+            @click="$router.go(-1)"
+          ><i class="fa fa-arrow-left"/></a>
+          Login
+        </h1>
+      </div>
       <div class="subsection is-fullwidth">
         <div class="field">
           <div class="control has-icons-left">
@@ -38,8 +46,8 @@
       </div>
       <p class="has-text-grey-darker is-marginless">or</p>
       <div class="subsection is-fullwidth">
-        <div 
-          class="field has-text-centered" 
+        <div
+          class="field has-text-centered"
           @click="authenticate('google')">
           <label class="button is-primary has-icons-left google is-fullwidth has-text-centered">
             <span class="icon is-small is-left">
@@ -49,14 +57,17 @@
           </label>
         </div>
       </div>
-      <p class="has-text-grey-darker has-text-weight-semibold options">
-        <router-link 
-          to="/recover-password" 
+      <p class="has-text-grey-darker has-text-weight-semibold">
+        <router-link
+          to="/reset-password"
           class="has-text-grey-darker">Forgot Password</router-link>&nbsp;&nbsp;&bull;&nbsp;
-        <router-link 
-          to="/register" 
+        <router-link
+          to="/register"
           class="has-text-grey-darker">Sign up</router-link>
       </p>
+      <img
+        src="../assets/logo_green.svg"
+        class="logo">
     </div>
   </form>
 </template>
@@ -111,9 +122,6 @@ export default {
   .subsection {
     padding: 30px 0;
   }
-  .options {
-    padding-top: 30px;
-  }
   .google {
     background-color: #4285f4;
   }
@@ -124,5 +132,18 @@ export default {
     position: absolute;
     left: 20px;
     font-size: 20px;
+  }
+  .logo {
+    margin-top: 10px;
+    width: 120px;
+  }
+  .return {
+    position: absolute;
+    left: 0;
+  }
+  .header {
+    position: relative;
+    width: 100%;
+    text-align: center;
   }
 </style>

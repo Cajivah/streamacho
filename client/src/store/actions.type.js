@@ -16,6 +16,8 @@ export const ACTIVATE_ACCOUNT = 'verifyAccount';
 export const SAVE_PATH = 'savePath';
 export const INVITE_USERS = 'inviteUsers';
 export const FETCH_USERS = 'fetchUsers';
+export const RESET_PASSWORD = 'resetPassword';
+export const REQUEST_RESET_PASSWORD = 'requestResetPassword';
 
 //CHAT
 export const FETCH_CHAT_MESSAGES = 'fetchChatMessages';

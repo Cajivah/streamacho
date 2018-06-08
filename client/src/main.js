@@ -54,9 +54,7 @@ Vue.use(VueScrollTo, {
 });
 
 Vue.use(Toasted);
-Vue.use(Buefy, {
-  defaultIconPack: 'fa'
-});
+
 Vue.toasted.register('error_toast',
   (payload) => {
     if(! payload.message) {
@@ -71,6 +69,25 @@ Vue.toasted.register('error_toast',
     iconPack: 'fontawesome',
   }
 );
+
+Vue.toasted.register('success_toast',
+  (payload) => {
+    if(! payload.message) {
+      return 'Success! '
+    }
+    return 'Success! ' + payload.message;
+  },
+  {
+    type : 'success',
+    icon : 'fa-check-circle',
+    position: 'top-center',
+    iconPack: 'fontawesome',
+  }
+);
+
+Vue.use(Buefy, {
+  defaultIconPack: 'fa'
+});
 
 Vue.config.productionTip = false;
 

@@ -9,7 +9,9 @@ import CreateRoom from '@/rooms/CreateRoom';
 import RoomPanel from '@/room/RoomPanel';
 import store from '@/store';
 import Activate from '@/activation/Activate';
-import {FETCH_LOGGED_USER, SAVE_PATH} from './store/actions.type';
+import ResetPassword from './resetPassword/ResetPassword'
+import ChangePassword from './resetPassword/ChangePassword'
+import { FETCH_LOGGED_USER, SAVE_PATH } from './store/actions.type';
 
 Vue.use(Router);
 
@@ -73,6 +75,17 @@ export default new Router({
       path: '/activate',
       name: 'activate',
       component: Activate,
+      props: (route) => ({ token: route.query.token })
+    },
+    {
+      path: '/reset-password',
+      name: 'resetPassword',
+      component: ResetPassword,
+    },
+    {
+      path: '/change-password',
+      name: 'changePassword',
+      component: ChangePassword,
       props: (route) => ({ token: route.query.token })
     }
   ]

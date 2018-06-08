@@ -42,10 +42,10 @@ mail:
     no_reply_address: 'no-reply@streamacho.com'
 
 routes:
-  changePasswordTemplate: 'http://localhost:8080/users/change-password?token=%s'
   frontendOrigins:
     - 'https://localhost'
     - 'http://localhost:8080'
+  changePasswordTemplate: 'http://localhost:8080/#/change-password?token=%s'
   verification_template: 'http://localhost:8080/#/activate?token=%s'
 server:
   port: 0
