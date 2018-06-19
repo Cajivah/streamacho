@@ -8,7 +8,7 @@
       />
     </figure>
     <div class="is-max-width-8">
-      <h2 class="is-size-1 mt-2">{{ room.name }}</h2>
+      <h2 class="is-size-2 mt-2">{{ room.name }}</h2>
       <p class="has-text-grey-dark is-max-width-6 is-whitespace-preserve mb-2">{{ room.description }}</p>
       <div class="tags">
         <span

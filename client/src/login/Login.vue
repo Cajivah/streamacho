@@ -44,19 +44,19 @@
           <button class="button is-primary is-fullwidth">Login</button>
         </div>
       </div>
-      <p class="has-text-grey-darker is-marginless">or</p>
-      <div class="subsection is-fullwidth">
-        <div
-          class="field has-text-centered"
-          @click="authenticate('google')">
-          <label class="button is-primary has-icons-left google is-fullwidth has-text-centered">
-            <span class="icon is-small is-left">
-              <i class="fa fa-google social-icon"/>
-            </span>
-            Login with Google
-          </label>
-        </div>
-      </div>
+      <!--<p class="has-text-grey-darker is-marginless">or</p>-->
+      <!--<div class="subsection is-fullwidth">-->
+        <!--<div-->
+          <!--class="field has-text-centered"-->
+          <!--@click="authenticate('google')">-->
+          <!--<label class="button is-primary has-icons-left google is-fullwidth has-text-centered">-->
+            <!--<span class="icon is-small is-left">-->
+              <!--<i class="fa fa-google social-icon"/>-->
+            <!--</span>-->
+            <!--Login with Google-->
+          <!--</label>-->
+        <!--</div>-->
+      <!--</div>-->
       <p class="has-text-grey-darker has-text-weight-semibold">
         <router-link
           to="/reset-password"

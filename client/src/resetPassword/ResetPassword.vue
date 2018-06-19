@@ -66,7 +66,7 @@ export default {
         const body = {
           ...this.resetPasswordForm,
         };
-        const toast = () => showSuccessToasts({ message: 'Password reset token was sent to the provided email!' });
+        const toast = () => showSuccessToasts({ messages: ['Password reset token was sent to the provided email!'] });
         this.$store.dispatch(REQUEST_RESET_PASSWORD, body)
           .then(toast)
           .catch(toast);

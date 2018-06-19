@@ -175,8 +175,6 @@ export default {
   }
 
   .description {
-    text-align: justify;
-    text-justify: inter-word;
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
     padding: 20px 0;

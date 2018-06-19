@@ -223,7 +223,7 @@ export default {
   }
   .video-placeholder {
     width: 100%;
-    min-height: 90vh;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -238,5 +238,6 @@ export default {
   .main-section {
     display: flex;
     justify-content: space-between;
+    height: 75vh;
   }
 </style>

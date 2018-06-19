@@ -11,17 +11,17 @@
       class="button is-info"
       type="button"
     >
-      <template v-if="source === 'camera'">
-        <b-icon
-          icon="video-camera"
-          icon-pack="fa"/>
-        <span>Web Camera</span>
-      </template>
-      <template v-else>
+      <template v-if="source === 'screen'">
         <b-icon
           icon="desktop"
           icon-pack="fa"/>
         <span>Screen</span>
+      </template>
+      <template v-else>
+        <b-icon
+          icon="video-camera"
+          icon-pack="fa"/>
+        <span>Web Camera</span>
       </template>
       <caret-down :is-open="isOpen"/>
     </a>

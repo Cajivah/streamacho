@@ -95,7 +95,9 @@ export default {
   .navbar-link {
     background-color: transparent !important;
   }
-
+  .navbar {
+    height: 52px;
+  }
   .stays-white:hover,
   .stays-white:checked,
   .stays-white {
