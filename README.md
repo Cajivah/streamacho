@@ -1,3 +1,5 @@
+![](/client/src/assets/logo_green.svg)
+
 ## Stramacho – to make streaming easier
 
 
